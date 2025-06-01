@@ -1,0 +1,11 @@
+.fontDmSans {
+  font-family: var(--font-dm-sans), sans-serif; /* Use DM Sans font */
+}
+
+.fontUrbanist {
+  font-family: var(--font-urbanist), sans-serif; /* Use Urbanist font */
+}
+
+.fontInter {
+  font-family: var(--font-inter), sans-serif; /* Use Inter font */
+}
