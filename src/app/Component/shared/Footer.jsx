@@ -52,7 +52,7 @@ const Footer = () => {
           </div>
 
           {/* Socials */}
-          <div className="mt-12">
+          <div className="mt-16">
             <h3 className="uppercase font-semibold mb-8 text-2xl">SOCIALS</h3>
             <ul className="text-xl space-y-5">
               <li>Facebook</li>
@@ -67,7 +67,7 @@ const Footer = () => {
 
       </div>
 
-      <div className="mt-10 border-t border-gray-500 pt-3 text-xl text-right">
+      <div className="mt-10 border-t border-gray-500 pt-3 text-sm text-right">
         <p className="mt-1">&copy; 2025 Sparktech. All rights reserved.</p>
       </div>
     </footer>
