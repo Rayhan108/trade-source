@@ -16,14 +16,14 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className={ ` container mx-auto   px-6 py-3 flex items-center ${styles.fontDmSans}`}>
+    <nav className={ ` container mx-auto   px-8 py-3 flex items-center ${styles.fontDmSans}`}>
       {/* Logo */}
-      <div className="mr-auto flex items-center">
+      <div className="mr-auto flex items-center ">
         <Image src={logo} alt="Logo" width={200} height={100} className="h-20 w-48" />
       </div>
 
       {/* Desktop nav items */}
-      <ul className="hidden lg:flex space-x-8 font-medium text-gray-800">
+      <ul className="hidden lg:flex lg:space-x-4 xl:space-x-5 2xl:space-x-8 font-medium text-gray-800 ">
         {navItems.map((item) => (
           <li key={item.label}>
             <a href={item.href} className="hover:text-blue-600">
