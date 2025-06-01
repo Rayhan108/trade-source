@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
-
+import logo from '@/assests/navLogo.png'
+import styles from '@/app/styles.module.css'
+import Link from "next/link";
 const navItems = [
   { label: "Home", href: "#" },
   { label: "Interior", href: "#" },
@@ -14,10 +16,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="border-b border-gray-300 px-6 py-3 flex items-center">
+    <nav className={ ` container mx-auto   px-6 py-3 flex items-center ${styles.fontDmSans}`}>
       {/* Logo */}
       <div className="mr-auto flex items-center">
-        <Image src="/path-to-logo.png" alt="Logo" width={100} height={100} className="h-10" />
+        <Image src={logo} alt="Logo" width={200} height={100} className="h-20 w-48" />
       </div>
 
       {/* Desktop nav items */}
@@ -77,13 +79,13 @@ export default function Navbar() {
         <ul className="absolute top-16 left-0 right-0 bg-white border-t border-gray-300 flex flex-col lg:hidden">
           {navItems.map((item) => (
             <li key={item.label} className="border-b border-gray-200">
-              <a
+              <Link
                 href={item.href}
                 className="block px-6 py-3 text-gray-800 hover:bg-gray-100"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
 
