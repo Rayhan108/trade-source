@@ -1,5 +1,6 @@
 import Banner from '@/app/Component/Home/Banner';
-import Service from '@/app/Component/Home/Service';
+import HomeProject from '@/app/Component/Home/HomeProject';
+import ProjectsNear from '@/app/Component/Home/ProjectsNear';
 
 import React from 'react';
 
@@ -9,9 +10,9 @@ const HomePage = () => {
             
       
              <Banner/>
-     {/* <Service/> */}
+ <ProjectsNear/>
     
-           
+           <HomeProject/>
       
         </div>
     );
