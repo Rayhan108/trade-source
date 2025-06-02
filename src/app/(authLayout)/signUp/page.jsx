@@ -67,6 +67,8 @@ const SignUpPage = () => {
         <div className="bg-white bg-opacity-80 rounded-md shadow-md max-w-full p-6 sm:p-10 md:p-14 text-center">
           {/* Logo and Title */}
           <div className="flex items-center justify-center mb-6 space-x-3">
+            <Link href={"/"}>
+            
             <Image
               src={logo}
               alt="Logo"
@@ -74,6 +76,7 @@ const SignUpPage = () => {
               height={55}
               className="sm:w-28 sm:h-14 md:w-36 md:h-18"
             />
+            </Link>
             <h1 className="text-blue-600 font-semibold text-lg sm:text-2xl md:text-3xl">
               Your Trade Source
             </h1>

@@ -5,7 +5,7 @@ import cons1 from '../../../assests/cons1.png'
 import cons2 from '../../../assests/cons2.png'
 import cons3 from '../../../assests/cons3.png'
 
-import styles from '@/app/styles.module.css'
+import styles from '../../styles.module.css'
 export const data = [
   {
     "id": 1,

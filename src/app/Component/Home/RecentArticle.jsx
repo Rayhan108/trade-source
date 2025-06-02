@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/app/styles.module.css";
+import styles from "../../styles.module.css";
 import ArticleCard from "../Card/ArticleCard";
 import article1 from "../../../assests/ar1.png";
 import article2 from "../../../assests/ar2.png";

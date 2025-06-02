@@ -1,5 +1,6 @@
 import ProjectCard from "../Card/ProjectCard"; 
-import styles from '@/app/styles.module.css'
+import styles from '../../styles.module.css';
+
 import { Projects } from "./ProjectsNear";
 
 const HomeProject = () => {

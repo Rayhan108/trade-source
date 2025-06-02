@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import logo from '@/assests/navLogo.png'
-import styles from '@/app/styles.module.css'
+import logo from '../../../assests/navLogo.png'
+import styles from '../../styles.module.css'
 import Link from "next/link";
 const navItems = [
   { label: "Home", href: "#" },
