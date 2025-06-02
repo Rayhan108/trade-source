@@ -3,6 +3,7 @@ import { IoIosHammer, IoIosStar } from "react-icons/io";
 import { SlBadge } from "react-icons/sl";
 
 export default function ConstractorCard({ data }) {
+  // console.log(data.imageSrc);
   return (
     <div className="max-w-sm w-full bg-green-200 rounded-lg shadow-md overflow-hidden mx-auto ">
       <div className="relative h-64">

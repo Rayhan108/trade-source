@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 export default function ProjectCard({ project }) {
-  console.log('Project prop:', project);
+  // console.log('Project prop:', project);
 
   return (
     <div className="max-w-xs bg-white rounded-lg text-black mb-12 shadow-md overflow-hidden cursor-pointer">

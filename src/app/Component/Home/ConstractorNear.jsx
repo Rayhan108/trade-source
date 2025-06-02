@@ -1,14 +1,16 @@
 import React from 'react';
 import ConstractorCard from '../Card/ConstractorCard';
-import c1 from '@/assests/client1.png'
-import c2 from '@/assests/client2.jpg'
-import c3 from '@/assests/client3.png'
+
+import cons1 from '../../../assests/cons1.png'
+import cons2 from '../../../assests/cons2.png'
+import cons3 from '../../../assests/cons3.png'
+
 import styles from '@/app/styles.module.css'
 export const data = [
   {
     "id": 1,
-    "name": "Annie Panny",
-    "imageSrc": c1,
+    "name": "Annie",
+    "imageSrc": cons1,
     "status": "Expert Contractor",
     "completedTasks": 2949,
     "rating": 4.8,
@@ -18,7 +20,7 @@ export const data = [
   {
     "id": 2,
     "name": "John Doe",
-    "imageSrc": c2,
+    "imageSrc": cons2,
     "status": "Professional Painter",
     "completedTasks": 1500,
     "rating": 4.6,
@@ -28,7 +30,7 @@ export const data = [
   {
     "id": 3,
     "name": "Sara Smith",
-    "imageSrc": c3,
+    "imageSrc": cons3,
     "status": "Certified Contractor",
     "completedTasks": 3200,
     "rating": 4.9,
