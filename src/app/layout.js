@@ -1,5 +1,6 @@
 import { DM_Sans, Urbanist, Inter } from "next/font/google";
-import "@/app/globals.css";
+import "../app/globals.css";
+
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 // Import fonts

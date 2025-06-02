@@ -7,7 +7,7 @@ const HomeProject = () => {
         <div>
               <div className={`container mx-auto ${styles.fontDmSans}`}>
     <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>Popular Home Project</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 ">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-3">
       {Projects?.map((project, idx) => {
         return <ProjectCard key={idx} project={project} />;
       })}

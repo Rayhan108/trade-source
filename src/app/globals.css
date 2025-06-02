@@ -26,3 +26,27 @@ body {
     text-wrap: balance;
   }
 }
+
+.phone-input-container {
+  width: 100% !important;
+}
+
+.phone-input-container > div {
+  width: 100% !important;
+}
+
+.phone-input-container input {
+  width: 100% !important;
+}
+.phone-wrapper {
+  width: 100%;
+}
+
+.phone-wrapper .react-tel-input {
+  width: 100% !important;
+}
+
+.phone-wrapper .form-control {
+  width: 100% !important;
+  box-sizing: border-box;
+}

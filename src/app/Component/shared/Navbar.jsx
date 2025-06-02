@@ -35,9 +35,12 @@ export default function Navbar() {
 
       {/* Buttons (desktop only) */}
       <div className="hidden lg:flex  space-x-4 ml-6">
+        <Link href={"/authentication"}>
+        
         <button className="border border-black px-4 py-1 rounded hover:bg-gray-100">
           Log In / Sign Up
         </button>
+        </Link>
         <button className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
           Become a Pro
         </button>

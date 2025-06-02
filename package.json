@@ -15,9 +15,13 @@
     "next": "14.2.29",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.5.0"
+    "react-hook-form": "^7.57.0",
+    "react-icons": "^5.5.0",
+    "react-phone-input-2": "^2.15.1"
   },
   "devDependencies": {
+    "@types/node": "22.15.29",
+    "@types/react": "19.1.6",
     "eslint": "^8",
     "eslint-config-next": "14.2.29",
     "postcss": "^8",

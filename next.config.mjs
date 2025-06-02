@@ -14,7 +14,7 @@ const nextConfig = {
       //   hostname: "10.0.60.55",  // Allow the local server IP
       // },
     ],
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com','flagcdn.com'],
   },
 };
    
