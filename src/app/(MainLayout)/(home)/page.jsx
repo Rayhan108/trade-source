@@ -7,7 +7,7 @@ import ProjectsNear from "../../Component/Home/ProjectsNear";
 import RecentArticle from "../../Component/Home/RecentArticle";
 import React from "react";
 
-const HomePage = () => {
+const LandingPage = () => {
   return (
     <div>
       <Banner />
@@ -20,4 +20,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default LandingPage;
