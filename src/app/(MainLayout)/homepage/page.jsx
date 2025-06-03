@@ -3,6 +3,7 @@ import WelBan from "../../Component/Homepage/WelBan"
 import ExpertConstructor from "../../Component/Homepage/ExpertConstructor"
 import MembershipBanner from "../../Component/Homepage/MembershipBanner"
 import Service from '../../Component/Home/Service';
+import RecentArticle from '../../Component/Home/RecentArticle';
 const HomePage = () => {
     return (
         <div>
@@ -14,6 +15,7 @@ const HomePage = () => {
             </div>
             <ExpertConstructor/>
             <MembershipBanner/>
+                  <RecentArticle/>
         </div>
     );
 };
