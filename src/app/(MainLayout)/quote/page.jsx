@@ -28,9 +28,12 @@ export default function RequestQuoteForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-2xl mx-auto p-6 bg-white rounded-md shadow-md space-y-6 my-5"
-    >
+    > 
+        <div className="border-[#1D69E1] border-b-2">
+
       <h2 className="text-2xl font-bold text-blue-700 mb-2">Request A Quote</h2>
       <p className="text-gray-600 mb-6">Provide information about your needs!</p>
+        </div>
 
       <div className="relative">
         <label className="font-semibold mb-1 block">Project Location</label>

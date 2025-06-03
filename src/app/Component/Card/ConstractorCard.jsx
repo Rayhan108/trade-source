@@ -19,26 +19,21 @@ export default function ConstractorCard({ data }) {
         <h2 className="absolute bottom-4 left-1 sm:left-4 text-white sm:font-bold text-xs sm:text-xl drop-shadow-lg">
           {data.name}
         </h2>
-
-       <button
-          className="flex sm:hidden  absolute bottom-2 sm:bottom-4 right-1 bg-blue-600 text-white text-sm sm:font-semibold py-1 px-1 rounded-md shadow-md hover:bg-blue-700 transition"
-   
-        >
-          View Profile
-        </button>
-
-        <button
-          className="hidden sm:flex absolute bottom-4 right-4 bg-blue-600 text-white text-sm font-semibold py-1.5 px-3 rounded-md shadow-md hover:bg-blue-700 transition"
+        <Link href={"/profile"}>
+          <button className="flex sm:hidden  absolute bottom-2 sm:bottom-4 right-1 bg-blue-600 text-white text-sm sm:font-semibold py-1 px-1 rounded-md shadow-md hover:bg-blue-700 transition">
+            View Profile
+          </button>
+        </Link>
+      <Link href={"/profile"}>
       
-        >
+        <button className="hidden sm:flex absolute bottom-4 right-4 bg-blue-600 text-white text-sm font-semibold py-1.5 px-3 rounded-md shadow-md hover:bg-blue-700 transition">
           View Profile
         </button>
+      </Link>
+
       </div>
 
       <div className="p-5 text-gray-900 flex flex-col gap-4">
-   
- 
-
         <div className="space-y-3 text-sm items-center">
           {/* <span className="flex items-center gap-1">
             <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"><Image src={hamIcon} alt='' width={500} height={500} className='w-3'/></span>
@@ -58,9 +53,7 @@ export default function ConstractorCard({ data }) {
             {data.completedTasks > 1 ? "s" : ""}
           </span>
           <span className="flex items-center gap-2">
-     
-              <IoIosStar className="text-[#D4AF37] text-xl"/>
- 
+            <IoIosStar className="text-[#D4AF37] text-xl" />
             {data.rating} ({data.reviews} review{data.reviews > 1 ? "s" : ""})
           </span>
         </div>
@@ -74,15 +67,14 @@ export default function ConstractorCard({ data }) {
           </ul>
         </div>
       </div>
-<Link href={"/quote"}>
-
-      <button
-        className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition"
-        // type="button"
-      >
-        Request Quote
-      </button>
-</Link>
+      <Link href={"/quote"}>
+        <button
+          className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition"
+          // type="button"
+        >
+          Request Quote
+        </button>
+      </Link>
     </div>
   );
 }
