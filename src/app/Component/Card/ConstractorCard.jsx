@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { IoIosHammer, IoIosStar } from "react-icons/io";
 import { SlBadge } from "react-icons/sl";
 
@@ -73,6 +74,7 @@ export default function ConstractorCard({ data }) {
           </ul>
         </div>
       </div>
+<Link href={"/quote"}>
 
       <button
         className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition"
@@ -80,6 +82,7 @@ export default function ConstractorCard({ data }) {
       >
         Request Quote
       </button>
+</Link>
     </div>
   );
 }
