@@ -1,6 +1,8 @@
+import Image from "next/image";
 import React from "react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-
+import img from "../../../assests/bannerImg.jpg";
+import Link from "next/link";
 const reviews = [
   {
     name: "Emma",
@@ -43,46 +45,59 @@ const StarRating = ({ rating }) => {
 
 const ServiceDetails = () => {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10 bg-white text-gray-900 flex flex-col md:flex-row md:gap-20 border border-gray-200 rounded-md">
+    <div className="w-full container mx-auto px-6 py-10 bg-white text-gray-900 flex flex-col md:flex-row md:gap-20  rounded-md">
       {/* Left Side - Service Details */}
-      <div className="md:flex-[0.45] border-b md:border-b-0 md:border-r border-gray-200 pb-8 md:pb-0 pr-0 md:pr-10">
-        <div className="mb-10">
-          <h2 className="font-semibold text-lg mb-1">Service Name</h2>
-          <p className="font-medium text-gray-900 mb-1">Dream Ireland Paiting</p>
+      <div className="md:flex-[0.45]  pb-8 md:pb-0 pr-0 md:pr-10">
+        <div className="mb-10 flex gap-8 justify-between items-center border-b py-3 border-gray-200">
+      <div>
+            <h2 className="font-bold text-xl mb-1">Service Name</h2>
+          <p className=" text-gray-900 mb-1">Dream Ireland Paiting</p>
+      </div>
+          <div>
+     <h2 className="font-bold text-xl mb-1">Address</h2>
           <p className="text-gray-600 text-sm">Jhonson rd, Aloma Street, TX 74473</p>
+          </div>
+        </div>
+        <div className="mb-10 flex gap-8 justify-between items-center border-b py-3 border-gray-200">
+      <div>
+            <h2 className="font-bold text-xl mb-1">Phone Number</h2>
+          <p className=" text-gray-900 mb-1">+1040323132</p>
+      </div>
+          <div>
+            <h2 className="font-bold text-xl mb-1">Service Name</h2>
+          <p className=" text-gray-900 mb-1">Dream Ireland Paiting</p>
+      </div>
         </div>
 
-        <div>
-          <h3 className="font-semibold text-lg mb-1">Phone Number</h3>
-          <p className="text-gray-900 mb-4">+1040323132</p>
-          <h3 className="font-semibold text-lg mb-1">Service Name</h3>
-          <p className="text-gray-900">Dream Ireland Paiting</p>
-        </div>
       </div>
 
       {/* Right Side - Reviews */}
       <div className="md:flex-[0.55] pt-6 md:pt-0">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-lg md:text-xl font-semibold flex items-center gap-2">
-            <span className="font-bold">4.97</span> · 1694 reviews
+          <h1 className="text-xl md:text-2xl font-semibold flex items-center gap-2">
+          Review
           </h1>
-          <a
+          <Link
             href="#"
             className="text-sm md:text-base text-blue-600 hover:underline"
           >
             View all
-          </a>
+          </Link>
         </div>
-
+   <h1 className="text-lg md:text-xl font-semibold flex items-center gap-2">
+            <span className="font-bold">4.97</span> · 1694 reviews
+          </h1>
         {reviews.map(({ name, date, rating, review }, index) => (
           <div
             key={index}
-            className="border-t border-gray-200 py-4 flex gap-4 items-start"
+            className="border-b border-gray-200 py-4 flex gap-4 items-start"
           >
-            <img
-              src="https://via.placeholder.com/40"
+            <Image                           
+              src={img}
               alt="Profile"
               className="rounded-full w-10 h-10 object-cover"
+              width={100}
+              height={100}
             />
             <div className="flex-1">
               <div className="flex justify-between items-center mb-0.5">

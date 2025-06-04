@@ -12,8 +12,8 @@ const ProfDet = () => {
           <Image
             src={img}
             alt="Profile"
-            width={64}
-            height={64}
+            width={100}
+            height={100}
             className="w-28 h-28 rounded-full object-cover"
           />
         </div>
