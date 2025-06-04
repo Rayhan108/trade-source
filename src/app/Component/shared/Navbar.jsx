@@ -26,9 +26,9 @@ export default function Navbar() {
   const userLoggedIn = true;
 
   return (
-    <nav className={`container mx-auto lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}>
+    <nav className={` bg-white lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}>
       {/* Logo */}
-      <div className="lg:mr-5 xl:mr-6 2xl:mr-8 mr-auto flex items-center ">
+      <div className="lg:mr-5 xl:mr-6 2xl:mr-44 mr-auto flex items-center ">
         <Link href={"/"}>
           <Image src={logo} alt="Logo" width={200} height={100} className="h-20 w-48" />
         </Link>

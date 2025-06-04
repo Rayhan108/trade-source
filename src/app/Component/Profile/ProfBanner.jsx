@@ -29,7 +29,7 @@ export default function VideoSlider() {
 
   const handleDotClick = (index) => {
     setActiveIndex(index);
-    setIsPlaying(false); // নতুন স্লাইড এ গেলে ভিডিও বন্ধ থাকবে
+    setIsPlaying(false); 
   };
 
   const handlePlayClick = () => {
@@ -41,7 +41,10 @@ export default function VideoSlider() {
   };
 
   return (
-    <div className="relative w-full h-64 md:h-[500px] overflow-hidden bg-black">
+    <div className='container mx-auto'>
+     
+    <div className="rounded-xl  relative w-full h-64 md:h-[500px] overflow-hidden bg-white shadow-2xl ">
+      
       {!isPlaying && (
         <>
           <Image
@@ -98,6 +101,7 @@ export default function VideoSlider() {
           onEnded={handleVideoEnd}
         />
       )}
+    </div>
     </div>
   );
 }

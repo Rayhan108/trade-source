@@ -2,21 +2,33 @@ import React from "react";
 import img from "../../../assests/bannerImg.jpg";
 import Image from "next/image";
 import { HiFlag } from "react-icons/hi2";
+import { IoCameraOutline } from "react-icons/io5";
 const ProfDet = () => {
   return (
     <div className="container mx-auto">
     <div className="flex justify-between items-center space-x-6 p-6 ">
       <div className="flex items-center gap-5">
         {/* Profile Image */}
-        <div className="">
-          <Image
-            src={img}
-            alt="Profile"
-            width={100}
-            height={100}
-            className="w-28 h-28 rounded-full object-cover"
-          />
-        </div>
+           <div className="relative w-28 h-28 rounded-full overflow-hidden">
+            <Image
+              src={img}
+              alt="Profile"
+              fill
+              className="object-cover rounded-full"
+            />
+            {/* Left face paint */}
+            <div
+        
+            />
+            {/* Right face paint */}
+            <div
+            
+            />
+            {/* Camera Icon */}
+            <div className=" bg-black opacity-80 w-full p-1 shadow-md cursor-pointer relative top-20 py-4">
+              <IoCameraOutline size={24} className="text-white left-7 sm:left-10 md:left-11 absolute bottom-1 " />
+            </div>
+          </div>
         {/* Text Content */}
         <div className="flex-1">
           <h2 className="text-lg font-semibold text-gray-900">Gram Dew</h2>

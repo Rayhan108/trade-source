@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${urbanist.variable} ${inter.variable} antialiased`}
+        className={`${dmSans.variable} ${urbanist.variable} ${inter.variable} antialiased bg-[#EAECEE]`}
       >
         {/* <Providers> */}
         <AntdRegistry>{children}</AntdRegistry>
