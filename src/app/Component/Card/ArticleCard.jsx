@@ -28,3 +28,4 @@ export default function ArticleCard({ cardData }) {
     </div>
   );
 }
+ 

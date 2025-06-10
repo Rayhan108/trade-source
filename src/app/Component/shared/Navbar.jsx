@@ -1,9 +1,9 @@
-'use client'
+"use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import logo from '../../../assests/navLogo.png';
-import user from '../../../assests/user.png';
-import styles from '../../styles.module.css';
+import logo from "../../../assests/navLogo.png";
+import user from "../../../assests/user.png";
+import styles from "../../styles.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoNotificationsOutline } from "react-icons/io5";
@@ -26,11 +26,19 @@ export default function Navbar() {
   const userLoggedIn = true;
 
   return (
-    <nav className={` bg-white lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}>
+    <nav
+      className={` bg-white lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}
+    >
       {/* Logo */}
       <div className="lg:mr-5 xl:mr-6 2xl:mr-44 mr-auto flex items-center ">
         <Link href={"/"}>
-          <Image src={logo} alt="Logo" width={200} height={100} className="h-20 w-48" />
+          <Image
+            src={logo}
+            alt="Logo"
+            width={200}
+            height={100}
+            className="h-20 w-48"
+          />
         </Link>
       </div>
 
@@ -42,7 +50,9 @@ export default function Navbar() {
             <li key={item.label}>
               <Link
                 href={item.href}
-                className={`hover:text-blue-600 ${isActive ? "text-blue-600 font-semibold" : ""}`}
+                className={`hover:text-blue-600 ${
+                  isActive ? "text-blue-600 font-semibold" : ""
+                }`}
               >
                 {item.label}
               </Link>
@@ -55,7 +65,16 @@ export default function Navbar() {
       <div className="hidden lg:flex lg:gap-3 items-center xl:space-x-2 2xl:space-x-6 ">
         {userLoggedIn ? (
           <>
-            <span className="font-medium text-gray-700">Get $10</span>
+            <Link
+              href="/refer"
+              className={`font-medium hover:text-blue-600 ${
+                pathname === "/refer"
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-700"
+              }`}
+            >
+              Get $10
+            </Link>
             <div className="border flex justify-evenly lg:gap-2 xl:gap-2 2xl:gap-5 items-center border-gray-300 rounded-md shadow-md lg:px-3 xl:px-8 py-2">
               <div className="p-2 border border-black rounded-full hover:bg-gray-200 cursor-pointer">
                 <LuMessageSquareMore size={24} />
@@ -103,9 +122,19 @@ export default function Navbar() {
           xmlns="http://www.w3.org/2000/svg"
         >
           {isOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           ) : (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           )}
         </svg>
       </button>
@@ -119,7 +148,9 @@ export default function Navbar() {
               <li key={item.label} className="border-b border-gray-200">
                 <Link
                   href={item.href}
-                  className={`block px-6 py-3 text-gray-800 hover:bg-gray-100 ${isActive ? "text-blue-600 font-semibold" : ""}`}
+                  className={`block px-6 py-3 text-gray-800 hover:bg-gray-100 ${
+                    isActive ? "text-blue-600 font-semibold" : ""
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
@@ -128,15 +159,47 @@ export default function Navbar() {
             );
           })}
 
-          {/* Mobile buttons */}
-          <li className="flex flex-col px-6 py-3 space-y-2">
-            <button className="border border-black px-4 py-2 rounded text-center hover:bg-gray-100 w-full">
-              Log In / Sign Up
-            </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
-              Become a Pro
-            </button>
-          </li>
+  {/* Mobile buttons */}
+<li className="flex flex-col px-6 py-3 space-y-2">
+  {userLoggedIn ? (
+    <>
+      <Link
+        href="/refer"
+        className={`font-medium hover:text-blue-600 text-center py-2 rounded ${
+          pathname === "/refer" ? "text-blue-600 font-semibold" : "text-gray-700"
+        }`}
+        onClick={() => setIsOpen(false)}
+      >
+        Get $10
+      </Link>
+      <div className="flex justify-between items-center border border-gray-300 rounded-md shadow-md px-4 py-2 space-x-4">
+        <LuMessageSquareMore size={24} className="cursor-pointer" />
+        <IoNotificationsOutline size={24} className="cursor-pointer" />
+        <div className="flex items-center space-x-2">
+          <Image
+            src={user}
+            alt="User Avatar"
+            width={30}
+            height={30}
+            className="rounded-full w-8 h-8"
+          />
+          <span className="text-sm font-medium text-gray-700">Hi, Julie</span>
+        </div>
+      </div>
+    </>
+  ) : (
+    <>
+      <Link href="/authentication" onClick={() => setIsOpen(false)}>
+        <button className="border border-black px-4 py-2 rounded text-center hover:bg-gray-100 w-full">
+          Log In / Sign Up
+        </button>
+      </Link>
+      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
+        Become a Pro
+      </button>
+    </>
+  )}
+</li>
         </ul>
       )}
     </nav>
