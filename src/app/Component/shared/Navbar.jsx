@@ -15,7 +15,7 @@ const navItems = [
   { label: "Exterior", href: "/exterior" },
   { label: "Lawn & Garden", href: "/lawn" },
   { label: "Specialized & Other Services", href: "/specialized" },
-  { label: "Articles", href: "/articles" },
+  { label: "Articles", href: "/article" },
 ];
 
 export default function Navbar() {
