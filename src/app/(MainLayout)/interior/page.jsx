@@ -1,9 +1,12 @@
 import React from 'react';
-
+import InteriorBanner from '../../Component/Interior/IntBaner'
 const InteriorPage = () => {
     return (
         <div>
-            <p>Interior page</p>
+            <div className='p-4'>
+
+      <InteriorBanner/>
+            </div>
         </div>
     );
 };
