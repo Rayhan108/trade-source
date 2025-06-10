@@ -18,7 +18,7 @@ const LawnGardenServices = () => {
           View All{" "}
         </div>
       </div>
-      <div className="grid  grid-cols-2 md:grid-cols-4 gap-3 px-3">
+      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">
         {Projects2?.map((project, idx) => {
           return <IntCard key={idx} project={project} />;
         })}

@@ -12,10 +12,10 @@ import { LuMessageSquareMore } from "react-icons/lu";
 const navItems = [
   { label: "Home", href: "/homepage" },
   { label: "Interior", href: "/interior" },
-  { label: "Exterior", href: "#" },
-  { label: "Lawn & Garden", href: "#" },
-  { label: "Specialized & Other Services", href: "#" },
-  { label: "Articles", href: "#" },
+  { label: "Exterior", href: "/exterior" },
+  { label: "Lawn & Garden", href: "/lawn" },
+  { label: "Specialized & Other Services", href: "/specialized" },
+  { label: "Articles", href: "/articles" },
 ];
 
 export default function Navbar() {
