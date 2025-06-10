@@ -5,6 +5,7 @@ import electrical from '../../../assests/electrical.png'
 import remodeling from '../../../assests/remodeling.png'
 import Image from 'next/image';
 import styles from '../../styles.module.css'
+import Link from 'next/link'
 
 export default function Service() {
   return (
@@ -51,9 +52,11 @@ export default function Service() {
         <div className="hidden sm:block border-l border-blue-700 h-10"></div>
 
         {/* Browse all Services Button */}
+   <Link href={"/allServices"}>
         <button className="bg-blue-700 text-white px-4 py-2 rounded text-xs sm:text-sm font-medium whitespace-nowrap">
           Browse all Services
         </button>
+   </Link>
       </div>
     </div>
   );
