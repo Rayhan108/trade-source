@@ -46,7 +46,7 @@ export default function ReferPage() {
                 </p>
 
                 <p className="text-gray-700 text-lg mb-4 font-medium">
-                  Here's how it works:
+                  Here&apos;s how it works:
                 </p>
 
                 <ul className="space-y-3 text-gray-700">
