@@ -9,7 +9,7 @@ import ProjCard from "../../Component/Profile/ProjCard";
 import { Projects } from "../Home/ProjectsNear";
 import ProjectCard from "../Card/ProjectCard";
 import LicenseCard from "../Card/LicenseCard";
-const tabs = ["Projects", "Services", "Licenses & Insurance", "Reviews"];
+const tabs = ["Projects", "Services", "Licenses & Insurance"];
 const cardDatas = [
   {
     title: "Pink Dyer",
@@ -126,12 +126,12 @@ const tabContent = {
       </div>
     </div>
   ),
-  Reviews: (
-    <div>
-      <h2 className="text-lg font-semibold mb-2">Reviews</h2>
-      <p>Ei khane apnar customer reviews thakbe.</p>
-    </div>
-  ),
+  // Reviews: (
+  //   <div>
+  //     <h2 className="text-lg font-semibold mb-2">Reviews</h2>
+  //     <p>Ei khane apnar customer reviews thakbe.</p>
+  //   </div>
+  // ),
 };
 
 export default function Tabs() {
