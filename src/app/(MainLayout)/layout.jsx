@@ -1,7 +1,7 @@
 "use client";
 
-import FooterPage from "../component/shared/Footer";
-import Navbar from "../component/shared/Navbar";
+import FooterPage from "../Component/shared/Footer";
+import Navbar from "../Component/shared/Navbar";
 
 
 const MainLayout = ({
