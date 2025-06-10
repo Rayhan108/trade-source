@@ -134,7 +134,7 @@ export default function BlogHero() {
                     <div className="">
                       <Image
                         src={jesi}
-                        alt=""
+                        alt="hi"
                         height={500}
                         width={500}
                         className="h-8 w-8 rounded-full"
@@ -154,7 +154,7 @@ export default function BlogHero() {
                   how do you ensure you&apos;re hiring someone who&apos;s not
                   only skilled but also reliable and professional? At
                   YourTradeSource (YTS), we&apos;ve made it our mission to
-                  connect homeowners with licensed, vetted, and{" "}
+                  connect homeowners with licensed, vetted, and
                   <a href="#" className="text-blue-600 underline">
                     Read More...
                   </a>
