@@ -4,6 +4,7 @@ import ArticleCard from "../Card/ArticleCard";
 import article1 from "../../../assests/ar1.png";
 import article2 from "../../../assests/ar2.png";
 import article3 from "../../../assests/ar3.png";
+import Link from "next/link";
 export const cardDatas = [
   {
     id: 1,
@@ -168,7 +169,9 @@ const RecentArticle = () => {
           </h1>
         </div>
         <div>
+        <Link href={"/article"}>
           <p className="underline text-sm sm:text-2xl">See All Articles</p>
+        </Link>
         </div>
       </div>
       <div className="grid  grid-cols-2 md:grid-cols-3 gap-3 px-3 mb-8"> 
