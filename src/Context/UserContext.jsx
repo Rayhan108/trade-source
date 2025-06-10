@@ -1,5 +1,4 @@
 
-import { TUser } from "@/redux/features/auth/authSlice";
 import { getCurrentUser } from "@/utils/getCurrentUser";
 import {
   createContext,
@@ -11,10 +10,10 @@ import {
 
 
 
-const UserContext = createContext<IUserProviderValues | undefined>(undefined);
+const UserContext = createContext(undefined);
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState<TUser | null>(null);
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleUser = async () => {

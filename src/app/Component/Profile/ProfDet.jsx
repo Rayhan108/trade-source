@@ -15,11 +15,11 @@ const ProfDet = () => {
   const [reason, setReason] = useState("");
 
   const reasons = [
-    "It’s inaccurate or incorrect",
-    "It’s not a real person",
-    "It’s a scam",
-    "It’s offensive",
-    "It’s something else",
+    "It is inaccurate or incorrect",
+    "It is not a real person",
+    "It is a scam",
+    "It is offensive",
+    "It is something else",
   ];
 
   const handleContinue = () => {
