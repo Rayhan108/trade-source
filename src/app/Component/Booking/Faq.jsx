@@ -68,20 +68,20 @@ export default function Faq() {
   }
 
   return (
-    <section className="py-12 px-4 sm:py-16 lg:py-20">
+    <section className="py-12 px-4 sm:py-16 lg:py-20 container mx-auto">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left Side - Title and Illustration */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight container mx-auto">
                 Frequently Asked Questions
               </h2>
             </div>
 
             {/* Illustration */}
-            <div className="flex justify-center lg:justify-start">
-          <Image src={faq} alt="" width={500} height={500}/>
+            <div className="flex justify-center lg:justify-start ">
+          <Image src={faq} alt="" width={500} height={500} className=""/>
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export default function Faq() {
                 </button>
 
                 {openItems.has(item.id) && (
-                  <div className="px-2 pb-4 animate-in slide-in-from-top-2 duration-200">
+                  <div className="px-2 mt-3 pb-4 animate-in slide-in-from-top-2 duration-200">
                     <p className="text-gray-600 text-base leading-relaxed">{item.answer}</p>
                   </div>
                 )}

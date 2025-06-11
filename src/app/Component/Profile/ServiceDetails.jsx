@@ -150,7 +150,7 @@ const ServiceDetails = () => {
   return (
     <div className="w-full container mx-auto px-6 py-10 bg-white text-gray-900 flex flex-col md:flex-row md:gap-20 rounded-md">
       {/* Left Side - Service Details */}
-      <div className="md:flex-[0.45] pb-8 md:pb-0 pr-0 md:pr-10">
+      <div className="md:flex-[0.45] pb-8 md:pb-0 pr-0 md:pr-10 ">
         <h1 className="text-xl md:text-2xl font-semibold flex items-center gap-2">
           Service Details
         </h1>
@@ -159,7 +159,7 @@ const ServiceDetails = () => {
             <h2 className="font-bold text-xl mb-1">Service Name</h2>
             <p className="text-gray-900 mb-1">Dream Ireland Painting</p>
           </div>
-          <div>
+          <div className="w-[165px]">
             <h2 className="font-bold text-xl mb-1">Address</h2>
             <p className="text-gray-600 text-sm">Jhonson Rd, Aloma Street, TX 74473</p>
           </div>

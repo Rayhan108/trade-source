@@ -1,6 +1,6 @@
 import Image from "next/image";
 import {
-  MapPin,
+
   Download,
   Settings,
   Calendar,
@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import hero from "../../../assests/bookBanner.jpg";
 import baseMap from "../../../assests/Basemap image.png";
+import { PiMapPinAreaBold } from "react-icons/pi";
+import Link from "next/link";
 const BookBanner = () => {
   return (
     <div className="min-h-screen">
@@ -45,13 +47,16 @@ const BookBanner = () => {
           {/* Map Widget */}
           <div className=" rounded-xl p-4 mb-6  flex items-center justify-center relative">
             <Image src={baseMap} width={500} height={500} className="" />
-            <MapPin className="md:w-12 md:h-12 w-8 h-8 text-[#1D69E1]  rounded-full absolute   md:top-44" />
+            <PiMapPinAreaBold className="md:w-12 md:h-12 w-8 h-8 text-[#1D69E1]  rounded-full absolute   md:top-44" />
           </div>
 
           {/* Start Matching Button */}
+                 <Link href={'/location'}>
+                 
           <button className="bg-blue-600 w-[273px] sm:w-[500px] hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-lg my-8">
             Start Matching
           </button>
+                 </Link>
         </div>
       </div>
 
@@ -67,7 +72,7 @@ const BookBanner = () => {
               {/* Step 1 */}
               <div className="flex flex-col items-center relative z-10">
                 <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4 shadow-lg relative top-10">
-                  <MapPin className="w-8 h-8 text-white" />
+                  <PiMapPinAreaBold className="w-8 h-8 text-white" />
                 </div>
                 <p className="text-blue-600 font-semibold mt-8 text-center max-w-32">
                   Enter your location
