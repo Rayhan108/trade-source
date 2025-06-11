@@ -1,12 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { FiCalendar, FiClock, FiChevronDown,  } from "react-icons/fi"
+import { Modal, DatePicker } from "antd"
+import dayjs from "dayjs"
+import { FiCalendar, FiClock, FiChevronDown } from "react-icons/fi"
 import SelectContractorCard from '../../Component/Card/SelectConstructorCard'
 
 import cons1 from '../../../assests/cons1.png'
 import cons2 from '../../../assests/cons2.png'
 import cons3 from '../../../assests/cons3.png'
+
 const contractorData = [
   {
     id: 1,
@@ -33,7 +36,7 @@ const contractorData = [
   {
     id: 3,
     name: "Genie Darwin",
-    image:cons3,
+    image: cons3,
     verified: true,
     completedTasks: 2949,
     rating: 4.8,
@@ -41,11 +44,10 @@ const contractorData = [
     hourlyRate: 65,
     expertise: "Electrical, HVAC, Appliance Repair",
   },
- 
   {
     id: 4,
     name: "Genie Darwin",
-    image:cons1,
+    image: cons1,
     verified: true,
     completedTasks: 2949,
     rating: 4.8,
@@ -53,7 +55,6 @@ const contractorData = [
     hourlyRate: 65,
     expertise: "Electrical, HVAC, Appliance Repair",
   },
- 
 ]
 
 const sortOptions = [
@@ -71,18 +72,34 @@ export default function ContractorSearch() {
   const [sortBy, setSortBy] = useState("Recommended")
   const [showSortDropdown, setShowSortDropdown] = useState(false)
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [tempDate, setTempDate] = useState(null)
+
+  const handleDateConfirm = () => {
+    if (tempDate) {
+      console.log("Selected Date:", tempDate.format("YYYY-MM-DD"))
+      setSelectedDate(tempDate.format("YYYY-MM-DD"))
+    }
+    setIsModalOpen(false)
+  }
+
   return (
-  <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Sidebar - Filters */}
+          {/* Sidebar Filters */}
           <div className="w-full lg:w-80 space-y-8">
             {/* Date Filter */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <div className="flex items-center gap-2 mb-4">
                 <FiCalendar className="w-5 h-5 text-gray-600" />
                 <h3 className="font-semibold text-gray-900">Date</h3>
-                <button className="ml-auto text-blue-600 text-sm font-medium">Choose a date</button>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="ml-auto text-blue-600 text-sm font-medium"
+                >
+                  Choose a date
+                </button>
               </div>
               <div className="space-y-3">
                 {["Today", "Within 3 day", "Within a week"].map((option) => (
@@ -130,16 +147,14 @@ export default function ContractorSearch() {
               <h3 className="font-semibold text-gray-900 mb-4">Price</h3>
               <div className="space-y-4">
                 <div className="text-right text-sm font-medium text-gray-600">${priceRange}</div>
-                <div className="relative">
-                  <input
-                    type="range"
-                    min="10"
-                    max="1000"
-                    value={priceRange}
-                    onChange={(e) => setPriceRange(e.target.value)}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                  />
-                </div>
+                <input
+                  type="range"
+                  min="10"
+                  max="1000"
+                  value={priceRange}
+                  onChange={(e) => setPriceRange(e.target.value)}
+                  className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer accent-blue-600"
+                />
                 <div className="flex justify-between text-sm text-gray-500">
                   <div>
                     <div className="text-xs">Minimum</div>
@@ -164,9 +179,9 @@ export default function ContractorSearch() {
             </div>
           </div>
 
-          {/* Right Content - Results */}
+          {/* Right Side Content */}
           <div className="flex-1">
-            {/* Sort Dropdown */}
+            {/* Sort By */}
             <div className="flex justify-end mb-6">
               <div className="relative">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -202,15 +217,73 @@ export default function ContractorSearch() {
               </div>
             </div>
 
-            {/* Contractor Cards Grid */}
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Contractor Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {contractorData.map((contractor) => (
-              <SelectContractorCard key={contractor?.id} contractor={contractor}/>
+                <SelectContractorCard key={contractor.id} contractor={contractor} />
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Ant Design Date Modal */}
+  <Modal
+  open={isModalOpen}
+  onCancel={() => setIsModalOpen(false)}
+  footer={null}
+  centered
+  width={600}
+  closable={false}
+>
+  <div className="flex flex-col md:flex-row items-start gap-6 p-4">
+    {/* Calendar Section */}
+    <div className="w-full md:w-1/2">
+      <h2 className="text-lg font-semibold mb-4">April – May 2025</h2>
+      <DatePicker
+        onChange={(date) => setTempDate(date)}
+        className="w-full"
+        getPopupContainer={(trigger) => trigger.parentElement}
+      />
+      <div className="mt-6">
+        <select
+          className="w-full px-4 py-2 border border-gray-300 rounded-md"
+          value={selectedTime}
+          onChange={(e) => setSelectedTime(e.target.value)}
+        >
+          <option value="">Select Time</option>
+          <option value="12:00 PM">12:00 PM</option>
+          <option value="1:00 PM">1:00 PM</option>
+          <option value="2:00 PM">2:00 PM</option>
+        </select>
+      </div>
+    </div>
+
+    {/* Contractor Info Section */}
+    <div className="w-full md:w-1/2 bg-gray-50 rounded-lg p-4 shadow-sm">
+      <div className="flex items-center gap-3 mb-3">
+        <img src={cons1} alt="Contractor" className="w-10 h-10 rounded-full" />
+        <div>
+          <h3 className="font-semibold text-gray-900">Ellie Smith</h3>
+        </div>
+      </div>
+      <p className="text-sm text-gray-700 mb-2">
+        <strong>Request Date:</strong>{" "}
+        {tempDate ? dayjs(tempDate).format("MMM DD,") : "Select Date"} {selectedTime || ""}
+      </p>
+      <p className="text-sm text-gray-700 mb-2">This Contractor requires 2 hour</p>
+      <p className="text-xs text-gray-500">You can chat and adjust time after confirming</p>
+
+      <button
+        onClick={handleDateConfirm}
+        className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+      >
+        Select & Continue
+      </button>
+    </div>
+  </div>
+</Modal>
+
     </div>
   )
 }
