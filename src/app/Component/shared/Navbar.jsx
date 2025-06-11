@@ -159,47 +159,54 @@ export default function Navbar() {
             );
           })}
 
-  {/* Mobile buttons */}
-<li className="flex flex-col px-6 py-3 space-y-2">
-  {userLoggedIn ? (
-    <>
-      <Link
-        href="/refer"
-        className={`font-medium hover:text-blue-600 text-center py-2 rounded ${
-          pathname === "/refer" ? "text-blue-600 font-semibold" : "text-gray-700"
-        }`}
-        onClick={() => setIsOpen(false)}
-      >
-        Get $10
-      </Link>
-      <div className="flex justify-between items-center border border-gray-300 rounded-md shadow-md px-4 py-2 space-x-4">
-        <LuMessageSquareMore size={24} className="cursor-pointer" />
-        <IoNotificationsOutline size={24} className="cursor-pointer" />
-        <div className="flex items-center space-x-2">
-          <Image
-            src={user}
-            alt="User Avatar"
-            width={30}
-            height={30}
-            className="rounded-full w-8 h-8"
-          />
-          <span className="text-sm font-medium text-gray-700">Hi, Julie</span>
-        </div>
-      </div>
-    </>
-  ) : (
-    <>
-      <Link href="/authentication" onClick={() => setIsOpen(false)}>
-        <button className="border border-black px-4 py-2 rounded text-center hover:bg-gray-100 w-full">
-          Log In / Sign Up
-        </button>
-      </Link>
-      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
-        Become a Pro
-      </button>
-    </>
-  )}
-</li>
+          {/* Mobile buttons */}
+          <li className="flex flex-col px-6 py-3 space-y-2">
+            {userLoggedIn ? (
+              <>
+                <Link
+                  href="/refer"
+                  className={`font-medium hover:text-blue-600 text-center py-2 rounded ${
+                    pathname === "/refer"
+                      ? "text-blue-600 font-semibold"
+                      : "text-gray-700"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Get $10
+                </Link>
+                <div className="flex justify-between items-center border border-gray-300 rounded-md shadow-md px-4 py-2 space-x-4">
+                  <LuMessageSquareMore size={24} className="cursor-pointer" />
+                  <IoNotificationsOutline
+                    size={24}
+                    className="cursor-pointer"
+                  />
+                  <div className="flex items-center space-x-2">
+                    <Image
+                      src={user}
+                      alt="User Avatar"
+                      width={30}
+                      height={30}
+                      className="rounded-full w-8 h-8"
+                    />
+                    <span className="text-sm font-medium text-gray-700">
+                      Hi, Julie
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link href="/authentication" onClick={() => setIsOpen(false)}>
+                  <button className="border border-black px-4 py-2 rounded text-center hover:bg-gray-100 w-full">
+                    Log In / Sign Up
+                  </button>
+                </Link>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
+                  Become a Pro
+                </button>
+              </>
+            )}
+          </li>
         </ul>
       )}
     </nav>

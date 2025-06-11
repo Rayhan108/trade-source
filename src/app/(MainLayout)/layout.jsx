@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import FooterPage from "../Component/shared/Footer";
 import Navbar from "../Component/shared/Navbar";
