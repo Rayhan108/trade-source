@@ -1,19 +1,18 @@
-"use client";
+"use client"
 
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useForm } from "react-hook-form"
+import { useState } from "react"
 import { useRouter } from "next/navigation";
+const TimePage = () => {
+       const serviceOptions = [
+  { id: "urgent", label: "Urgent (1-2 days)", value: "Urgent (1-2 days)" },
+  { id: "within2week", label: "Within 2 weeks", value: "Within 2 weeks" },
+  { id: "morethan2week", label: "More than 2 weeks", value: "More than 2 weeks" },
+  { id: "planning", label: "Not sure still planning", value: "Not sure still planning" },
 
-const ChooseServicePage = () => {
-  const serviceOptions = [
-    { id: "general", label: "General Handyman", value: "general" },
-    { id: "electrician", label: "Electrician Handyman", value: "electrician" },
-    { id: "plumbing", label: "Plumbing Handyman", value: "plumbing" },
-    { id: "carpentry", label: "Carpentry Handyman", value: "carpentry" },
-    { id: "appliance", label: "Appliance Handyman", value: "appliance" },
-  ];
-  const router = useRouter();
-  const {
+]
+const router = useRouter()
+      const {
     register,
     handleSubmit,
     watch,
@@ -24,41 +23,39 @@ const ChooseServicePage = () => {
       projectDescription: "",
     },
     mode: "onChange",
-  });
+  })
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const onSubmit = async (data) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted:", data);
-    setIsSubmitting(false);
-    router.push("/time");
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    console.log("Form submitted:", data)
+    setIsSubmitting(false)
+    router.push('/selectConstructor')
     // Handle form submission here
-  };
+  }
 
   const handlePrevious = () => {
     // Handle previous step navigation
-    router.push("/location");
-  };
-  return (
-    <div className="max-w-4xl mx-auto p-5">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl  my-12 font-bold text-gray-900 mb-6 leading-tight">
-        Choose that most closely matches your project
+ router.push('/time')
+  }
+    return (
+             <div className="max-w-4xl mx-auto p-5">
+                 <h1 className="text-3xl sm:text-4xl lg:text-5xl  my-12 font-bold text-gray-900 mb-6 leading-tight">
+  When would you like the work to be completed? 
       </h1>
-      <div className=" bg-white py-8 px-4 sm:px-6 lg:px-8">
+     <div className=" bg-white py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Header Section */}
             <div className="space-y-4">
               <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-blue-600 leading-tight">
-                Choose More Specific Service
+          Pick Your Preferred Time
               </h1>
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-3xl">
-                Select the specific service you need from a wide range of
-                professional offerings like plumbing, electrical work, or home
-                renovations.
+         Select a convenient time slot for the contractor to visit or start the service.
               </p>
               <hr className="border-gray-300" />
             </div>
@@ -136,14 +133,14 @@ const ChooseServicePage = () => {
                 disabled={!isValid || isSubmitting}
                 className="w-1/2 px-6 py-4 text-base font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
-                {isSubmitting ? "Processing..." : "Continue"}
+                {isSubmitting ? "Processing..." : "See Pros & Prices"}
               </button>
             </div>
           </form>
         </div>
       </div>
-    </div>
-  );
+        </div>
+    );
 };
 
-export default ChooseServicePage;
+export default TimePage;

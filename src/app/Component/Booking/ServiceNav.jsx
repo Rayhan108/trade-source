@@ -25,7 +25,7 @@ const steps = [
   {
     icon: <Hammer className="w-5 h-5 text-white" />,
     label: "Select a contractor",
-    path: "/selectContractor",
+    path: "/selectConstructor",
   },
   {
     icon: <Handshake className="w-5 h-5 text-white" />,
@@ -74,7 +74,7 @@ const ServiceNav = () => {
                   {step.icon}
                 </div>
                 <span
-                  className={`mt-1 text-xs text-center whitespace-nowrap ${
+                  className={`mt-1 text-sm text-center whitespace-nowrap ${
                     step.active ? "text-blue-500" : "text-gray-400"
                   }`}
                 >
