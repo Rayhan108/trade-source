@@ -82,6 +82,8 @@ export default function Navbar() {
               <div className="p-2 border border-black rounded-full hover:bg-gray-200 cursor-pointer">
                 <IoNotificationsOutline size={24} />
               </div>
+              <Link href={'/myProfile'}>
+              
               <button className="flex items-center space-x-2 cursor-pointer">
                 <Image
                   src={user}
@@ -92,6 +94,7 @@ export default function Navbar() {
                 />
                 <span className="font-medium text-gray-700">Hi, Julie</span>
               </button>
+              </Link>
             </div>
           </>
         ) : (

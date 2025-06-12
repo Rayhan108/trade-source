@@ -10,7 +10,14 @@ module.exports = {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      
+      fontFamily: {
+        dm: ['var(--font-dm-sans)', 'sans-serif'],
+        urban: ['var(--font-urbanist)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
