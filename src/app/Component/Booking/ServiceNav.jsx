@@ -32,6 +32,11 @@ const steps = [
     label: "Confirm",
     path: "/confirm",
   },
+  {
+    icon: <Handshake className="w-5 h-5 text-white" />,
+    label: "Confirm",
+    path: "/done",
+  },
 ];
 
 const ServiceNav = () => {
