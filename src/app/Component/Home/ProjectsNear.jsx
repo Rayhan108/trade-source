@@ -4,6 +4,7 @@ import project2 from "../../../assests/project2.png";
 import project3 from "../../../assests/project3.png";
 import project4 from "../../../assests/project4.png";
 import styles from '../../styles.module.css'
+import Link from "next/link";
 export const Projects = [
   {
     id: 1,
@@ -45,7 +46,7 @@ const ProjectsNear = () => {
     <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>Project Near You</h1>
       <div className="grid  grid-cols-2 md:grid-cols-4 gap-3 px-3">
       {Projects?.map((project, idx) => {
-        return <ProjectCard key={idx} project={project} />;
+        return <Link key={idx} href={'/location'}><ProjectCard  project={project} /></Link>;
       })}
     </div>
   </div>
