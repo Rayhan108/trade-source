@@ -24,6 +24,13 @@ const contractorData = [
     reviews: 1694,
     hourlyRate: 65,
     expertise: "General Handyman, Plumbing, Electrical",
+    services: [
+      "Furniture assembly",
+      "TV mounting",
+      "Minor electrical/plumbing fixes",
+      "Drywall repair & painting",
+      "Hanging shelves & wall decor"
+    ]
   },
   {
     id: 2,
@@ -35,6 +42,13 @@ const contractorData = [
     reviews: 1694,
     hourlyRate: 65,
     expertise: "Carpentry, Home Renovation, Repairs",
+    services: [
+      "Furniture assembly",
+      "Drywall repair & painting",
+      "TV mounting",
+      "Minor electrical/plumbing fixes",
+      "Hanging shelves & wall decor"
+    ]
   },
   {
     id: 3,
@@ -46,6 +60,13 @@ const contractorData = [
     reviews: 1694,
     hourlyRate: 65,
     expertise: "Electrical, HVAC, Appliance Repair",
+    services: [
+      "Minor electrical/plumbing fixes",
+      "TV mounting",
+      "Drywall repair & painting",
+      "Furniture assembly",
+      "Hanging shelves & wall decor"
+    ]
   },
   {
     id: 4,
@@ -57,11 +78,19 @@ const contractorData = [
     reviews: 1694,
     hourlyRate: 65,
     expertise: "Electrical, HVAC, Appliance Repair",
-  },
+    services: [
+      "Furniture assembly",
+      "TV mounting",
+      "Minor electrical/plumbing fixes",
+      "Drywall repair & painting",
+      "Hanging shelves & wall decor"
+    ]
+  }
 ];
 
+
 const sortOptions = [
-  "View Profile",
+
   "Price (Lowest to Highest)",
   "Price (Highest to Lowest)",
   "Highest Rated",
@@ -210,9 +239,9 @@ export default function ContractorSearch() {
                 {showSortDropdown && (
                   <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                     <div className="py-1">
-                      <div className="px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50">
+                      {/* <div className="px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50">
                         View Profile
-                      </div>
+                      </div> */}
                       {sortOptions.slice(1).map((option) => (
                         <button
                           key={option}
@@ -312,7 +341,7 @@ export default function ContractorSearch() {
               </p>
               <p className="text-sm font-bold text-gray-700 mb-2">
                 This Contractor requires 2 hour
-              </p>
+              </p> 
               <p className="text-xs text-gray-500">
                 You can chat and adjust time after confirming
               </p>

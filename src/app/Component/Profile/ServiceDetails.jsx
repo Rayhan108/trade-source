@@ -6,7 +6,7 @@ import img from "../../../assests/bannerImg.jpg";
 import styles from "../../styles.module.css";
 import { Modal, Pagination } from "antd";
 
-const reviews = [
+ const reviews = [
   {
     name: "Emma",
     date: "Feb 2024",
