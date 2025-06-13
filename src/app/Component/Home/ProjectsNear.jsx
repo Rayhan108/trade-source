@@ -43,7 +43,7 @@ export const Projects = [
 const ProjectsNear = () => {
   return (
   <div className={`container mx-auto ${styles.fontDmSans}`}>
-    <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>Project Near You</h1>
+    <h1 className={`text-4xl font-bold mb-5  ${styles.fontDmSans}`}>Project Near You</h1>
       <div className="grid  grid-cols-2 md:grid-cols-4 gap-3 px-3">
       {Projects?.map((project, idx) => {
         return <Link key={idx} href={'/location'}><ProjectCard  project={project} /></Link>;

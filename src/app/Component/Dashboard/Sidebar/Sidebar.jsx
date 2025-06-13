@@ -5,15 +5,15 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
 const items = [
-  { label: 'Profile', href: '/myProfile' },
-  { label: 'Password', href: '/settings/password' },
-  { label: 'Notifications', href: '/settings/notifications' },
-  { label: 'Referral', href: '/settings/referral' },
-  { label: 'Billing Info', href: '/settings/billing' },
-  { label: 'Project Status', href: '/settings/status' },
-  { label: 'Account Balance', href: '/settings/balance' },
-  { label: 'Transactions', href: '/settings/transactions' },
-  { label: 'Delete Account', href: '/settings/delete' },
+  { label: 'Profile', href: '/myProfile'},
+  { label: 'Password', href: '/password'},
+  { label: 'Notifications', href: '/notifications'},
+  { label: 'Referral', href: '/referral'},
+  { label: 'Billing Info', href: '/billing'},
+  { label: 'Project Status', href: '/status'},
+  { label: 'Account Balance', href: '/balance'},
+  { label: 'Transactions', href: '/transactions'},
+  { label: 'Delete Account', href: '/delete'},
 ];
 const Sidebar = () => {
   const pathname = usePathname();
