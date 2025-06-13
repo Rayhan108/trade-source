@@ -108,8 +108,8 @@ export default function ProjectStatus() {
                 <div className="border-b border-gray-200 mb-8"></div>
                 {/* Actions */}
                 <div className="flex w-full gap-4">
-                  <Link href={`/status/${booking.id}`}>
-                    <button className="w-1/2  border border-black px-4 py-2 rounded-md text-black  text-sm">
+                  <Link className="w-1/2" href={`/status/${booking.id}`}>
+                    <button className="w-full  border border-black px-4 py-2 rounded-md text-black  text-sm">
                       Project Details
                     </button>
                   </Link>
@@ -120,7 +120,7 @@ export default function ProjectStatus() {
               </div>
             )
           )
-        )
+        )J
       ) : (
         <p className="text-gray-500 text-sm">No bookings in this tab.</p>
       )}
