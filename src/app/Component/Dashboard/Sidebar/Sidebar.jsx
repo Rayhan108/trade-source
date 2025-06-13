@@ -11,7 +11,7 @@ const items = [
   { label: 'Referal', href: '/referal' },
   { label: 'Billing Info', href: '/billing' },
   { label: 'Project Status', href: '/status' },
-  { label: 'Account Balance', href: '/balance' },
+  { label: 'Account Balance', href: '/accountBalance' },
   { label: 'Transactions', href: '/transactions' },
   { label: 'Delete Account', href: '/delete' },
 ];
