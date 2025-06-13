@@ -18,7 +18,7 @@ const items = [
 const Sidebar = () => {
   const pathname = usePathname();
     return (
- <aside className="w-64 min-h-screen bg-gray-50 pb- px- rounded-md border border-gray-200">
+ <aside className="w-64   pb- px- rounded-md ">
       <nav className="flex flex-col space-y-1">
         {items.map((item) => (
           <Link
