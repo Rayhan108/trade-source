@@ -42,14 +42,14 @@ export default function NotificationSettings() {
   );
 
   return (
-    <div className="bg-white p-6 rounded-lg border w-full max-w-2xl mx-auto  h-[450px]">
+    <div className="bg-white p-6 min-h-screen rounded-lg border w-full max-w-2xl mx-auto  h-[450px]">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">Notifications</h2>
       <div className="border-b mb-6"></div>
 
       {/* Notification options */}
       <div className="space-y-6">
         {/* Project Updates */}
-        <div className="flex items-center justify-between">
+        <div className="flex xl:mt-48 items-center justify-between">
           <span className="font-medium text-gray-700">Project Updates</span>
           <div className="flex gap-6">
             <div onClick={() => handleToggle('projectUpdates', 'inApp')}>

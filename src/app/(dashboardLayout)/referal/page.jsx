@@ -12,7 +12,7 @@ import { HiMail, HiClipboardCopy, HiCheck } from "react-icons/hi";
 export default function ReferalPage() {
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
-  const referralLink = "https://yourtradesource.com/referral?code=KEVIN123";
+  const referralLink = "Md Rayhan Shorker";
 
   const handleSendInvitation = () => {
     if (email) {
@@ -34,7 +34,7 @@ export default function ReferalPage() {
 
   return (
     <div>
-      <div className="w-full   py-3 container mx-auto mb-8 bg-[#ffffff] rounded-xl  px-4 lg:px-8">
+      <div className="w-full min-h-screen  py-3 container mx-auto bg-[#ffffff] rounded-xl  px-4 lg:px-8">
          {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Referral</h1>

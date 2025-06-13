@@ -33,7 +33,7 @@ export default function ProjectStatus() {
   };
 
   return (
-    <div className="container  mx-auto p-4 bg-white">
+    <div className="container min-h-screen mx-auto p-4 bg-white">
       {/* Tabs */}
       <div className="flex border-b py-3 border-gray-300 mb-4">
         {["Inprogress", "Done"].map((tab) => (

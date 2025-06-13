@@ -64,7 +64,7 @@ export default function PasswordPage() {
 
 
   return (
-    <div className="w-full  h-[450px] bg-white p-6 font-dm">
+    <div className="w-full  min-h-screen bg-white p-6 font-dm">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Password</h1>
@@ -75,7 +75,7 @@ export default function PasswordPage() {
       <div className="border-b border-gray-200 mb-8"></div>
 
       {/* Profile Content */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-12">
+      <div className="flex xl:mt-48 flex-col md:flex-row items-center md:items-start gap-12">
         {/* Profile Photo */}
         <div className="w-64 h-64 flex-shrink-0">
           <Image
