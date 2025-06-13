@@ -120,7 +120,7 @@ export default function ProjectStatus() {
               </div>
             )
           )
-        )J
+        )
       ) : (
         <p className="text-gray-500 text-sm">No bookings in this tab.</p>
       )}
