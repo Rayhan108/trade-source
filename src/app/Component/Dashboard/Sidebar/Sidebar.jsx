@@ -5,38 +5,48 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
 const items = [
-  { label: 'Profile', href: '/myProfile'},
-  { label: 'Password', href: '/password'},
-  { label: 'Notification', href: '/notification'},
-  { label: 'Referal', href: '/referal'},
-  { label: 'Billing Info', href: '/billing'},
-  { label: 'Project Status', href: '/status'},
-  { label: 'Account Balance', href: '/balance'},
-  { label: 'Transactions', href: '/transactions'},
-  { label: 'Delete Account', href: '/delete'},
+  { label: 'Profile', href: '/myProfile' },
+  { label: 'Password', href: '/password' },
+  { label: 'Notification', href: '/notification' },
+  { label: 'Referal', href: '/referal' },
+  { label: 'Billing Info', href: '/billing' },
+  { label: 'Project Status', href: '/status' },
+  { label: 'Account Balance', href: '/balance' },
+  { label: 'Transactions', href: '/transactions' },
+  { label: 'Delete Account', href: '/delete' },
 ];
+
 const Sidebar = () => {
   const pathname = usePathname();
-    return (
- <aside className="w-64   pb- px- rounded-md ">
+
+  return (
+    <aside className="w-64 pb-4 rounded-md">
       <nav className="flex flex-col space-y-1">
-        {items.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={clsx(
-              'text-sm font-medium px-3 py-5 rounded-md transition-colors',
-              pathname === item.href
-                ? 'bg-blue-100 text-blue-600 border-l-2 border-blue-600'
-                : 'text-gray-800 hover:bg-gray-100'
-            )}
-          >
-            {item.label}
-          </Link>
-        ))}
+        {items.map((item) => {
+          // Special case: highlight /status and dynamic /status/*
+          const isStatusActive =
+            item.href === '/status' && pathname.startsWith('/status');
+
+          const isActive = pathname === item.href || isStatusActive;
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={clsx(
+                'text-sm font-medium px-3 py-5 rounded-md transition-colors',
+                isActive
+                  ? 'bg-blue-100 text-blue-600 border-l-2 border-blue-600'
+                  : 'text-gray-800 hover:bg-gray-100'
+              )}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
     </aside>
-    );
+  );
 };
 
 export default Sidebar;

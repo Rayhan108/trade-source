@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import Image from "next/image";
 import logo from "../../../assests/navLogo.png";
 import Link from "next/link";
@@ -30,20 +31,22 @@ const steps = [
   {
     icon: <Handshake className="w-5 h-5 text-white" />,
     label: "Confirm",
-    path: "/confirm",
-  },
-  {
-    icon: <Handshake className="w-5 h-5 text-white" />,
-    label: "Confirm",
-    path: "/done",
+    paths: ["/confirm", "/done"], // ✅ handle both routes
   },
 ];
 
 const ServiceNav = () => {
   const pathname = usePathname();
 
-  const currentStepIndex = steps.findIndex((step) => step.path === pathname);
+  // ✅ Find the current step index
+  const currentStepIndex = steps.findIndex((step) => {
+    if (step.paths) {
+      return step.paths.includes(pathname);
+    }
+    return step.path === pathname;
+  });
 
+  // ✅ Add active status for all steps up to current
   const stepsWithActiveStatus = steps.map((step, index) => ({
     ...step,
     active: index <= currentStepIndex,
@@ -72,7 +75,7 @@ const ServiceNav = () => {
             <div key={index} className="flex items-center">
               <div className="flex flex-col items-center relative">
                 <div
-                  className={`w-10 h-10  rounded-full flex items-center justify-center ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
                     step.active ? "bg-blue-600" : "bg-gray-700"
                   }`}
                 >
@@ -88,7 +91,7 @@ const ServiceNav = () => {
               </div>
               {index !== steps.length - 1 && (
                 <div
-                  className={`w-10 lg:w-16 h-px p-[2px]  rounded-xl mx-2 ${
+                  className={`w-10 lg:w-16 h-px p-[2px] rounded-xl mx-2 ${
                     stepsWithActiveStatus[index].active &&
                     stepsWithActiveStatus[index + 1].active
                       ? "bg-blue-600"
