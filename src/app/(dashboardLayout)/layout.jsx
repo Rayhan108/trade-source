@@ -15,7 +15,7 @@ const DashboardLayout = ({ children }) => {
         </aside>
 
         {/* Main Dashboard Area */}
-        <main className="flex-1 w-full">{children}</main>
+        <main className="flex-1 w-full ">{children}</main>
       </div>
     </div>
   );

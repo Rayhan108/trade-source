@@ -64,7 +64,7 @@ export default function PasswordPage() {
 
 
   return (
-    <div className="w-full bg-white p-6 font-dm">
+    <div className="w-full  h-[450px] bg-white p-6 font-dm">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Password</h1>
