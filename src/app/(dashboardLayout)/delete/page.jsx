@@ -70,3 +70,4 @@ const DeletePage = () => {
 };
 
 export default DeletePage;
+ 
