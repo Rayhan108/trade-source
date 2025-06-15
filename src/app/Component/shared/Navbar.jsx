@@ -76,28 +76,37 @@ export default function Navbar() {
               Get $10
             </Link>
             <div className="border flex justify-evenly lg:gap-2 xl:gap-2 2xl:gap-5 items-center border-gray-300 rounded-md shadow-md lg:px-3 xl:px-8 py-2">
-                  <Link href="/inbox">
-              <div className="p-2 border border-black rounded-full hover:bg-gray-200 cursor-pointer">
-                <LuMessageSquareMore size={24} />
-              </div>
-                  </Link>
-                    <Link href="/notificationPage">
-              <div className="p-2 border border-black rounded-full hover:bg-gray-200 cursor-pointer">
-                <IoNotificationsOutline size={24} />
-              </div>
-                    </Link>  
-              <Link href={'/myProfile'}>
-              
-              <button className="flex items-center space-x-2 cursor-pointer">
-                <Image
-                  src={user}
-                  alt="User Avatar"
-                  width={30}
-                  height={30}
-                  className="rounded-full w-10"
-                />
-                <span className="font-medium text-gray-700">Hi, Julie</span>
-              </button>
+              <Link href="/inbox">
+                <div
+                  className={`p-2 border border-black rounded-full cursor-pointer ${
+                    pathname === "/inbox"
+                      ? "bg-blue-500 text-white"
+                      : "hover:bg-gray-200"
+                  }`}
+                >
+                  <LuMessageSquareMore size={24} />
+                </div>
+              </Link>
+       <Link href="/notificationPage">
+  <div
+    className={`p-2 border border-black rounded-full cursor-pointer ${
+      pathname === "/notificationPage" ? "bg-blue-500 text-white" : "hover:bg-gray-200"
+    }`}
+  >
+    <IoNotificationsOutline size={24} />
+  </div>
+</Link>
+              <Link href={"/myProfile"}>
+                <button className="flex items-center space-x-2 cursor-pointer">
+                  <Image
+                    src={user}
+                    alt="User Avatar"
+                    width={30}
+                    height={30}
+                    className="rounded-full w-10"
+                  />
+                  <span className="font-medium text-gray-700">Hi, Julie</span>
+                </button>
               </Link>
             </div>
           </>
@@ -183,16 +192,27 @@ export default function Navbar() {
                 </Link>
                 <div className="flex justify-between items-center border border-gray-300 rounded-md shadow-md px-4 py-2 space-x-4">
                   <Link href="/inbox">
-                  
-                  <LuMessageSquareMore size={24} className="cursor-pointer" />
+                    <div
+                      className={`p-2 border border-black rounded-full cursor-pointer ${
+                        pathname === "/inbox"
+                          ? "bg-blue-500 text-white"
+                          : "hover:bg-gray-200"
+                      }`}
+                    >
+                      <LuMessageSquareMore size={24} />
+                    </div>
                   </Link>
-                    <Link href="/notification">
-                    
-                  <IoNotificationsOutline
-                    size={24}
-                    className="cursor-pointer"
-                  />
-                    </Link>
+                  <Link href="/notificationPage">
+                    <div
+                      className={`p-2 border border-black rounded-full cursor-pointer ${
+                        pathname === "/notificationPage"
+                          ? "bg-blue-500 text-white"
+                          : "hover:bg-gray-200"
+                      }`}
+                    >
+                      <IoNotificationsOutline size={24} />
+                    </div>
+                  </Link>
                   <div className="flex items-center space-x-2">
                     <Image
                       src={user}

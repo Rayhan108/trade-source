@@ -108,6 +108,23 @@ export default function MessagingApp() {
   }
 
   return (
+<>
+{
+    contacts.length===0 && message?.length===0?(
+        <div className="bg-white rounded-xl max-w-7xl mx-auto  my-12">
+            <div className="max-w-xl py-20 mx-auto">
+
+            <p className="text-xl p-7 ">You don’t have any messages yet. They’ll appear 
+here once you do.</p>
+<div className="text-center">
+    <button className="bg-[#1D69E1] text-white px-8 py-2 rounded-lg ">
+   Start Your Project 
+</button>
+</div>
+            </div>
+        </div>
+    ):(
+
     <div className="flex container mx-auto my-12 bg-gray-50">
       {/* Sidebar */}
       <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
@@ -264,5 +281,10 @@ export default function MessagingApp() {
         </div>
       </div>
     </div>
+    )
+
+}
+
+</>
   )
 }
