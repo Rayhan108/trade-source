@@ -32,7 +32,7 @@ import autoTable from "jspdf-autotable";
 const downloadHistory = () => {
   const doc = new jsPDF();
 
-  // Title
+  // Title 
   doc.setFontSize(18);
   doc.text("Transaction History", 14, 22);
 
