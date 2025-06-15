@@ -81,7 +81,7 @@ export default function Navbar() {
                 <LuMessageSquareMore size={24} />
               </div>
                   </Link>
-                    <Link href="/inbox">
+                    <Link href="/notificationPage">
               <div className="p-2 border border-black rounded-full hover:bg-gray-200 cursor-pointer">
                 <IoNotificationsOutline size={24} />
               </div>
