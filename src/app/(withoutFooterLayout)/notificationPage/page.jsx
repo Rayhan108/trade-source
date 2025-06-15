@@ -53,7 +53,7 @@ const notifications = [
 ]; 
 const NotificationPage = () => {
   return (
-    <div className="max-w-3xl bg-white my-5 mx-auto px-4 py-8">
+    <div className="max-w-7xl bg-white my-5 mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-gray-900">Notifications</h2>
         <button className="text-sm text-blue-600 hover:underline">

@@ -87,15 +87,17 @@ export default function Navbar() {
                   <LuMessageSquareMore size={24} />
                 </div>
               </Link>
-       <Link href="/notificationPage">
-  <div
-    className={`p-2 border border-black rounded-full cursor-pointer ${
-      pathname === "/notificationPage" ? "bg-blue-500 text-white" : "hover:bg-gray-200"
-    }`}
-  >
-    <IoNotificationsOutline size={24} />
-  </div>
-</Link>
+              <Link href="/notificationPage">
+                <div
+                  className={`p-2 border border-black rounded-full cursor-pointer ${
+                    pathname === "/notificationPage"
+                      ? "bg-blue-500 text-white"
+                      : "hover:bg-gray-200"
+                  }`}
+                >
+                  <IoNotificationsOutline size={24} />
+                </div>
+              </Link>
               <Link href={"/myProfile"}>
                 <button className="flex items-center space-x-2 cursor-pointer">
                   <Image
