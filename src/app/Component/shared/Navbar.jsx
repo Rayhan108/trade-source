@@ -23,7 +23,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   // Simulate user logged in state (replace with your auth logic)
-  const userLoggedIn = true;
+  const userLoggedIn = false;
 
   return (
     <nav
@@ -119,9 +119,12 @@ export default function Navbar() {
                 Log In / Sign Up
               </button>
             </Link>
+               <Link href={"/contractorHome"}>
+               
             <button className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
               Become a Pro
             </button>
+               </Link>
           </>
         )}
       </div>
