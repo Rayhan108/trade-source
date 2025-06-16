@@ -13,14 +13,16 @@ const items = [
   { label: 'Project Status', href: '/status' },
   { label: 'Account Balance', href: '/accountBalance' },
   { label: 'Transactions', href: '/transactions' },
-  { label: 'Delete Account', href: '/delete' },
+  { label: 'Ask a Pro', href: '/askAPro' }, 
+  { label: 'VIP Member', href: '/pricing' }, 
+  { label: 'Delete Account', href: '/delete' }, 
 ];
 
 const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 pb-4 rounded-md">
+    <aside className="w-[100%] pb-4 rounded-md">
       <nav className="flex flex-col space-y-1">
         {items.map((item) => {
           // Special case: highlight /status and dynamic /status/*
@@ -34,7 +36,7 @@ const Sidebar = () => {
               key={item.href}
               href={item.href}
               className={clsx(
-                'text-sm font-medium px-3 py-5 rounded-md transition-colors',
+                'text-sm font-bold px-3 py-3 rounded-md transition-colors',
                 isActive
                   ? 'bg-blue-100 text-blue-600 border-l-2 border-blue-600'
                   : 'text-gray-800 hover:bg-gray-100'
