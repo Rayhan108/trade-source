@@ -98,7 +98,7 @@ export default function RealRequests() {
                 {/* Message Button */}
                 <button className="w-full border border-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-4 rounded-lg font-medium transition-colors duration-200">
                   Message
-                </button>
+                </button> 
               </div>
             ))}
           </div>

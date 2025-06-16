@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import statImg from '../../../assests/stats.png'
+import Link from 'next/link';
 const Stats = () => {
       const stats = [
     { number: "5000+", label: "Leads a day" },
@@ -48,10 +49,12 @@ const Stats = () => {
                 Whether you're looking to expand your business, gain more exposure, or connect with clients in need of
                 your expertise, our platform offers the tools you need to succeed.
               </p>
+<Link href={'/serviceDetails'}>
 
-              <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200 shadow-lg hover:shadow-xl">
+              <button className="w-full my-5 sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200 shadow-lg hover:shadow-xl">
                 Sign up for pro
               </button>
+</Link>
             </div>
           </div>
         </div>
