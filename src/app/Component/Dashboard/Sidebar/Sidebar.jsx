@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
-const items = [
+// Define user and contractor routes
+const userItems = [
   { label: 'Profile', href: '/myProfile' },
   { label: 'Password', href: '/password' },
   { label: 'Notification', href: '/notification' },
@@ -18,14 +19,30 @@ const items = [
   { label: 'Delete Account', href: '/delete' }, 
 ];
 
+const contractorItems = [
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Your Service", href: "/yourServices" },
+  { label: "Profile", href: "/profile" },
+  { label: "Notification", href: "/notification" },
+  { label: "Refferal", href: "/refferal" },
+  { label: "License Verification", href: "/licenseVerification" },
+  { label: "Project Management", href: "/projectManagement" },
+  { label: "Billings", href: "/billings" },
+  { label: "Delete Account", href: "/delete" },
+];
+
 const Sidebar = () => {
   const pathname = usePathname();
 
+  // 🔁 Replace this with actual role fetching logic (e.g., from context or auth)
+  const role = 'contractor'; // or 'user'
+
+  const items = role === 'contractor' ? contractorItems : userItems;
+
   return (
-    <aside className="w-[100%] pb-4 rounded-md">
+    <aside className="w-full pb-4 rounded-md">
       <nav className="flex flex-col space-y-1">
         {items.map((item) => {
-          // Special case: highlight /status and dynamic /status/*
           const isStatusActive =
             item.href === '/status' && pathname.startsWith('/status');
 

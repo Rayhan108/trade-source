@@ -15,7 +15,7 @@ export default function MaxLead() {
   return (
  <div>
     <h1 className="text-2xl font-bold max-w-4xl mx-auto my-12">Maximise your leads</h1>
-       <div className="max-w-4xl mx-auto p-6 bg-white">
+       <div className="max-w-4xl mx-auto p-6 bg-white"> 
       {/* Service you provide section */}
       <div className="mb-8">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Service you provide</h2>

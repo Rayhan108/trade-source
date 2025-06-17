@@ -21,10 +21,10 @@ const navItems = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
+const role = 'contractor'
   // Simulate user logged in state (replace with your auth logic)
-  const userLoggedIn = false;
-
+  const userLoggedIn = true;
+  const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
   return (
     <nav
       className={` bg-white lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}
@@ -98,7 +98,7 @@ export default function Navbar() {
                   <IoNotificationsOutline size={24} />
                 </div>
               </Link>
-              <Link href={"/myProfile"}>
+              <Link href={profileLink}>
                 <button className="flex items-center space-x-2 cursor-pointer">
                   <Image
                     src={user}
@@ -219,16 +219,18 @@ export default function Navbar() {
                     </div>
                   </Link>
                   <div className="flex items-center space-x-2">
-                    <Image
-                      src={user}
-                      alt="User Avatar"
-                      width={30}
-                      height={30}
-                      className="rounded-full w-8 h-8"
-                    />
-                    <span className="text-sm font-medium text-gray-700">
-                      Hi, Julie
-                    </span>
+                     <Link href={profileLink}>
+                <button className="flex items-center space-x-2 cursor-pointer">
+                  <Image
+                    src={user}
+                    alt="User Avatar"
+                    width={30}
+                    height={30}
+                    className="rounded-full w-10"
+                  />
+                  <span className="font-medium text-gray-700">Hi, Julie</span>
+                </button>
+              </Link>
                   </div>
                 </div>
               </>
