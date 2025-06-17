@@ -62,7 +62,7 @@ const ChooseServicePage = () => {
               </p>
               <hr className="border-gray-300" />
             </div>
-
+ 
             {/* Project Options Section */}
             <div className="space-y-6">
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
