@@ -7,6 +7,7 @@ import userImg from '../../../assests/user.png'
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { IoCameraOutline } from "react-icons/io5";
+import Link from "next/link";
 const YourDetailsPage = () => {
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -129,11 +130,15 @@ const YourDetailsPage = () => {
                 <button className="text-sm border border-black px-3 py-1 rounded-2xl">200+</button>
               </div>
 </div>
+<div>
+    <Link href={'/maxLead'}>
 
         <button htmlType="submit" className="bg-blue-600 py-2  text-white w-full rounded-xl">
    Continue
         </button>
+</Link>
 
+</div>
     </div>
   </form>
 
