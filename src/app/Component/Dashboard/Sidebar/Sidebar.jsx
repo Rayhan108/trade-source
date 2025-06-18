@@ -25,7 +25,7 @@ const contractorItems = [
   { label: "Profile", href: "/constractorProfile" },
   { label: "Notification", href: "/notification" },
   { label: "Refferal", href: "/referal" },
-  { label: "Document Verification", href: "/documentVerification"},
+  { label: "Document Verification", href: "/documentVerification" },
   { label: "Project Management", href: "/projectManagement" },
   { label: "Billings", href: "/billings" },
   { label: "Delete Account", href: "/delete" },
@@ -33,9 +33,8 @@ const contractorItems = [
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const role = 'contractor'; // Or 'user'
 
-  // Replace with real logic later
-  const role = 'contractor'; // or 'user'
   const items = role === 'contractor' ? contractorItems : userItems;
 
   return (
@@ -46,11 +45,18 @@ const Sidebar = () => {
             item.href === '/yourServices' &&
             (pathname === '/yourServices' || pathname === '/createService');
 
+          const isDocumentVerificationActive =
+            item.href === '/documentVerification' &&
+            (pathname === '/documentVerification' || pathname === '/doneVerification');
+
           const isStatusActive =
             item.href === '/status' && pathname.startsWith('/status');
 
           const isActive =
-            isYourServiceActive || isStatusActive || pathname === item.href;
+            isYourServiceActive ||
+            isDocumentVerificationActive ||
+            isStatusActive ||
+            pathname === item.href;
 
           return (
             <Link

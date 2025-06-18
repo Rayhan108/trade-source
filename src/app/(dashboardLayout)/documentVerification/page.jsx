@@ -4,12 +4,13 @@ import Image from "next/image"
 import { useState } from "react"
 import { FiPlus, FiChevronDown } from "react-icons/fi"
 import license from '../../../assests/Licenses 1.png'
+import { useRouter } from "next/navigation"
 export default function DocumentVerification() {
   const [selectedDocumentType, setSelectedDocumentType] = useState("Plumbing Licenses")
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [frontLicense, setFrontLicense] = useState(null)
   const [backLicense, setBackLicense] = useState(null)
-
+const router = useRouter()
   const documentTypes = [
     "Plumbing Licenses",
     "Electrical Licenses",
@@ -26,6 +27,7 @@ export default function DocumentVerification() {
       backLicense: backLicense,
     }
     console.log("License Verification Data:", formData)
+    router.push('/doneVerification')
   }
 
   const handleFrontUpload = (e) => {
@@ -50,7 +52,7 @@ export default function DocumentVerification() {
         {/* Left Column - Form */}
         <div className=" rounded-lg p-6 sm:p-8">
           {/* Form Title and Description */}
-          <div className="mb-8">
+          <div className="mb-8 border-b border-black pb-3">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Verify Your License/Insurance
             </h1>
