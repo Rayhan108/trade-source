@@ -22,7 +22,7 @@ const userItems = [
 const contractorItems = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Your Service", href: "/yourServices" },
-  { label: "Profile", href: "/profile" },
+  { label: "Profile", href: "/constractorProfile" },
   { label: "Notification", href: "/notification" },
   { label: "Refferal", href: "/refferal" },
   { label: "License Verification", href: "/licenseVerification" },
@@ -34,19 +34,23 @@ const contractorItems = [
 const Sidebar = () => {
   const pathname = usePathname();
 
-  // 🔁 Replace this with actual role fetching logic (e.g., from context or auth)
+  // Replace with real logic later
   const role = 'contractor'; // or 'user'
-
   const items = role === 'contractor' ? contractorItems : userItems;
 
   return (
     <aside className="w-full pb-4 rounded-md">
       <nav className="flex flex-col space-y-1">
         {items.map((item) => {
+          const isYourServiceActive =
+            item.href === '/yourServices' &&
+            (pathname === '/yourServices' || pathname === '/createService');
+
           const isStatusActive =
             item.href === '/status' && pathname.startsWith('/status');
 
-          const isActive = pathname === item.href || isStatusActive;
+          const isActive =
+            isYourServiceActive || isStatusActive || pathname === item.href;
 
           return (
             <Link
