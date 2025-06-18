@@ -42,7 +42,7 @@ export default function NotificationSettings() {
   );
 
   return (
-    <div className="bg-white p-6 min-h-screen rounded-lg border w-full max-w-2xl mx-auto  h-[450px]">
+    <div className="bg-white p-6 min-h-screen rounded-lg border w-full max-w-7xl mx-auto  h-[450px]">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">Notifications</h2>
       <div className="border-b mb-6"></div>
 

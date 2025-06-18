@@ -24,7 +24,7 @@ export default function ContractorProfile() {
   useEffect(() => {
     if (phone.startsWith("880")) {
       const localNumber = phone.slice(3);
-      if (localNumber.length !== 9) {
+      if (localNumber.length !== 10) {
         setPhoneError("Bangladesh phone number must be exactly 9 digits");
       } else {
         setPhoneError("");
