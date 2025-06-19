@@ -1,11 +1,12 @@
-"use client"
-import { useState } from "react"
-import { FiMapPin, FiCalendar } from "react-icons/fi"
-import { HiMiniHomeModern } from "react-icons/hi2"
-import Image from "next/image"
-import userImg from '../../../assests/user.png'
+"use client";
+import { useState } from "react";
+import { FiMapPin, FiCalendar } from "react-icons/fi";
+import { HiMiniHomeModern } from "react-icons/hi2";
+import Image from "next/image";
+import userImg from "../../../assests/user.png";
 import { IoCallSharp } from "react-icons/io5";
 import { MdOutlineMessage } from "react-icons/md";
+import { useRouter } from "next/navigation";
 const projectData = [
   {
     id: 1,
@@ -17,7 +18,7 @@ const projectData = [
     propertyType: "Apartment",
     price: "$120",
     date: "2/5/25",
-    status: "Pending"
+    status: "Pending",
   },
   {
     id: 2,
@@ -29,7 +30,7 @@ const projectData = [
     propertyType: "Apartment",
     price: "$120",
     date: "29/4/25",
-    status: "Accepted"
+    status: "Accepted",
   },
   {
     id: 3,
@@ -41,7 +42,7 @@ const projectData = [
     propertyType: "Apartment",
     price: "$120",
     date: "23/4/25",
-    status: "Declined"
+    status: "Declined",
   },
   {
     id: 4,
@@ -53,20 +54,23 @@ const projectData = [
     propertyType: "Apartment",
     price: "$120",
     date: "2/4/25",
-    status: "Accepted"
+    status: "Accepted",
   },
-]
+];
 
 export default function ProjectManagement() {
-  const [activeTab, setActiveTab] = useState("Project Requests")
-  const tabs = ["Project Requests", "Quote Management", "Project Status"]
-
-  const handleViewDetails = (id) => console.log("View details", id)
-  const handleReject = (id) => console.log("Reject", id)
-  const handleAccept = (id) => console.log("Accept", id)
-  const handleUpdateOffer = (id) => console.log("Update offer", id)
-  const handleResendOffer = (id) => console.log("Resend offer", id)
-  const handleMessageClient = (id) => console.log("Message client", id)
+  const [activeTab, setActiveTab] = useState("Project Requests");
+  const tabs = ["Project Requests", "Quote Management", "Project Status"];
+const router = useRouter();
+  const handleViewDetails = (id) => {
+    console.log("View details", id)  
+  router.push(`/projectManagement/${id}`)
+  };
+  const handleReject = (id) => console.log("Reject", id);
+  const handleAccept = (id) => console.log("Accept", id);
+  const handleUpdateOffer = (id) => console.log("Update offer", id);
+  const handleResendOffer = (id) => console.log("Resend offer", id);
+  const handleMessageClient = (id) => console.log("Message client", id);
 
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white min-h-screen">
@@ -74,7 +78,7 @@ export default function ProjectManagement() {
 
       {/* Tabs */}
       <div className="flex gap-2 mb-6">
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -102,20 +106,21 @@ export default function ProjectManagement() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {projectData.map(project => (
+              {projectData.map((project) => (
                 <tr key={project.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-start gap-4">
- <div className="w-[25%] flex flex-col justify-center items-center">
-                       <Image
-                        src={project.avatar}
-                        alt={project.client}
-                        className="w-12 h-12 rounded-full"
-                      />
-                           <div className="font-semibold mt-1 text-gray-900">{project.client}</div>
- </div>
+                      <div className="w-[25%] flex flex-col justify-center items-center">
+                        <Image
+                          src={project.avatar}
+                          alt={project.client}
+                          className="w-12 h-12 rounded-full"
+                        />
+                        <div className="font-semibold mt-1 text-gray-900">
+                          {project.client}
+                        </div>
+                      </div>
                       <div>
-                   
                         <div className="text-sm">{project.service}</div>
                         <div className="flex gap-2 items-center text-sm text-gray-500">
                           <FiCalendar className="text-gray-400" />
@@ -132,7 +137,9 @@ export default function ProjectManagement() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-lg font-semibold">{project.price}</td>
+                  <td className="px-6 py-4 text-lg font-semibold">
+                    {project.price}
+                  </td>
                   <td className="px-6 py-4 text-lg">{project.date}</td>
                   <td className="px-6 py-4 space-y-2">
                     <button
@@ -175,23 +182,31 @@ export default function ProjectManagement() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {projectData.map(project => (
+              {projectData.map((project) => (
                 <tr key={project.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 flex items-start gap-4">
-                  <div className="w-[50%] flex flex-col justify-center items-center">
-                       <Image
+                    <div className="w-[50%] flex flex-col justify-center items-center">
+                      <Image
                         src={project.avatar}
                         alt={project.client}
                         className="w-12 h-12 rounded-full"
                       />
-                           <div className="font-semibold mt-1 text-gray-900">{project.client}</div>
- </div>
-         
+                      <div className="font-semibold mt-1 text-gray-900">
+                        {project.client}
+                      </div>
+                    </div>
+
                     <div>
-                      <div className="font-semibold text-gray-900">{project.client}</div>
+                      <div className="font-semibold text-gray-900">
+                        {project.client}
+                      </div>
                       <div className="text-sm">{project.service}</div>
-                      <div className="text-sm text-gray-500">{project.address}</div>
-                      <div className="text-sm text-gray-500">{project.propertyType}</div>
+                      <div className="text-sm text-gray-500">
+                        {project.address}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {project.propertyType}
+                      </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
@@ -248,64 +263,66 @@ export default function ProjectManagement() {
       )}
 
       {activeTab === "Project Status" && (
-  <div className="overflow-x-auto">
-    <table className="w-full table-auto">
-      <thead>
-        <tr className="bg-green-200">
-          <th className="px-6 py-3 text-left">Clients</th>
-          <th className="px-6 py-3 text-left">Service</th>
-          <th className="px-6 py-3 text-left">Status</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y">
-        {projectData.map((project) => (
-          <tr key={project.id} className="hover:bg-gray-50">
-            <td className="px-6 py-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={project.avatar}
-                  alt={project.client}
-                  className="w-10 h-10 rounded-full"
-                />
-                <div>
-                  <div className="font-semibold text-gray-900">{project.client}</div>
-                  <div className="text-sm text-gray-500">Omaha, NE</div>
-                </div>
-                {/* You can replace icons here as per your actual use */}
-                <div className="flex gap-2 text-blue-500 ">
-                  <IoCallSharp  className="w-6 h-6 text-white  bg-blue-600 rounded-full p-1" />
-                  <MdOutlineMessage  className="w-6 h-6 text-white  bg-blue-600 rounded-full p-1" />
-                </div>
-              </div>
-            </td>
-            <td className="px-6 py-4">{project.service}</td>
-            <td className="px-6 py-4">
-              <span
-                className={`font-semibold ${
-                  project.status === "Accepted"
-                    ? "text-green-500"
-                    : project.status === "Declined"
-                    ? "text-red-500"
-                    : project.status === "Pending"
-                    ? "text-yellow-500"
-                    : "text-gray-500"
-                }`}
-              >
-                {project.status === "Accepted"
-                  ? "Scheduled"
-                  : project.status === "Declined"
-                  ? "Declined"
-                  : project.status === "Pending"
-                  ? "Contacted"
-                  : project.status}
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto">
+            <thead>
+              <tr className="bg-green-200">
+                <th className="px-6 py-3 text-left">Clients</th>
+                <th className="px-6 py-3 text-left">Service</th>
+                <th className="px-6 py-3 text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {projectData.map((project) => (
+                <tr key={project.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src={project.avatar}
+                        alt={project.client}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <div>
+                        <div className="font-semibold text-gray-900">
+                          {project.client}
+                        </div>
+                        <div className="text-sm text-gray-500">Omaha, NE</div>
+                      </div>
+                      {/* You can replace icons here as per your actual use */}
+                      <div className="flex gap-2 text-blue-500 ">
+                        <IoCallSharp className="w-6 h-6 text-white  bg-blue-600 rounded-full p-1" />
+                        <MdOutlineMessage className="w-6 h-6 text-white  bg-blue-600 rounded-full p-1" />
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{project.service}</td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`font-semibold ${
+                        project.status === "Accepted"
+                          ? "text-green-500"
+                          : project.status === "Declined"
+                          ? "text-red-500"
+                          : project.status === "Pending"
+                          ? "text-yellow-500"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {project.status === "Accepted"
+                        ? "Scheduled"
+                        : project.status === "Declined"
+                        ? "Declined"
+                        : project.status === "Pending"
+                        ? "Contacted"
+                        : project.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
-  )
+  );
 }
