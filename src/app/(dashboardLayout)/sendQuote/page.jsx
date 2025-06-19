@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Calendar, MapPin, Building, CalendarDays, Clock, Plus } from "lucide-react"
 import Image from "next/image"
 import DatePicker from "react-datepicker"
+import TimePicker from 'react-time-picker'
+import { Modal } from 'antd'
 import "react-datepicker/dist/react-datepicker.css"
 
 export default function SendQuote() {
@@ -13,16 +15,12 @@ export default function SendQuote() {
   const [minPrice, setMinPrice] = useState(10)
   const [maxPrice, setMaxPrice] = useState(1000)
   const [showCalendar, setShowCalendar] = useState(false)
-  const [showTimePicker, setShowTimePicker] = useState(false) // For showing time picker
+  const [showTimePicker, setShowTimePicker] = useState(false) // For showing time picker modal
   const [time, setTime] = useState("10:00") // Default time value
   const [date, setDate] = useState(new Date())
 
   const dateOptions = ["Today", "Within 3 day", "Within a week"]
-  const timeOptions = [
-    "Morning (8 AM - 12 PM)", 
-    "Afternoon (12 PM - 5 PM)", 
-    "Evening (5 PM - 9 PM)"
-  ]
+  const timeOptions = ["Morning (8 AM - 12 PM)", "Afternoon (12 PM - 5 PM)", "Evening (5 PM - 9 PM)"]
 
   const handleDragOver = (e) => {
     e.preventDefault()
@@ -45,6 +43,14 @@ export default function SendQuote() {
   const handleTimeChange = (newTime) => {
     setTime(newTime)
     setShowTimePicker(false) // Hide the time picker after selection
+  }
+
+  const openTimePicker = () => {
+    setShowTimePicker(true) // Show the modal for time picker
+  }
+
+  const closeTimePicker = () => {
+    setShowTimePicker(false) // Close the modal
   }
 
   return (
@@ -150,39 +156,14 @@ export default function SendQuote() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium text-gray-900">Update Time</h3>
           <button
-            onClick={() => setShowTimePicker(!showTimePicker)}
+            onClick={openTimePicker} // Open the time picker modal
             className="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
           >
             <Clock className="w-4 h-4" />
             <span>Pick a time</span>
           </button>
         </div>
-
-        {showTimePicker && (
-          <div className="bg-white shadow-lg rounded-lg p-6 w-72 absolute z-10 top-16 right-0">
-            <h4 className="text-lg font-medium text-gray-900 mb-4">Select Time</h4>
-            <div className="space-y-3">
-              {timeOptions.map((option) => (
-                <button
-                  key={option}
-                  onClick={() => {
-                    setSelectedTime(option)
-                    setShowTimePicker(false)
-                  }}
-                  className={`w-full px-6 py-2 rounded-md text-left transition-colors border-2 ${
-                    selectedTime === option
-                      ? "border-blue-500 bg-blue-50 text-blue-700"
-                      : "border-gray-300 text-gray-700 hover:bg-blue-50"
-                  }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {timeOptions.map((option) => (
             <button
               key={option}
@@ -269,6 +250,20 @@ export default function SendQuote() {
           Approve
         </button>
       </div>
+
+      {/* Ant Design Modal for Time Picker */}
+      <Modal
+        title="Select Time"
+        visible={showTimePicker}
+        onCancel={closeTimePicker} // Close modal on cancel
+        footer={null}
+      >
+        <TimePicker
+          onChange={handleTimeChange}
+          value={time}
+          className="border-2 border-gray-200 rounded-lg p-3"
+        />
+      </Modal>
     </div>
   )
 }
