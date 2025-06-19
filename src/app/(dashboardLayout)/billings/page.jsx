@@ -133,7 +133,7 @@ export default function TransactionHistory() {
         <p className="text-xs text-gray-500 mt-1">
           *Account balances automatically update when a task is completed.
         </p>
-      </div>
+      </div> 
 
       <input
         type="text"

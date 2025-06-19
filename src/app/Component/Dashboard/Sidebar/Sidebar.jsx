@@ -28,6 +28,8 @@ const contractorItems = [
   { label: "Document Verification", href: "/documentVerification" },
   { label: "Project Management", href: "/projectManagement" },
   { label: "Billings", href: "/billings" },
+  { label: "VIP Contractor", href: "/vipContractor" },
+   { label: 'Ask a Pro', href: '/askAPro' }, 
   { label: "Delete Account", href: "/delete" },
 ];
 
