@@ -48,11 +48,11 @@ const Sidebar = () => {
           const isDocumentVerificationActive =
             item.href === '/documentVerification' &&
             (pathname === '/documentVerification' || pathname === '/doneVerification');
-   
+   const isQuoteActive =item.href === '/projectManagement' && (pathname === '/projectManagement' || pathname === '/sendQuote')
           const isStatusActive =
             item.href === '/status' && pathname.startsWith('/status');
           const isProjectDetailsActive =
-            item.href === '/projectManagement' && pathname.startsWith('/projectManagement');
+            item.href === '/projectManagement'  && pathname.startsWith('/projectManagement') ;
   
 
           const isActive =
@@ -60,6 +60,7 @@ const Sidebar = () => {
             isDocumentVerificationActive ||
             isStatusActive ||
             isProjectDetailsActive ||
+            isQuoteActive ||
             pathname === item.href;
 
           return (

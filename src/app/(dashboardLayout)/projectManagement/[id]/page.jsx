@@ -4,6 +4,7 @@ import userImg from "../../../../assests/user.png"
 import { Calendar, MapPin, Building, FileText, MoreHorizontal, Upload, X } from "lucide-react"
 import { useState } from "react"
 import { jsPDF } from "jspdf"  // Import jsPDF
+import Link from "next/link"
 
 export default function ProjectDetails() {
   const [showDropdown, setShowDropdown] = useState(false)
@@ -60,9 +61,12 @@ export default function ProjectDetails() {
             </p>
           </div>
         </div>
+        <Link href={'/sendQuote'}>
+        
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
           Message
         </button>
+        </Link>
       </div>
 
       {/* Main Content */}
