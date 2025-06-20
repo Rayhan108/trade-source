@@ -20,7 +20,7 @@ const DashboardPage = () => {
         <div className="bg-gray-100 rounded-md p-4 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <p className="text-lg font-medium text-gray-800">Public Profile</p>
-            <Link href="#" className="text-sm text-blue-600 hover:underline">View All</Link>
+            <Link href="/contractorProfileDet" className="text-sm text-blue-600 hover:underline">View </Link>
           </div>
           <div className="mt-4 ">
         <div>

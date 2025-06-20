@@ -1,22 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    
-  }, 
+  experimental: {},
   images: {
     remotePatterns: [
+      
       {
-        protocol: "http",
-        hostname: "**",
+        protocol: "https",
+        hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com",
       },
-      // {
-      //   protocol: "http",  // Use HTTP for local IPs or servers
-      //   hostname: "10.0.60.55",  // Allow the local server IP
-      // },
+        {
+        protocol: "https",
+        hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com",
+      },
     ],
-    domains: ['res.cloudinary.com','flagcdn.com'],
+    domains: [
+      "res.cloudinary.com",
+      "flagcdn.com",
+      "hebbkx1anhila5yf.public.blob.vercel-storage.com",
+    ],
   },
 };
-   
 
 export default nextConfig;
