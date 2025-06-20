@@ -28,7 +28,7 @@ const proContractor = true;
     {
       id: "berlie",
       name: "Berlie Tuscani",
-      role: "Handyman, Phoenix",
+      role: "Handyman, Phoenix", 
       time: "Thu",
       avatar: userImg2,
       online: false,
@@ -37,7 +37,7 @@ const proContractor = true;
       id: "abd",
       name: "Abd Jacknish",
       role: "Handyman, Phoenix",
-      time: "08/09",
+      time: "08/09", 
       avatar: userImg3,
       online: false,
     },
