@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import logo from "../../../assests/navLogo.png";
-import user from "../../../assests/user.png";
+import userImg from "../../../assests/user.png";
 import styles from "../../styles.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -76,7 +76,7 @@ const role = 'contractor'
             >
               Get $10
             </Link>
-            <div className="border flex justify-evenly lg:gap-2 xl:gap-2 2xl:gap-5 items-center border-gray-300 rounded-md shadow-md lg:px-3 xl:px-8 py-2">
+            <div className="border flex justify-evenly lg:gap-2 xl:gap-2 2xl:gap-3  items-center border-gray-300 rounded-md shadow-md lg:px-3 xl:px-8 py-2">
               <Link href="/inbox">
                 <div
                   className={`p-2 border border-black rounded-full cursor-pointer ${
@@ -102,7 +102,7 @@ const role = 'contractor'
               <Link href={profileLink}>
                 <button className="flex items-center space-x-2 cursor-pointer">
                   <Image
-                    src={user}
+                    src={userImg}
                     alt="User Avatar"
                     width={30}
                     height={30}
@@ -111,10 +111,13 @@ const role = 'contractor'
                   <span className="font-medium text-gray-700">Hi, Julie</span>
                 </button>
               </Link>
-                        <button onClick={()=>setUser(false)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
+         <div>
+                             <button onClick={()=>setUser(false)} className="bg-blue-600 text-white px-1 py-2 rounded hover:bg-blue-700 w-full text-center">
              {    user?'Login':'Logout'}
                 </button>
+         </div>
             </div>
+        
           </>
         ) : (
           <>
