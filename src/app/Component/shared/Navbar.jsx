@@ -20,10 +20,11 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user,setUser]=useState(true)
   const pathname = usePathname();
 const role = 'contractor'
   // Simulate user logged in state (replace with your auth logic)
-  const userLoggedIn = true;
+  const userLoggedIn = user;
   const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
   return (
     <nav
@@ -110,6 +111,9 @@ const role = 'contractor'
                   <span className="font-medium text-gray-700">Hi, Julie</span>
                 </button>
               </Link>
+                        <button onClick={()=>setUser(false)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
+             {    user?'Login':'Logout'}
+                </button>
             </div>
           </>
         ) : (
@@ -125,6 +129,9 @@ const role = 'contractor'
               Become a Pro
             </button>
                </Link>
+                         <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
+             {    user?'Login':'Logout'}
+                </button>
           </>
         )}
       </div>
@@ -231,6 +238,9 @@ const role = 'contractor'
                   <span className="font-medium text-gray-700">Hi, Julie</span>
                 </button>
               </Link>
+                <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
+             {    user?'Login':'Logout'}
+                </button>
                   </div>
                 </div>
               </>
@@ -244,7 +254,11 @@ const role = 'contractor'
                 <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
                   Become a Pro
                 </button>
+                          <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
+             {    user?'Login':'Logout'}
+                </button>
               </>
+              
             )}
           </li>
         </ul>
