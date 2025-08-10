@@ -22,7 +22,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user,setUser]=useState(true)
   const pathname = usePathname();
-const role = 'contractor'
+const role = 'user'
   // Simulate user logged in state (replace with your auth logic)
   const userLoggedIn = user;
   const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';

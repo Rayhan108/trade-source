@@ -1,16 +1,15 @@
-// "use client";
+"use client";
 
-// import UserProvider from "@/context/UserContext";
-// import StoreProvider from "./StoreProvider";
-
+import StoreProvider from "./StoreProvider";
 
 
-// const Providers = ({ children }) => {
-//   return (
-//     <UserProvider>
-//       <StoreProvider>{children}</StoreProvider>
-//     </UserProvider>
-//   );
-// };
 
-// export default Providers;
+const Providers = ({ children }) => {
+  return (
+ 
+      <StoreProvider>{children}</StoreProvider>
+ 
+  );
+};
+
+export default Providers;
