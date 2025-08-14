@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { LuMessageSquareMore } from "react-icons/lu";
 import { useAppSelector } from "../../../redux/hooks";
-import { selectCurrentUser } from "../../../redux/features/auth/authSlice";
+import { selectCurrentUser, setUser } from "../../../redux/features/auth/authSlice";
 
 const navItems = [
   { label: "Home", href: "/homepage" },
@@ -194,7 +194,7 @@ const role = 'user'
 
           {/* Mobile buttons */}
           <li className="flex flex-col px-6 py-3 space-y-2">
-            {userLoggedIn ? (
+            {user? (
               <>
                 <Link
                   href="/refer"
