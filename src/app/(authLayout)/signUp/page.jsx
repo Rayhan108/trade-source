@@ -11,12 +11,16 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import Link from "next/link";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { message } from "antd";
+import { useSignUpMutation } from "@/redux/features/auth/authApi";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
+    const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
-
+  const [signUp] = useSignUpMutation();
   const {
     register,
     handleSubmit,
@@ -39,14 +43,26 @@ const SignUpPage = () => {
     }
   }, [phone]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     if (phoneError) {
-      alert("Please fix phone number errors before submitting.");
+      message.error("Please fix phone number errors before submitting.");
       return;
     }
     data.phoneNumber = phone;
     console.log("Form Data:", data);
     // Your sign-up logic here
+
+    try {
+      const response = await signUp(data).unwrap();
+      message.success(response?.message)
+     router.push("/signIn")
+      console.error("Signup response:", response?.message);
+      // Redirect user or show success message
+    } catch (error) {
+      console.error("Signup failed:", error);
+
+      // Show error to user
+    }
   };
 
   return (

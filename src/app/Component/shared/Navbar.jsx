@@ -8,6 +8,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { LuMessageSquareMore } from "react-icons/lu";
+import { useAppSelector } from "../../../redux/hooks";
+import { selectCurrentUser } from "../../../redux/features/auth/authSlice";
 
 const navItems = [
   { label: "Home", href: "/homepage" },
@@ -20,11 +22,11 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [user,setUser]=useState(true)
+  // const [user,setUser]=useState(true)
   const pathname = usePathname();
 const role = 'user'
   // Simulate user logged in state (replace with your auth logic)
-  const userLoggedIn = user;
+  const user = useAppSelector(selectCurrentUser);
   const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
   return (
     <nav
@@ -64,7 +66,7 @@ const role = 'user'
 
       {/* Buttons */}
       <div className="hidden lg:flex lg:gap-3 items-center xl:space-x-2 2xl:space-x-6 ">
-        {userLoggedIn ? (
+        {user ? (
           <>
             <Link
               href="/refer"
@@ -111,11 +113,11 @@ const role = 'user'
                   <span className="font-medium text-gray-700">Hi, Julie</span>
                 </button>
               </Link>
-         <div>
+         {/* <div>
                              <button onClick={()=>setUser(false)} className="bg-blue-600 text-white px-1 py-2 rounded hover:bg-blue-700 w-full text-center">
              {    user?'Login':'Logout'}
                 </button>
-         </div>
+         </div> */}
             </div>
         
           </>

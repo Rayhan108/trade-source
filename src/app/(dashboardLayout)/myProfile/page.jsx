@@ -2,21 +2,25 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image"
-import { Modal, Input, Button } from 'antd'
+import { Modal, Input, Button, message } from 'antd'
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa"
 import userImg from '../../../assests/user.png'
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { RiEyeCloseLine } from "react-icons/ri";
 import { IoCameraOutline } from "react-icons/io5";
+import { useAppDispatch } from "../../../redux/hooks";
+import { logout } from "../../../redux/features/auth/authSlice";
+import { usePathname, useRouter } from "next/navigation";
+import { setCookie } from "nookies";
+import { protectedRoutes } from "../../../constants";
 export default function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
+  const dispatch = useAppDispatch();
   const showModal = () => {
     setIsModalOpen(true)
   }
-
+  const router = useRouter();
+    const pathname = usePathname();
   const handleOk = () => {
     setIsModalOpen(false)
     // Submit logic here
@@ -25,7 +29,19 @@ export default function ProfilePage() {
   const handleCancel = () => {
     setIsModalOpen(false)
   }
+  // logout
+  const handleLogout = () => {
+    dispatch(logout());
 
+    // Delete cookie manually
+    router.push("/");
+    setCookie(null, 'user', '', { path: '/', maxAge: -1 });
+    message.success("Logout Success");
+    if(protectedRoutes.some((route)=>pathname.match(route))){
+      router.push("/")
+    }
+   
+  };
   const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -115,7 +131,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Logout Button */}
-          <button className="w-[30%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4">Logout</button>
+          <button onClick={()=>handleLogout()} className="w-[30%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4">Logout</button>
         </div>
       </div>
 
