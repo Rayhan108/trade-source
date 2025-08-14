@@ -12,8 +12,9 @@ import Link from "next/link";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { message } from "antd";
-import { useSignUpMutation } from "@/redux/features/auth/authApi";
+
 import { useRouter } from "next/navigation";
+import { useSignUpMutation } from "../../../redux/features/auth/authApi";
 
 const SignUpPage = () => {
     const router = useRouter();
@@ -31,8 +32,8 @@ const SignUpPage = () => {
   useEffect(() => {
     if (phone.startsWith("880")) {
       const localNumber = phone.slice(3);
-      if (localNumber.length !== 9) {
-        setPhoneError("Bangladesh phone number must be exactly 9 digits");
+      if (localNumber.length !== 10) {
+        setPhoneError("Bangladesh phone number must be exactly 10 digits");
       } else {
         setPhoneError("");
       }
@@ -48,7 +49,7 @@ const SignUpPage = () => {
       message.error("Please fix phone number errors before submitting.");
       return;
     }
-    data.phoneNumber = phone;
+    data.phone = phone;
     console.log("Form Data:", data);
     // Your sign-up logic here
 
@@ -128,6 +129,18 @@ const SignUpPage = () => {
                 {errors.lastName.message}
               </p>
             )}
+            {/* Address*/}
+            <input
+              type="text"
+              placeholder="Type your address"
+              {...register("address", { required: "Address is required" })}
+              className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.address && (
+              <p className="text-red-600 text-sm mt-1">
+                {errors.address.message}
+              </p>
+            )}
 
             {/* Email */}
             <input
@@ -153,7 +166,7 @@ const SignUpPage = () => {
                 value={phone}
                 onChange={setPhone}
                 inputProps={{
-                  name: "phoneNumber",
+                  name: "phone",
                   required: true,
                   autoFocus: false,
                 }}
@@ -163,9 +176,9 @@ const SignUpPage = () => {
                 dropdownClass="rounded-md"
                 specialLabel={""}
               />
-              {(phoneError || errors.phoneNumber) && (
+              {(phoneError || errors.phone) && (
                 <p className="text-red-600 text-sm mt-1">
-                  {phoneError || errors.phoneNumber?.message}
+                  {phone || errors.phone?.message}
                 </p>
               )}
             </div>

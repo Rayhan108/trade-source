@@ -10,9 +10,34 @@ import {  AiOutlineEyeInvisible } from 'react-icons/ai';
 import { RiEyeCloseLine } from "react-icons/ri";
 
 import Link from 'next/link';
+import { message } from 'antd';
+import { useLoginMutation } from '../../../redux/features/auth/authApi';
+import { useAppDispatch } from '../../../redux/hooks';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { setCookie } from 'nookies';
+import { setUser } from '../../../redux/features/auth/authSlice';
+import { verifyToken } from '../../../utils/verifyToken';
 
 const SigninPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+
+
+
+
+
+  const [login] = useLoginMutation();
+  // eslint-disable-next-line no-unused-vars
+  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const setUserCookie = (userInfo) => {
+    setCookie("user", JSON.stringify(userInfo), {
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: "/",
+    });
+  };
+  const searchParams = useSearchParams();
+
 
   const {
     register,
@@ -20,9 +45,38 @@ const SigninPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit =async (data) => {
     console.log('Form Data:', data);
-    // Handle sign-in logic here
+    const redirect = searchParams.get("redirectPath");
+    console.log("redirect path", redirect);
+    try {
+  
+      // Handle login logic here
+      const res = await login(data).unwrap();
+      console.log("response:", res);
+      setLoading(true);
+      const user = verifyToken(res.data.accessToken) 
+      const modifiedUser = { userId: res?.data?._id,userName:res?.data?.name, user: user };
+      // console.log(modifiedUser);
+      // console.log("dispatchUser", user);
+      dispatch(setUser({ user: modifiedUser, token: res.data.accessToken }));
+      setUserCookie(res.data.accessToken);
+      setLoading(false);
+
+      message.success(res.message);
+
+      if (redirect) {
+        console.log("inside if block login page");
+        router.push(redirect);
+      }else{
+        router.push("/")
+      }
+    } catch (error) {
+      message.error(error?.data?.message || "Something went wrong");
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -134,9 +134,9 @@ const role = 'user'
               Become a Pro
             </button>
                </Link>
-                         <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
+                         {/* <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
              {    user?'Login':'Logout'}
-                </button>
+                </button> */}
           </>
         )}
       </div>
