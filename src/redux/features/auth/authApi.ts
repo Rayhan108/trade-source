@@ -44,28 +44,15 @@ const authApi = baseApi.injectEndpoints({
         // body: userInfo,
       }),
     }),
-    getSpecefiqUser: builder.query({
-      query: (id) => ({
-        url: `/user/retrive/${id}`,
-        method: "GET",  
-        // body: userInfo,
-      }),
-    }),
+ 
     getAllUser: builder.query({
-      query: (id) => ({
+      query: () => ({
         url: `/user/allUser`,
         method: "GET",  
         // body: userInfo,
       }),
     }),
-    updateSpecefiqUser: builder.mutation({
-      query: ({id,userInfo}) => ({
-        url: `/user/update/${id}`,
-        method: "PATCH",  
-        body: userInfo,
-      }),
-        invalidatesTags: ['user'],
-    }),
+
     changePass: builder.mutation({
       query: (info) => ({
         url: `/user/auth/change-password`,
@@ -79,4 +66,4 @@ const authApi = baseApi.injectEndpoints({
   }),
 });   
 
-export const { useLoginMutation,useSignUpMutation,useLazyLoginWithGoogleQuery,useLazyLoginWithFacebookQuery,useGetSpecefiqUserQuery,useUpdateSpecefiqUserMutation,useChangePassMutation,useGetOtpMutation,useVerifyOtpMutation,useGetAllUserQuery} = authApi;
+export const { useLoginMutation,useSignUpMutation,useLazyLoginWithGoogleQuery,useLazyLoginWithFacebookQuery,useChangePassMutation,useGetOtpMutation,useVerifyOtpMutation,useGetAllUserQuery} = authApi;
