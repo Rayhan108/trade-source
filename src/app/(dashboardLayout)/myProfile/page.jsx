@@ -29,7 +29,7 @@ export default function ProfilePage() {
 
  const [updateUser] = useUpdateSpecefiqUserMutation();
 console.log(" spec user---->",specUser?.data);
-
+  const role = specUser?.data?.role
   const handleCancel = () => {
     setIsModalOpen(false)
   }
@@ -111,10 +111,12 @@ console.log(" spec user---->",specUser?.data);
           Edit
         </button>
                  <Link href={"/contractorHome"}>
+               {role === 'user' && 
                
             <button className="bg-blue-600 text-white px-4 py-2 ml-1 rounded hover:bg-blue-700">
               Become a Pro
             </button>
+               }
                </Link>
         </div>
       </div>

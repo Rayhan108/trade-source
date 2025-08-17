@@ -94,11 +94,11 @@ export default function MaxLead() {
  companyName:contractorData?.companyName
    
     }
-    console.log("Data to send to DB:", modifiedData);
+    // console.log("Data to send to DB:", modifiedData);
 
     try {
       const response = await createContractor(modifiedData)
-      console.log("result create contractor--->",response);
+      // console.log("result create contractor--->",response);
       if(response.success){
 
         message.success(response?.data?.message)
@@ -109,7 +109,7 @@ export default function MaxLead() {
       }
       // Redirect user or show success message
     } catch (error) {
-      console.error("response failed:", error);
+      // console.error("response failed:", error);
 message.error(error)
       // Show error to user
     }

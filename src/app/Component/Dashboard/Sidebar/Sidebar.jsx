@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useAppSelector } from '../../../../redux/hooks';
 import { selectCurrentUser } from '../../../../redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '../../../../redux/features/user/userApi';
 
 // Define user and contractor routes
 const userItems = [
@@ -38,8 +39,10 @@ const contractorItems = [
 const Sidebar = () => {
   const pathname = usePathname();
  const user = useAppSelector(selectCurrentUser);
-//  console.log("logged user---->",user);
-  const role = user?.role
+   const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
+ console.log("logged user---->",user);
+ console.log("specefiq user---->",specUser);
+  const role = specUser?.data?.role
 
   const items = role === 'contractor' ? contractorItems : userItems;
 
