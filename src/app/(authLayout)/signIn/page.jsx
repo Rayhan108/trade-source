@@ -53,10 +53,10 @@ const SigninPage = () => {
   
       // Handle login logic here
       const res = await login(data).unwrap();
-      console.log("response:", res);
+      console.log("response--->:", res);
       setLoading(true);
       const user = verifyToken(res.data.accessToken) 
-      const modifiedUser = { userId: res?.data?._id,userName:res?.data?.name, user: user };
+      const modifiedUser = {email:data?.email, user: user };
       // console.log(modifiedUser);
       // console.log("dispatchUser", user);
       dispatch(setUser({ user: modifiedUser, token: res.data.accessToken }));

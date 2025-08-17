@@ -15,6 +15,7 @@ import { protectedRoutes } from "../../../constants";
 
 import { useGetSpecefiqUserQuery, useUpdateSpecefiqUserMutation } from "../../../redux/features/user/userApi";
 import { resetContractorData } from "../../../redux/features/contractor/contractorSlice";
+import Link from "next/link";
 export default function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const dispatch = useAppDispatch();
@@ -101,12 +102,21 @@ console.log(" spec user---->",specUser?.data);
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Profile</h1>
+        <div>
+           
         <button 
           className="px-6 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition"
           onClick={showModal}
         >
           Edit
         </button>
+                 <Link href={"/contractorHome"}>
+               
+            <button className="bg-blue-600 text-white px-4 py-2 ml-1 rounded hover:bg-blue-700">
+              Become a Pro
+            </button>
+               </Link>
+        </div>
       </div>
 
       {/* Divider */}

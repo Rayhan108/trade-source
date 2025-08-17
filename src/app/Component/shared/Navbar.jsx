@@ -29,7 +29,7 @@ const navItems = [
   { label: "Articles", href: "/article" },
 ];
 
-  const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
+  const profileLink = role === 'contractor' ? '/dashboard' :'/myProfile';
   return (
     <nav
       className={` bg-white lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}
@@ -130,12 +130,7 @@ const navItems = [
                 Log In / Sign Up
               </button>
             </Link>
-               <Link href={"/contractorHome"}>
-               
-            <button className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
-              Become a Pro
-            </button>
-               </Link>
+     
                          {/* <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
              {    user?'Login':'Logout'}
                 </button> */}
