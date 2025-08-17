@@ -20,8 +20,9 @@ export default function Navbar() {
     const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
      console.log("spec user---->",specUser?.data);
   const pathname = usePathname();
-const role = 'user'
+const role = specUser?.data?.role
   const homeLink = user ? "/homepage" : "/"; 
+
   // Simulate user logged in state (replace with your auth logic)
 const navItems = [
   { label: "Home", href:homeLink },
