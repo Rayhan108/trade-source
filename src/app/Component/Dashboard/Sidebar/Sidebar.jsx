@@ -39,7 +39,7 @@ const Sidebar = () => {
   const pathname = usePathname();
  const user = useAppSelector(selectCurrentUser);
 //  console.log("logged user---->",user);
-  const role = user.role
+  const role = user?.role
 
   const items = role === 'contractor' ? contractorItems : userItems;
 
@@ -58,9 +58,8 @@ const Sidebar = () => {
           const isStatusActive =
             item.href === '/status' && pathname.startsWith('/status');
           const isProjectDetailsActive =
-            item.href === '/projectManagement'  && pathname.startsWith('/projectManagement') ;
+            item.href === '/projectManagement'  && pathname.startsWith('/projectManagement');
   
-
           const isActive =
             isYourServiceActive ||
             isDocumentVerificationActive ||

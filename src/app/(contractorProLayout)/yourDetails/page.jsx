@@ -1,16 +1,19 @@
 'use client'
-import { useState, useEffect } from "react";
+
 import { useForm } from "react-hook-form";
-import Image from "next/image"
-import { Input, Button } from 'antd'
-import userImg from '../../../assests/user.png'
-import PhoneInput from "react-phone-input-2";
+import { Input } from 'antd'
+
 import "react-phone-input-2/lib/style.css";
-import { IoCameraOutline } from "react-icons/io5";
+
 import Link from "next/link";
+import { useAppSelector } from "../../../redux/hooks";
+import { selectCurrentContractor } from "../../../redux/features/contractor/contractorSlice";
+import { selectCurrentUser } from "../../../redux/features/auth/authSlice";
 const YourDetailsPage = () => {
-  const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+  const user = useAppSelector(selectCurrentUser);
+  console.log("user-->",user);
+  const contractorData = useAppSelector(selectCurrentContractor);
+  console.log("contractor data---->",contractorData);
 
   const {
     register,
@@ -18,28 +21,9 @@ const YourDetailsPage = () => {
     formState: { errors },
   } = useForm();
 
-  // Validate phone length for BD (+880) only
-  useEffect(() => {
-    if (phone.startsWith("880")) {
-      const localNumber = phone.slice(3);
-      if (localNumber.length !== 9) {
-        setPhoneError("Bangladesh phone number must be exactly 9 digits");
-      } else {
-        setPhoneError("");
-      }
-    } else if (phone.length < 7) {
-      setPhoneError("Phone number is required or invalid");
-    } else {
-      setPhoneError("");
-    }
-  }, [phone]);
 
   const onSubmit = (data) => {
-    if (phoneError) {
-      alert("Please fix phone number errors before submitting.");
-      return;
-    }
-    data.phoneNumber = phone;
+
     console.log("Form Data:", data);
   }
     return (
@@ -56,16 +40,7 @@ const YourDetailsPage = () => {
     {/* Form Fields */}
     <div className="flex-1 space-y-4">
       <div className="">
-        <div>
-          <label className="block text-sm font-bold mb-3 ">Your Name</label>
-          <Input
-            {...register("yourName", { required: "First name is required" })}
-            placeholder="Bessie"
-          />
-          {errors.yourName && (
-            <p className="text-red-500 text-sm ">{errors.yourName.message}</p>
-          )}
-        </div>
+
         <div>
           <label className="block text-sm font-bold mb-3 mt-5">Company Name</label>
           <Input
@@ -96,29 +71,7 @@ const YourDetailsPage = () => {
         )}
       </div>
 
-              <div className="phone-wrapper w-full">
-                 <label className="block text-sm font-bold mb-3 mt-5">Phone Number</label>
-              <PhoneInput
-                country={"bd"}
-                value={phone}
-                onChange={setPhone}
-                inputProps={{
-                  name: "phoneNumber",
-                  required: true,
-                  autoFocus: false,
-                }}
-                containerClass=""
-                inputClass="p-3 rounded-r-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                buttonClass="rounded-l-md border border-gray-300 custom-flag-button"
-                dropdownClass="rounded-md"
-                specialLabel={""}
-              />
-              {(phoneError || errors.phoneNumber) && (
-                <p className="text-red-600 text-sm mt-1">
-                  {phoneError || errors.phoneNumber?.message}
-                </p>
-              )}
-            </div>
+          
 
 <div className="">
               <label className="block text-sm font-bold mb-3 mt-5">Company size,employees</label>

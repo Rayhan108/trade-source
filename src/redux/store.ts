@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice"
+import contractorReducer from "./features/contractor/contractorSlice"
 
 import { baseApi } from "./api/baseApi";
 import storage from "redux-persist/lib/storage";
@@ -14,13 +15,14 @@ const persistConfig={
     key:"auth",
     storage
 }
-// const persistConfigCart = {
-//     key: "cart",
-//     storage,
-//   };
+const persistConfigContractor = {
+    key: "contractor",
+    storage,
+  };
   
 
 const persistedAuthReducer=persistReducer(persistConfig,authReducer)
+const persistedContractorReducer=persistReducer(persistConfigContractor,contractorReducer)
 
 
 export const makeStore = () =>{
@@ -28,6 +30,7 @@ export const makeStore = () =>{
         reducer:{
         [baseApi.reducerPath]:baseApi.reducer,
         auth:persistedAuthReducer,
+        contractor:persistedContractorReducer,
 
 
     },

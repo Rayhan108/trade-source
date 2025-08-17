@@ -14,6 +14,7 @@ import { setCookie } from "nookies";
 import { protectedRoutes } from "../../../constants";
 
 import { useGetSpecefiqUserQuery, useUpdateSpecefiqUserMutation } from "../../../redux/features/user/userApi";
+import { resetContractorData } from "../../../redux/features/contractor/contractorSlice";
 export default function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ console.log(" spec user---->",specUser?.data);
   // logout
   const handleLogout = () => {
     dispatch(logout());
-
+  dispatch(resetContractorData())
     // Delete cookie manually
     router.push("/");
     setCookie(null, 'user', '', { path: '/', maxAge: -1 });
@@ -94,8 +95,6 @@ console.log(" spec user---->",specUser?.data);
     }
   };
  
-
-
 
   return (
     <div className="w-full   min-h-screen bg-white p-6">
