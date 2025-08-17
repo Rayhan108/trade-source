@@ -1,7 +1,7 @@
 
 'use client'
 
-import Banner from "../../Component/Home/Banner";
+import Banner from "../../Component/Home/Banner"; 
 import ConstractorNear from "../../Component/Home/ConstractorNear";
 import HomeProject from "../../Component/Home/HomeProject";
 import ProjectsNear from "../../Component/Home/ProjectsNear";

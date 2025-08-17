@@ -11,8 +11,17 @@ import { LuMessageSquareMore } from "react-icons/lu";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectCurrentUser, setUser } from "../../../redux/features/auth/authSlice";
 
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+    const user = useAppSelector(selectCurrentUser);
+  // const [user,setUser]=useState(true)
+  const pathname = usePathname();
+const role = 'user'
+  const homeLink = user ? "/homepage" : "/"; 
+  // Simulate user logged in state (replace with your auth logic)
 const navItems = [
-  { label: "Home", href: "/homepage" },
+  { label: "Home", href:homeLink },
   { label: "Interior", href: "/interior" },
   { label: "Exterior", href: "/exterior" },
   { label: "Lawn & Garden", href: "/lawn" },
@@ -20,13 +29,6 @@ const navItems = [
   { label: "Articles", href: "/article" },
 ];
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  // const [user,setUser]=useState(true)
-  const pathname = usePathname();
-const role = 'user'
-  // Simulate user logged in state (replace with your auth logic)
-  const user = useAppSelector(selectCurrentUser);
   const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
   return (
     <nav
@@ -34,7 +36,7 @@ const role = 'user'
     >
       {/* Logo */}
       <div className="lg:mr-5 xl:mr-6 2xl:mr-44 mr-auto flex items-center ">
-        <Link href={"/"}>
+        <Link href={homeLink}>
           <Image
             src={logo}
             alt="Logo"
