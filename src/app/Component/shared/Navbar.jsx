@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import logo from "../../../assests/navLogo.png";
-import userImg from "../../../assests/user.png";
+// import userImg from "../../../assests/user.png";
 import styles from "../../styles.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,12 +10,15 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { LuMessageSquareMore } from "react-icons/lu";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectCurrentUser, setUser } from "../../../redux/features/auth/authSlice";
+import { useGetSpecefiqUserQuery } from "../../../redux/features/user/userApi";
 
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
     const user = useAppSelector(selectCurrentUser);
   // const [user,setUser]=useState(true)
+    const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
+     console.log("spec user---->",specUser?.data);
   const pathname = usePathname();
 const role = 'user'
   const homeLink = user ? "/homepage" : "/"; 
@@ -106,13 +109,13 @@ const navItems = [
               <Link href={profileLink}>
                 <button className="flex items-center space-x-2 cursor-pointer">
                   <Image
-                    src={userImg}
+                    src={specUser?.data?.image}
                     alt="User Avatar"
                     width={30}
                     height={30}
-                    className="rounded-full w-10"
+                    className="rounded-full w-10 h-10 "
                   />
-                  <span className="font-medium text-gray-700">Hi, Julie</span>
+                  <span className="font-medium text-gray-700">Hi, {specUser?.data?.firstName}</span>
                 </button>
               </Link>
          {/* <div>
@@ -231,13 +234,13 @@ const navItems = [
                      <Link href={profileLink}>
                 <button className="flex items-center space-x-2 cursor-pointer">
                   <Image
-                    src={user}
+                    src={specUser?.data?.image}
                     alt="User Avatar"
                     width={30}
                     height={30}
-                    className="rounded-full w-10"
+                    className="rounded-full w-10 h-10"
                   />
-                  <span className="font-medium text-gray-700">Hi, Julie</span>
+                  <span className="font-medium text-gray-700">Hi, {specUser?.data?.firstName}</span>
                 </button>
               </Link>
                 <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
