@@ -10,6 +10,14 @@ const contractorApi = baseApi.injectEndpoints({
       }),
         invalidatesTags: ['user'],
     }),
+    createServices: builder.mutation({
+      query: (userInfo) => ({
+        url: `/service/addServices`,
+        method: "POST",  
+        body:userInfo,
+      }),
+        invalidatesTags: ['services'],
+    }),
 
 //    getSpecefiqUser: builder.query({
 //       query: (id) => ({
@@ -23,4 +31,4 @@ const contractorApi = baseApi.injectEndpoints({
   }),
 });   
 
-export const {useCreateContractorMutation} = contractorApi;
+export const {useCreateContractorMutation,useCreateServicesMutation} = contractorApi;

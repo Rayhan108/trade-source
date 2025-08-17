@@ -1,63 +1,84 @@
-"use client"
+"use client";
 
-
-
-import { useState } from "react"
-import { useForm, Controller } from "react-hook-form"
-import { FiPlus, FiX } from "react-icons/fi"
-
-
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { FiPlus } from "react-icons/fi";
+import { MdClose } from "react-icons/md";
+import Select from "react-select";
+import { useGetAllCategoryQuery } from "../../../redux/features/others/otherApi";
+import { useCreateServicesMutation } from "../../../redux/features/contractor/contractorApi";
+import { message } from "antd";
 
 export default function CreateServiceForm() {
-  const [selectedServices, setSelectedServices] = useState(["Handyman", "Painter"])
-  const [searchTerm, setSearchTerm] = useState("")
-
+  const [selectedCategories, setSelectedCategories] = useState([]); // Store selected categories
+  const [selectedSubcategories, setSelectedSubcategories] = useState({}); // Store subcategories per category
+  const [createServices]=useCreateServicesMutation()
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
-    watch,
   } = useForm({
     defaultValues: {
       title: "",
       details: "",
       category: "",
       price: "",
-      serviceTypes: selectedServices,
     },
-  })
+  });
+  const { data: allCategory } = useGetAllCategoryQuery(undefined);
 
-  const removeService = (serviceToRemove) => {
-    const updatedServices = selectedServices.filter((service) => service !== serviceToRemove)
-    setSelectedServices(updatedServices)
-    setValue("serviceTypes", updatedServices)
-  }
+  const removeService = (category) => {
+    setSelectedCategories(selectedCategories.filter((cat) => cat.value !== category.value));
+    const updatedSubcategories = { ...selectedSubcategories };
+    delete updatedSubcategories[category.value];
+    setSelectedSubcategories(updatedSubcategories);
+  };
 
-  const addService = (service) => {
-    if (service && !selectedServices.includes(service)) {
-      const updatedServices = [...selectedServices, service]
-      setSelectedServices(updatedServices)
-      setValue("serviceTypes", updatedServices)
-      setSearchTerm("")
-    }
-  }
+  // Prepare options for react-select from categories and subcategories
+  const categoryOptions = allCategory?.data?.map((service) => ({
+    label: service?.category,
+    value: service?.category,
+    subCategories: service?.subCategory?.map((sub) => ({
+      label: sub,
+      value: `${service?.category}-${sub}`, // Combining category and subcategory for uniqueness
+      parent: service?.category, // Storing parent category to know which category the sub belongs to
+    }))
+  }));
 
-  const onSubmit = (data) => {
+  // Handle category selection change
+  const handleCategoryChange = (selectedOptions) => {
+    setSelectedCategories(selectedOptions);
+
+    // Initialize selected subcategories for each selected category
+    const newSubcategories = {};
+    selectedOptions.forEach((category) => {
+      newSubcategories[category.value] = []; // Empty array for each selected category
+    });
+    setSelectedSubcategories(newSubcategories);
+  };
+
+  // Log all form data, including selected categories and subcategories
+  const onSubmit = async(data) => {
     const formData = {
       ...data,
-      serviceTypes: selectedServices,
-    }
-    console.log("Form Data:", formData)
-  }
+      selectedCategories, // Include selected categories
+      // selectedSubcategories, // Include selected subcategories if needed
+    };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && searchTerm.trim()) {
-      e.preventDefault()
-      addService(searchTerm.trim())
+    console.log("Form Data--->>>>>>>>>>>:", formData);
+    try {
+      const res = await createServices(formData)
+      console.log("res===>>>>",res);
+      if(res.sucess){
+        message.success(res?.data?.message)
+      }else{
+        message.error(res?.error?.data?.message)
+      }
+    } catch (error) {
+      message.error(error)
     }
-  }
+  };
 
   return (
     <div className="max-w-7xl mx-auto 2">
@@ -69,28 +90,32 @@ export default function CreateServiceForm() {
           {/* Upload Section */}
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-3">Upload cover of your service</label>
-            <Controller
-              name="coverImage"
-              control={control}
-              render={({ field: { onChange, value, ...field } }) => (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center hover:border-gray-400 transition-colors cursor-pointer">
-                  <input
-                    {...field}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => onChange(e.target.files)}
-                    className="hidden"
-                    id="file-upload"
-                  />
-                  <label htmlFor="file-upload" className="cursor-pointer">
-                    <div className="flex flex-col items-center">
-                      <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
-                      <span className="text-lg font-medium text-gray-600">Upload</span>
-                    </div>
-                  </label>
-                </div>
-              )}
-            />
+       <Controller
+  name="coverImage"
+  control={control}
+  // eslint-disable-next-line no-unused-vars
+  render={({ field: { onChange, value, ...field } }) => (
+    <div className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center hover:border-gray-400 transition-colors cursor-pointer">
+      <input
+        {...field}
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          // Capture the file and call onChange
+          onChange(e.target.files);
+        }}
+        className="hidden"
+        id="file-upload"
+      />
+      <label htmlFor="file-upload" className="cursor-pointer">
+        <div className="flex flex-col items-center">
+          <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
+          <span className="text-lg font-medium text-gray-600">Upload</span>
+        </div>
+      </label>
+    </div>
+  )}
+/>
           </div>
 
           {/* Title Input */}
@@ -122,57 +147,42 @@ export default function CreateServiceForm() {
             />
             {errors.details && <p className="mt-1 text-sm text-red-600">{errors.details.message}</p>}
           </div>
+            <label className="block text-sm font-medium text-gray-900 mb-3">Category of Services</label>
+          {/* Category Selection */}
+          <Controller
+            name="categories"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                isMulti
+                options={categoryOptions}
+                onChange={handleCategoryChange}
+                getOptionLabel={(e) => e.label}
+                getOptionValue={(e) => e.value}
+                placeholder="Select Categories"
+                className="w-full mb-4"
+              />
+            )}
+          />
 
-          {/* Item Category Name */}
-          <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-900 mb-3">
-              Item Category Name
-            </label>
-            <input
-              {...register("category", { required: "Category is required" })}
-              type="text"
-              id="category"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              placeholder=""
-            />
-            {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
-          </div>
-
-          {/* Service Type */}
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-3">Service type</label>
-
-            {/* Selected Services Tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {selectedServices.map((service) => (
-                <div
-                  key={service}
-                  className="inline-flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-medium"
+          {/* Selected category tags */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {selectedCategories.map((category, index) => (
+              <div key={index} className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm font-medium">
+                <span>{category.label}</span>
+                <button
+                  onClick={() => removeService(category)}
+                  className="hover:bg-slate-600 rounded-full p-0.5 transition-colors"
+                  aria-label={`Remove ${category.label}`}
                 >
-                  <span>{service}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeService(service)}
-                    className="hover:bg-gray-600 rounded-full p-0.5 transition-colors"
-                  >
-                    <FiX className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            {/* Search Input */}
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              placeholder="Search for more services..."
-            />
+                  <MdClose className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
           </div>
 
-          {/* Item Price */}
+          {/* Price Input */}
           <div>
             <label htmlFor="price" className="block text-sm font-medium text-gray-900 mb-3">
               Item Price
@@ -197,5 +207,5 @@ export default function CreateServiceForm() {
         </form>
       </div>
     </div>
-  )
+  );
 }
