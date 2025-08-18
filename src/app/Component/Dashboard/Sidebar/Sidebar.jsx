@@ -1,11 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { useAppSelector } from '../../../../redux/hooks';
-import { selectCurrentUser } from '../../../../redux/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
+import { logout, selectCurrentUser } from '../../../../redux/features/auth/authSlice';
 import { useGetSpecefiqUserQuery } from '../../../../redux/features/user/userApi';
+import { resetContractorData } from '../../../../redux/features/contractor/contractorSlice';
+import { setCookie } from 'nookies';
+import { message } from 'antd';
+import { protectedRoutes } from '../../../../constants';
 
 // Define user and contractor routes
 const userItems = [
@@ -34,6 +38,7 @@ const contractorItems = [
   { label: "VIP Contractor", href: "/vipContractor" },
    { label: 'Ask a Pro', href: '/askAPro' }, 
   { label: "Delete Account", href: "/delete" },
+  
 ];
 
 const Sidebar = () => {
@@ -43,8 +48,21 @@ const Sidebar = () => {
  console.log("logged user---->",user);
  console.log("specefiq user---->",specUser);
   const role = specUser?.data?.role
-
+const dispatch = useAppDispatch()
+const router = useRouter()
   const items = role === 'contractor' ? contractorItems : userItems;
+  // logout
+  const handleLogout = () => {
+    dispatch(logout());
+  dispatch(resetContractorData())
+    // Delete cookie manually
+    router.push("/");
+    setCookie(null, 'user', '', { path: '/', maxAge: -1 });
+    message.success("Logout Success");
+    if(protectedRoutes.some((route)=>pathname.match(route))){
+      router.push("/")
+    }
+  };
 
   return (
     <aside className="w-full pb-4 rounded-md">
@@ -86,6 +104,11 @@ const Sidebar = () => {
             </Link>
           );
         })}
+            <div className='ml-3'>
+
+                  {/* Logout Button */}
+          <button onClick={()=>handleLogout()} className="w-[50%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4">Logout</button>
+            </div>
       </nav>
     </aside>
   );

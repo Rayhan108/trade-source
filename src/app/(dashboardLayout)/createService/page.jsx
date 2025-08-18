@@ -8,8 +8,13 @@ import Select from "react-select";
 import { useGetAllCategoryQuery } from "../../../redux/features/others/otherApi";
 import { useCreateServicesMutation } from "../../../redux/features/contractor/contractorApi";
 import { message } from "antd";
+import { selectCurrentUser } from "../../../redux/features/auth/authSlice";
+import { useAppSelector } from "../../../redux/hooks";
+import Image from "next/image";
+import { useGetSpecefiqUserQuery } from "../../../redux/features/user/userApi";
 
 export default function CreateServiceForm() {
+  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]); // Store selected categories
   const [selectedSubcategories, setSelectedSubcategories] = useState({}); // Store subcategories per category
   const [createServices]=useCreateServicesMutation()
@@ -27,7 +32,9 @@ export default function CreateServiceForm() {
     },
   });
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
-
+  const user = useAppSelector(selectCurrentUser)
+    const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
+  // console.log("user--->",specUser?.data?._id);
   const removeService = (category) => {
     setSelectedCategories(selectedCategories.filter((cat) => cat.value !== category.value));
     const updatedSubcategories = { ...selectedSubcategories };
@@ -60,17 +67,36 @@ export default function CreateServiceForm() {
 
   // Log all form data, including selected categories and subcategories
   const onSubmit = async(data) => {
-    const formData = {
-      ...data,
-      selectedCategories, // Include selected categories
-      // selectedSubcategories, // Include selected subcategories if needed
-    };
+        const categoryName = selectedCategories.map((category) => category.value);
+    // const subServices = Object.values(selectedSubcategories).flat().map((sub) => sub.value);
+    console.log("Data--->>>>>>>>>>>:", data);
+  // Creating a new FormData object to handle the form submission
+  const formData = new FormData();
 
+  // Appending fields to the FormData object
+  formData.append("data", JSON.stringify({
+    contractorId:specUser?.data?._id,
+    title:data?.title,
+    details:data?.details,
+    categoryName,
+    price:data?.price,
+  }));
+
+  // Appending the image file
+  if (data?.image) {
+    formData.append("image", data.image);  // assuming 'data.image' is the file object
+  }
     console.log("Form Data--->>>>>>>>>>>:", formData);
+      // Log the FormData contents
+  console.log("Form Data Contents:");
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
+
     try {
       const res = await createServices(formData)
       console.log("res===>>>>",res);
-      if(res.sucess){
+      if(res.data){
         message.success(res?.data?.message)
       }else{
         message.error(res?.error?.data?.message)
@@ -90,8 +116,8 @@ export default function CreateServiceForm() {
           {/* Upload Section */}
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-3">Upload cover of your service</label>
-       <Controller
-  name="coverImage"
+       {/* <Controller
+  name="image"
   control={control}
   // eslint-disable-next-line no-unused-vars
   render={({ field: { onChange, value, ...field } }) => (
@@ -115,7 +141,59 @@ export default function CreateServiceForm() {
       </label>
     </div>
   )}
-/>
+/> */}
+
+    <Controller
+      name="image"
+      control={control}
+      // eslint-disable-next-line no-unused-vars
+      render={({ field: { onChange,value,  ...field } }) => (
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center hover:border-gray-400 transition-colors cursor-pointer">
+          <input
+            {...field}
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setSelectedImage(reader.result); // Update the image preview
+                };
+                reader.readAsDataURL(file); // Convert file to base64 string
+                onChange(file); // Pass the file to react-hook-form
+              }
+            }}
+            className="hidden"
+            id="file-upload"
+          />
+          <label htmlFor="file-upload" className="cursor-pointer">
+            <div className="flex flex-col items-center">
+              <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
+              <span className="text-lg font-medium text-gray-600">
+                {selectedImage ? "Image Selected" : "Upload"}
+              </span>
+              {/* If an image is selected, display the image preview */}
+              {selectedImage && (
+                <div className="mt-4">
+                  <Image
+                    src={selectedImage}
+                    alt="Selected Image"
+                    width={500}
+                    height={500}
+                    className="w-24 h-24 object-cover rounded"
+                  />
+                </div>
+              )}
+            </div>
+          </label>
+        </div>
+      )}
+    />
+
+
+
+
           </div>
 
           {/* Title Input */}
