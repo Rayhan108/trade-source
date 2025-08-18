@@ -99,7 +99,7 @@ export default function MaxLead() {
     try {
       const response = await createContractor(modifiedData)
       // console.log("result create contractor--->",response);
-      if(response.success){
+      if(response.data){
 
         message.success(response?.data?.message)
        router.push("/dashboard")

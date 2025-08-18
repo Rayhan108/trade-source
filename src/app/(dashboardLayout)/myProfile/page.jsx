@@ -176,31 +176,37 @@ console.log(" spec user---->",specUser?.data);
 >
   <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row gap-8 py-8">
       {/* Profile Image */}
-      <div className="flex flex-col items-center gap-2">
-        <div className="relative w-44 h-44 rounded-full overflow-hidden">
-          {/* {previewImage && ( */}
-            <Image
-              src={previewImage || specUser?.data?.image}
-              alt="Profile"
-              fill
-              className="object-cover rounded-full"
-            />
-          {/* )} */}
-          <label className="bg-black opacity-80 w-full p-1 shadow-md cursor-pointer relative top-36 py-4">
-            <IoCameraOutline
-              size={24}
-              className="text-white absolute bottom-1 left-20"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
-          </label>
-        </div>
-      </div>
-
+   <div className="flex flex-col items-center gap-2">
+<div className="flex flex-col items-center gap-2">
+  <div className="relative w-44 h-44 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+    {/* Image preview */}
+    <Image
+      src={previewImage || specUser?.data?.image || ""}
+      alt="Profile"
+      fill
+      className={`object-cover rounded-full ${previewImage || specUser?.data?.image ? '' : 'opacity-0'}`}
+    />
+    {/* If no image is available, show placeholder text */}
+    {!previewImage && !specUser?.data?.image && (
+      <span className="text-gray-500">No Image</span>
+    )}
+    {/* Invisible file input */}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={handleImageChange}
+      className="absolute inset-0 opacity-0 cursor-pointer"
+    />
+    {/* Camera icon (upload button) */}
+    <label className="bg-black opacity-80 w-full p-1 shadow-md cursor-pointer absolute top-36 py-4">
+      <IoCameraOutline
+        size={24}
+        className="text-white absolute bottom-1 left-20"
+      />
+    </label>
+  </div>
+</div>
+</div>
       {/* Form Fields */}
       <div className="flex-1 space-y-4">
         <div className="grid grid-cols-2 gap-4">

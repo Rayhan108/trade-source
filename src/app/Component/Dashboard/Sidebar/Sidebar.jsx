@@ -104,11 +104,11 @@ const router = useRouter()
             </Link>
           );
         })}
-            <div className='ml-3'>
+{ role === 'contractor' &&         <div className='ml-3'>
 
-                  {/* Logout Button */}
-          <button onClick={()=>handleLogout()} className="w-[50%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4">Logout</button>
-            </div>
+                {/* Logout Button */}
+        <button onClick={()=>handleLogout()} className="w-[50%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4">Logout</button>
+          </div>}
       </nav>
     </aside>
   );
