@@ -3,7 +3,9 @@ import { RootState } from '../../store';
 
 type TEmail = {
   email: string;
+  userId: string;
 };
+
 export type TUser = {
   userId: string;
   role: string;
