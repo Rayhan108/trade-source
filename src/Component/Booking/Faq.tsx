@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import Image from 'next/image';
-import faq from '../../../assests/FAQ.png';
+import faq from '../../assests/FAQ.png';
+
 const faqData = [
   {
     id: 1,

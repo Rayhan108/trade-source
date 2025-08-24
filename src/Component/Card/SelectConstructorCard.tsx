@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { FiStar } from 'react-icons/fi';
-import img from '../../../assests/bannerImg.jpg';
+import img from '../../assests/bannerImg.jpg';
 import { Modal, Pagination } from 'antd';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { IoStar } from 'react-icons/io5';
 import { SlBadge } from 'react-icons/sl';
 import { IoIosHammer } from 'react-icons/io';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 import Link from 'next/link';
 
 const reviews = [

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import logo from '../../../assests/navLogo.png';
+import logo from '../../assests/navLogo.png';
 import Link from 'next/link';
 import { Settings, Calendar, Hammer, Handshake } from 'lucide-react';
 import { PiMapPinAreaBold } from 'react-icons/pi';

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import statImg from '../../../assests/stats.png';
+import statImg from '../../assests/stats.png';
 import Link from 'next/link';
 const Stats = () => {
   const stats = [

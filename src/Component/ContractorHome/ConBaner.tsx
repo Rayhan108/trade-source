@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import banImg from '../../../assests/project4.png';
+import banImg from '../../assests/project4.png';
 import {
   FaHome,
   FaPaintRoller,
