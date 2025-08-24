@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Modal } from 'antd';
 import dayjs from 'dayjs';
 import { FiCalendar, FiClock, FiChevronDown } from 'react-icons/fi';
-import SelectContractorCard from '../../Component/Card/SelectConstructorCard';
+import SelectContractorCard from '../../../Component/Card/SelectConstructorCard';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import cons1 from '../../../assests/cons1.png';

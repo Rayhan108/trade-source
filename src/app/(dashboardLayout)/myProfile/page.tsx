@@ -131,7 +131,10 @@ export default function ProfilePage() {
         {/* Profile Photo */}
         <div className="relative w-44 h-44 rounded-full overflow-hidden">
           <Image
-            src={previewImage || specUser?.data?.image}
+            src={
+              specUser?.data?.image ||
+              'https://tse3.mm.bing.net/th/id/OIP.kUFzwD5-mfBV0PfqgI5GrAHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3'
+            }
             alt="Profile"
             fill
             className="object-cover rounded-full"

@@ -1,11 +1,11 @@
 import React from 'react';
-import ContractorProfile from '../../Component/ContractorDashboard/ContractorProfile'
+import ContractorProfile from '../../../Component/ContractorDashboard/ContractorProfile';
 const ConstractorProfile = () => {
-    return (
-        <div>
-            <ContractorProfile/>
-        </div>
-    );
+  return (
+    <div>
+      <ContractorProfile />
+    </div>
+  );
 };
 
 export default ConstractorProfile;

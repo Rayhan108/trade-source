@@ -1,5 +1,5 @@
-import InteriorBanner from '../../Component/Interior/IntBaner';
-import SpecializedNear from '../../Component/Specialized/SpecializedNear';
+import InteriorBanner from '../../../Component/Interior/IntBaner';
+import SpecializedNear from '../../../Component/Specialized/SpecializedNear';
 
 const SpecializedPage = () => {
   return (

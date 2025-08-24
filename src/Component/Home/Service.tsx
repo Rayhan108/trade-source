@@ -1,10 +1,10 @@
-import handyman from '../../../assests/handyman.png';
-import landscaping from '../../../assests/landscaping.png';
-import plumbing from '../../../assests/plumbing.png';
-import electrical from '../../../assests/electrical.png';
-import remodeling from '../../../assests/remodeling.png';
+import handyman from '../../assests/handyman.png';
+import landscaping from '../../assests/landscaping.png';
+import plumbing from '../../assests/plumbing.png';
+import electrical from '../../assests/electrical.png';
+import remodeling from '../../assests/remodeling.png';
 import Image from 'next/image';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 import Link from 'next/link';
 
 export default function Service() {

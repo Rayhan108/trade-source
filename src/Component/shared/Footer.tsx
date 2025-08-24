@@ -1,6 +1,6 @@
 import Image from "next/image";
-import logo from '../../../assests/footerLogo.png'
-import styles from '.././../styles.module.css'
+import logo from '../../assests/footerLogo.png'
+import styles from '.././../app/styles.module.css'
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FaSquareInstagram, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io";

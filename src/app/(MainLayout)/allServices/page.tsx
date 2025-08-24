@@ -1,8 +1,8 @@
-import InteriorBanner from '../../Component/Interior/IntBaner';
-import Service from '../../Component/Home/Service';
-import IntNearServices from '../../Component/AllServices/IntNearServices';
-import ExtNearServices from '../../Component/AllServices/ExtNearServices';
-import LawnGardenServices from '../../Component/AllServices/LawnGardenServices';
+import InteriorBanner from '../../../Component/Interior/IntBaner';
+import Service from '../../../Component/Home/Service';
+import IntNearServices from '../../../Component/AllServices/IntNearServices';
+import ExtNearServices from '../../../Component/AllServices/ExtNearServices';
+import LawnGardenServices from '../../../Component/AllServices/LawnGardenServices';
 
 const AllServicesPage = () => {
   return (

@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/Providers/Providers.tsx",
-    "src/app/Component/AllServices/ExtNearServices.jsx"
+    "src/Component/AllServices/ExtNearServices.jsx"
   ],
   "exclude": ["node_modules"]
 }

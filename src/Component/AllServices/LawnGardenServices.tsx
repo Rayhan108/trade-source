@@ -1,8 +1,8 @@
 import IntCard from '../Interior/IntCard';
 import { Projects2 } from '../Interior/IntNear';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 
-const IntNearServices = () => {
+const LawnGardenServices = () => {
   return (
     <div
       className={`container mx-auto bg-[#ffffff] my-8 p-4 pt-8 ${styles.fontDmSans}`}
@@ -11,7 +11,7 @@ const IntNearServices = () => {
         <div>
           {' '}
           <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>
-            Interior Project Near You
+            Lawn & Garden Projects
           </h1>
         </div>
         <div className="underline text-blue-700 text-sm sm:text-2xl">
@@ -19,7 +19,7 @@ const IntNearServices = () => {
           View All{' '}
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">
+      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">
         {Projects2?.map((project, idx) => {
           return <IntCard key={idx} project={project} />;
         })}
@@ -28,4 +28,4 @@ const IntNearServices = () => {
   );
 };
 
-export default IntNearServices;
+export default LawnGardenServices;

@@ -1,5 +1,5 @@
-import Sidebar from '../Component/Dashboard/Sidebar/Sidebar';
-import Navbar from '../Component/shared/Navbar';
+import Sidebar from '../../Component/Dashboard/Sidebar/Sidebar';
+import Navbar from '../../Component/shared/Navbar';
 
 const DashboardLayout = ({ children }) => {
   return (

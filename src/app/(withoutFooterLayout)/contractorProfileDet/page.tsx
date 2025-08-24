@@ -3,13 +3,13 @@ import { useState } from 'react';
 import project1 from '../../../assests/project1.png';
 import project2 from '../../../assests/project2.png';
 import project3 from '../../../assests/project3.png';
-import ServiceDetails from '../../Component/Profile/ServiceDetails';
-import ProjCard from '../../Component/Profile/ProjCard';
-import { Projects } from '../../Component/Home/ProjectsNear';
-import ProjectCard from '../../Component/Card/ProjectCard';
-import LicenseCard from '../../Component/Card/LicenseCard';
-import ProfDet from '../../Component/Profile/ProfDet';
-import FeaturedMedia from '../../Component/ContractorProfile/FeaturedMedia';
+import ServiceDetails from '../../../Component/Profile/ServiceDetails';
+import ProjCard from '../../../Component/Profile/ProjCard';
+import { Projects } from '../../../Component/Home/ProjectsNear';
+import ProjectCard from '../../../Component/Card/ProjectCard';
+import LicenseCard from '../../../Component/Card/LicenseCard';
+import ProfDet from '../../../Component/Profile/ProfDet';
+import FeaturedMedia from '../../../Component/ContractorProfile/FeaturedMedia';
 import { FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
 const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
@@ -71,7 +71,6 @@ const ContractorProfilePage = () => {
         <div className={`container mx-auto font-dm`}>
           <div className="flex justify-between items-center ">
             <div>
-              {' '}
               <h1 className={`text-4xl  mb-5   font-dm`}>
                 Project{' '}
                 <span className="font-semibold">{cardDatas?.length}</span>
@@ -110,7 +109,6 @@ const ContractorProfilePage = () => {
         <div className={`container mx-auto font-dm`}>
           <div className=" ">
             <div>
-              {' '}
               <h1 className={`text-4xl  mb-5 `}>
                 Service{' '}
                 <span className="font-semibold">{Projects?.length}</span>
@@ -130,7 +128,6 @@ const ContractorProfilePage = () => {
         <div className={`container mx-auto `}>
           <div className=" ">
             <div>
-              {' '}
               <h1 className={`text-4xl  mb-5  `}>
                 Licenses & Insurance{' '}
                 <span className="font-semibold">{Projects?.length}</span>

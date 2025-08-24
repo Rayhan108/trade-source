@@ -8,7 +8,7 @@ import {
 import hero from '../../../../assests/hero.png';
 import jesi from '../../../../assests/jesi.jpg';
 import Image from 'next/image';
-import RecentArticle from '../../../Component/Home/RecentArticle';
+import RecentArticle from '../../../../Component/Home/RecentArticle';
 const ArticleDetailsPage = () => {
   return (
     <div className="w-full bg-white">

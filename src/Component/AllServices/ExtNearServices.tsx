@@ -1,6 +1,6 @@
 import IntCard from '../Interior/IntCard';
 import { Projects2 } from '../Interior/IntNear';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 
 const ExtNearServices = () => {
   return (
@@ -9,14 +9,12 @@ const ExtNearServices = () => {
     >
       <div className="flex justify-between items-center mb-3">
         <div>
-          {' '}
           <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>
             Exterior Project Near You
           </h1>
         </div>
         <div className="underline text-blue-700 text-sm sm:text-2xl">
-          {' '}
-          View All{' '}
+          View All
         </div>
       </div>
       <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">

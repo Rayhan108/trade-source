@@ -1,6 +1,6 @@
 import React from 'react';
-import Statics from '../../Component/ContractorDashboard/Statics';
-import PastPerformance from '../../Component/ContractorDashboard/PastPerformance';
+import Statics from '../../../Component/ContractorDashboard/Statics';
+import PastPerformance from '../../../Component/ContractorDashboard/PastPerformance';
 import Link from 'next/link';
 const DashboardPage = () => {
   const proContractor = true;
@@ -24,7 +24,7 @@ const DashboardPage = () => {
                     href="/contractorProfileDet"
                     className="text-sm text-blue-600 hover:underline"
                   >
-                    View{' '}
+                    View
                   </Link>
                 </div>
                 <div className="mt-4 ">

@@ -1,19 +1,19 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import logo from '../../../assests/navLogo.png';
+import logo from '../../assests/navLogo.png';
 // import userImg from "../../../assests/user.png";
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { LuMessageSquareMore } from 'react-icons/lu';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import {
   selectCurrentUser,
   setUser,
-} from '../../../redux/features/auth/authSlice';
-import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
+} from '../../redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '../../redux/features/user/userApi';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

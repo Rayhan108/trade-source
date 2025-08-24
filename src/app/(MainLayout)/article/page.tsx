@@ -1,5 +1,5 @@
-import Hero from '../../Component/Article/Hero';
-import RecentlyPosted from '../../Component/Article/RecentlyPosted';
+import Hero from '../../../Component/Article/Hero';
+import RecentlyPosted from '../../../Component/Article/RecentlyPosted';
 
 const ArticlePage = () => {
   return (
