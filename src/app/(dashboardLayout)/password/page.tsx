@@ -1,66 +1,45 @@
-/* eslint-disable no-unused-vars */
 'use client';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+
+import { useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Image from 'next/image';
-import { Button } from 'antd';
-// import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import userImg from '../../../assests/user.png';
-// import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import { Button, message } from 'antd';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
 import { RiEyeCloseLine } from 'react-icons/ri';
-// import { IoCameraOutline } from 'react-icons/io5';
+import { useAppSelector } from '../../../redux/hooks';
+import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
+import { useChangePasswordMutation } from '../../../redux/features/auth/authApi';
+import { useRouter } from 'next/navigation';
+
 export default function PasswordPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  //   // Submit logic here
-  // };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
+  const router = useRouter();
+  const user = useAppSelector(selectCurrentUser);
+  const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
+  const [changePassword] = useChangePasswordMutation();
   const [showPassword, setShowPassword] = useState(false);
-  const [phone, setPhone] = useState('');
-  const [phoneError, setPhoneError] = useState('');
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
-  // Validate phone length for BD (+880) only
-  useEffect(() => {
-    if (phone.startsWith('880')) {
-      const localNumber = phone.slice(3);
-      if (localNumber.length !== 9) {
-        setPhoneError('Bangladesh phone number must be exactly 9 digits');
-      } else {
-        setPhoneError('');
+  const handleChangePassword: SubmitHandler<FieldValues> = async data => {
+    try {
+      const res = await changePassword(data).unwrap();
+      if (res.success) {
+        message.success(res.message);
+        router.push('/myProfile');
       }
-    } else if (phone.length < 7) {
-      setPhoneError('Phone number is required or invalid');
-    } else {
-      setPhoneError('');
+    } catch (error) {
+      message.error(error?.data?.message || 'Something went wrong');
+      console.error('Error:', error);
     }
-  }, [phone]);
-
-  const onSubmit = data => {
-    if (phoneError) {
-      alert('Please fix phone number errors before submitting.');
-      return;
-    }
-    data.phoneNumber = phone;
-    console.log('Form Data:', data);
   };
+
+  const newPassword = watch('newPassword');
 
   return (
     <div className="w-full  min-h-screen bg-white p-6 font-dm">
@@ -77,7 +56,10 @@ export default function PasswordPage() {
         {/* Profile Photo */}
         <div className="w-64 h-64 flex-shrink-0">
           <Image
-            src={userImg}
+            src={
+              specUser?.data?.image ||
+              'https://tse3.mm.bing.net/th/id/OIP.kUFzwD5-mfBV0PfqgI5GrAHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3'
+            }
             alt="Profile"
             width={256}
             height={256}
@@ -86,12 +68,11 @@ export default function PasswordPage() {
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleChangePassword)}
           className="flex flex-col md:flex-row gap-8 w-full"
         >
-          {/* Form Fields */}
           <div className="flex-1 w-full space-y-4">
-            {/* Password with show/hide toggle */}
+            {/* Current Password */}
             <div className="relative">
               <label className="block text-sm font-medium mb-1">
                 Current Password
@@ -99,7 +80,9 @@ export default function PasswordPage() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Current Password"
-                {...register('password', { required: 'Password is required' })}
+                {...register('oldPassword', {
+                  required: 'Password is required',
+                })}
                 className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
@@ -115,11 +98,13 @@ export default function PasswordPage() {
                 )}
               </button>
             </div>
-            {errors.password && (
+            {errors.oldPassword && (
               <p className="text-red-600 text-sm mt-1">
-                {errors.password.message.toString()}
+                {errors.oldPassword.message.toString()}
               </p>
             )}
+
+            {/* New Password */}
             <div className="relative">
               <label className="block text-sm font-medium mb-1">
                 New Password
@@ -150,6 +135,8 @@ export default function PasswordPage() {
                 {errors.newPassword.message.toString()}
               </p>
             )}
+
+            {/* Confirm Password */}
             <div className="relative">
               <label className="block text-sm font-medium mb-1">
                 Confirm Password
@@ -159,6 +146,8 @@ export default function PasswordPage() {
                 placeholder="Confirm Password"
                 {...register('confirmPassword', {
                   required: 'Password is required',
+                  validate: value =>
+                    value === newPassword || 'Passwords do not match',
                 })}
                 className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -183,7 +172,12 @@ export default function PasswordPage() {
 
             {/* Buttons */}
             <div className="flex w-full justify-end gap-3 pt-4">
-              <Button className="w-1/2" onClick={handleCancel}>
+              <Button
+                className="w-1/2"
+                onClick={() => {
+                  router.push('/myProfile');
+                }}
+              >
                 Cancel
               </Button>
               <Button

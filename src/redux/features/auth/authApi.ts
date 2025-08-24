@@ -2,6 +2,15 @@ import { baseApi } from '../../api/baseApi';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
+    // signUp
+    signUp: builder.mutation({
+      query: userInfo => ({
+        url: '/auth/register',
+        method: 'POST',
+        body: userInfo,
+      }),
+    }),
+
     // login
     login: builder.mutation({
       query: userInfo => ({
@@ -11,12 +20,21 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // signUp
-    signUp: builder.mutation({
-      query: userInfo => ({
-        url: '/auth/register',
+    // changePassword
+    changePassword: builder.mutation({
+      query: newInfo => ({
+        url: '/auth/changePassword',
         method: 'POST',
-        body: userInfo,
+        body: newInfo,
+      }),
+    }),
+
+    // forgotPassword
+    forgotPassword: builder.mutation({
+      query: newInfo => ({
+        url: '/auth/forgotPass',
+        method: 'POST',
+        body: newInfo,
       }),
     }),
 
@@ -64,25 +82,16 @@ const authApi = baseApi.injectEndpoints({
         // body: userInfo,
       }),
     }),
-
-    // changePass
-    changePass: builder.mutation({
-      query: info => ({
-        url: `/user/auth/change-password`,
-        method: 'POST',
-        body: info,
-      }),
-      invalidatesTags: ['user'],
-    }),
   }),
 });
 
 export const {
-  useLoginMutation,
   useSignUpMutation,
+  useLoginMutation,
+  useChangePasswordMutation,
+  useForgotPasswordMutation,
   useLazyLoginWithGoogleQuery,
   useLazyLoginWithFacebookQuery,
-  useChangePassMutation,
   useGetOtpMutation,
   useVerifyOtpMutation,
   useGetAllUserQuery,

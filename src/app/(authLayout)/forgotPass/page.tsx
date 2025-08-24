@@ -1,24 +1,33 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Image from 'next/image';
 import backgroundImg from '../../../assests/bannerImg.jpg';
 import logo from '../../../assests/YL 2.png';
+import { useForgotPasswordMutation } from '../../../redux/features/auth/authApi';
+import { message } from 'antd';
 
-const ForgotpassPage = () => {
+const ForgotPassPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  interface ForgotPassFormData {
-    email: string;
-  }
+  const [forgotPassword] = useForgotPasswordMutation();
 
-  const onSubmit = (data: ForgotPassFormData) => {
+  const handleForgotPassword: SubmitHandler<FieldValues> = async data => {
     console.log('Form Data:', data);
-    // Handle reset code sending logic here
+
+    try {
+      const res = await forgotPassword(data).unwrap();
+      if (res.success) {
+        message.success(res.message);
+      }
+    } catch (error) {
+      message.error(error?.data?.message || 'Something went wrong');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -61,7 +70,10 @@ const ForgotpassPage = () => {
           </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form
+            onSubmit={handleSubmit(handleForgotPassword)}
+            className="space-y-5"
+          >
             <div>
               <input
                 type="email"
@@ -96,4 +108,4 @@ const ForgotpassPage = () => {
   );
 };
 
-export default ForgotpassPage;
+export default ForgotPassPage;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Image from 'next/image';
 import backgroundImg from '../../../assests/bannerImg.jpg';
 import logo from '../../../assests/YL 2.png';
@@ -45,7 +45,7 @@ const SigninPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async data => {
+  const handleSignin: SubmitHandler<FieldValues> = async data => {
     console.log('Form Data:', data);
     const redirect = searchParams.get('redirectPath');
     console.log('redirect path', redirect);
@@ -109,7 +109,7 @@ const SigninPage = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit(handleSignin)} className="space-y-5">
             <div>
               <input
                 type="email"
