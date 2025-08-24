@@ -304,7 +304,7 @@ export default function ProjectDetails() {
               onClick={() => setCancelModalVisible(false)}
               className="flex-1 border border-black text-black py-2 rounded hover:bg-blue-50"
             >
-              I don't want to Cancel
+              I don&apos;t want to Cancel
             </button>
             <button
               disabled={!selectedReason}

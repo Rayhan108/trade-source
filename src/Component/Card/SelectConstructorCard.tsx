@@ -322,8 +322,8 @@ const SelectConstructorCard = ({ contractor }) => {
                   <div className="mb-4 border-2 p-3 rounded-xl border-gray-200">
                     <p>
                       2-hour minimum per booking. I have 5+ years of experience
-                      and come fully equipped with my own tools. I’m reliable,
-                      detail-oriented, and get the job done right.
+                      and come fully equipped with my own tools. I&apos;m
+                      reliable, detail-oriented, and get the job done right.
                     </p>
                     <p className="font-medium mb-2">Services include:</p>
                     <ul className="space-y-1">
@@ -338,8 +338,8 @@ const SelectConstructorCard = ({ contractor }) => {
                       ))}
                     </ul>
                     <p className="mt-1">
-                      I’m the Tasker you can trust to keep your space in great
-                      shape!
+                      I&apos;m the Tasker you can trust to keep your space in
+                      great shape!
                     </p>
                   </div>
 

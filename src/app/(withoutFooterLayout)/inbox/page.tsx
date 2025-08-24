@@ -113,7 +113,8 @@ export default function MessagingApp() {
         <div className="bg-white rounded-xl max-w-7xl mx-auto  my-12">
           <div className="max-w-xl py-20 mx-auto">
             <p className="text-xl p-7 ">
-              You don’t have any messages yet. They’ll appear here once you do.
+              You don&apos;t have any messages yet. They&apos;ll appear here
+              once you do.
             </p>
             <div className="text-center">
               <button className="bg-[#1D69E1] text-white px-8 py-2 rounded-lg ">

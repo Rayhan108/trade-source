@@ -80,7 +80,7 @@ const TransactionHistory = () => {
       {transactions.length === 0 ? (
         <div className="mb-2 max-w-xl mx-auto">
           <p className="text-xs text-gray-500 mt-1">
-            Looks like you haven’t made any transactions yet. Get started!
+            Looks like you haven&apos;t made any transactions yet. Get started!
           </p>
         </div>
       ) : (

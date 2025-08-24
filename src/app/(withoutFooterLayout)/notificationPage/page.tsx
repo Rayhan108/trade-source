@@ -73,7 +73,7 @@ const NotificationPage = () => {
             Nothing to display here!
           </h3>
           <p className="text-sm text-gray-500">
-            We’ll notify you once we have new notifications.
+            We&apos;ll notify you once we have new notifications.
           </p>
         </div>
       ) : (

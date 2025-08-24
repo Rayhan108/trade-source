@@ -73,12 +73,12 @@ const ProfDet = () => {
       {/* About Section */}
       <div className="mb-8">
         <p className="text-[#0F161C] text-sm">
-          Hi, I’m Gram Dew from Dream Ireland Painting. With years of experience
-          in interior painting, I’m dedicated to transforming spaces with
-          high-quality finishes. I work closely with my clients to bring their
-          vision to life, ensuring professional and detailed results. Check out
-          my projects and reviews, and feel free to reach out for your next
-          painting project!
+          Hi, I&apos;m Gram Dew from Dream Ireland Painting. With years of
+          experience in interior painting, I&apos;m dedicated to transforming
+          spaces with high-quality finishes. I work closely with my clients to
+          bring their vision to life, ensuring professional and detailed
+          results. Check out my projects and reviews, and feel free to reach out
+          for your next painting project!
         </p>
       </div>
 
@@ -98,7 +98,7 @@ const ProfDet = () => {
             Why are you reporting the Contractor?
           </div>
           <div className="text-gray-500 text-sm mb-5 flex items-center gap-2">
-            <LockOutlined /> This won’t be shared with Contractor.
+            <LockOutlined /> This won&apos;t be shared with Contractor.
           </div>
 
           <Radio.Group
