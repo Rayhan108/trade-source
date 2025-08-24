@@ -1,26 +1,26 @@
-import { baseApi } from "../../api/baseApi";
+import { baseApi } from '../../api/baseApi';
 
 const otherApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
+    // createContractor
     // createContractor: builder.mutation({
     //   query: (userInfo) => ({
     //     url: `/user/create-contractor`,
-    //     method: "POST",  
+    //     method: "POST",
     //     body:userInfo,
     //   }),
     //     invalidatesTags: ['user'],
     // }),
 
-   getAllCategory: builder.query({
+    // getAllCategory
+    getAllCategory: builder.query({
       query: () => ({
         url: `/category/all-category`,
-        method: "GET",  
+        method: 'GET',
         // body: userInfo,
       }),
     }),
-
-
   }),
-});   
+});
 
-export const {useGetAllCategoryQuery} = otherApi;
+export const { useGetAllCategoryQuery } = otherApi;

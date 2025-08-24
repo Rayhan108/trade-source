@@ -1,26 +1,26 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import Image from "next/image";
-import backgroundImg from "../../../assests/bannerImg.jpg";
-import logo from "../../../assests/YL 2.png";
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { RiEyeCloseLine } from "react-icons/ri";
-import Link from "next/link";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import { message } from "antd";
+'use client';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import Image from 'next/image';
+import backgroundImg from '../../../assests/bannerImg.jpg';
+import logo from '../../../assests/YL 2.png';
+import { FcGoogle } from 'react-icons/fc';
+import { FaApple } from 'react-icons/fa';
+import { AiOutlineEyeInvisible } from 'react-icons/ai';
+import { RiEyeCloseLine } from 'react-icons/ri';
+import Link from 'next/link';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { message } from 'antd';
 
-import { useRouter } from "next/navigation";
-import { useSignUpMutation } from "../../../redux/features/auth/authApi";
+import { useRouter } from 'next/navigation';
+import { useSignUpMutation } from '../../../redux/features/auth/authApi';
 
 const SignUpPage = () => {
-    const router = useRouter();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+  const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [signUp] = useSignUpMutation();
   const {
     register,
@@ -30,37 +30,37 @@ const SignUpPage = () => {
 
   // Validate phone length for BD (+880) only
   useEffect(() => {
-    if (phone.startsWith("880")) {
+    if (phone.startsWith('880')) {
       const localNumber = phone.slice(3);
       if (localNumber.length !== 10) {
-        setPhoneError("Bangladesh phone number must be exactly 10 digits");
+        setPhoneError('Bangladesh phone number must be exactly 10 digits');
       } else {
-        setPhoneError("");
+        setPhoneError('');
       }
     } else if (phone.length < 7) {
-      setPhoneError("Phone number is required or invalid");
+      setPhoneError('Phone number is required or invalid');
     } else {
-      setPhoneError("");
+      setPhoneError('');
     }
   }, [phone]);
 
-  const onSubmit = async(data) => {
+  const onSubmit = async data => {
     if (phoneError) {
-      message.error("Please fix phone number errors before submitting.");
+      message.error('Please fix phone number errors before submitting.');
       return;
     }
     data.phone = phone;
-    console.log("Form Data:", data);
+    console.log('Form Data:', data);
     // Your sign-up logic here
 
     try {
       const response = await signUp(data).unwrap();
-      message.success(response?.message)
-     router.push("/signIn")
-      console.error("Signup response:", response?.message);
+      message.success(response?.message);
+      router.push('/signIn');
+      console.error('Signup response:', response?.message);
       // Redirect user or show success message
     } catch (error) {
-      console.error("Signup failed:", error);
+      console.error('Signup failed:', error);
 
       // Show error to user
     }
@@ -84,15 +84,14 @@ const SignUpPage = () => {
         <div className="bg-white bg-opacity-80 rounded-md shadow-md max-w-full p-6 sm:p-10 md:p-14 text-center">
           {/* Logo and Title */}
           <div className="flex items-center justify-center mb-6 space-x-3">
-            <Link href={"/"}>
-            
-            <Image
-              src={logo}
-              alt="Logo"
-              width={110}
-              height={55}
-              className="sm:w-28 sm:h-14 md:w-36 md:h-18"
-            />
+            <Link href={'/'}>
+              <Image
+                src={logo}
+                alt="Logo"
+                width={110}
+                height={55}
+                className="sm:w-28 sm:h-14 md:w-36 md:h-18"
+              />
             </Link>
             <h1 className="text-blue-600 font-semibold text-lg sm:text-2xl md:text-3xl">
               Your Trade Source
@@ -108,7 +107,7 @@ const SignUpPage = () => {
             <input
               type="text"
               placeholder="First Name"
-              {...register("firstName", { required: "First Name is required" })}
+              {...register('firstName', { required: 'First Name is required' })}
               className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.firstName && (
@@ -121,7 +120,7 @@ const SignUpPage = () => {
             <input
               type="text"
               placeholder="Last Name"
-              {...register("lastName", { required: "Last Name is required" })}
+              {...register('lastName', { required: 'Last Name is required' })}
               className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.lastName && (
@@ -129,11 +128,12 @@ const SignUpPage = () => {
                 {errors.lastName.message}
               </p>
             )}
+
             {/* Address*/}
             <input
               type="text"
               placeholder="Type your address"
-              {...register("address", { required: "Address is required" })}
+              {...register('address', { required: 'Address is required' })}
               className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.address && (
@@ -146,11 +146,11 @@ const SignUpPage = () => {
             <input
               type="email"
               placeholder="Email Address"
-              {...register("email", {
-                required: "Email is required",
+              {...register('email', {
+                required: 'Email is required',
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Invalid email format",
+                  message: 'Invalid email format',
                 },
               })}
               className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -162,11 +162,11 @@ const SignUpPage = () => {
             )}
             <div className="phone-wrapper w-full">
               <PhoneInput
-                country={"bd"}
+                country={'bd'}
                 value={phone}
                 onChange={setPhone}
                 inputProps={{
-                  name: "phone",
+                  name: 'phone',
                   required: true,
                   autoFocus: false,
                 }}
@@ -174,7 +174,7 @@ const SignUpPage = () => {
                 inputClass="p-3 rounded-r-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 buttonClass="rounded-l-md border border-gray-300 custom-flag-button"
                 dropdownClass="rounded-md"
-                specialLabel={""}
+                specialLabel={''}
               />
               {(phoneError || errors.phone) && (
                 <p className="text-red-600 text-sm mt-1">
@@ -186,16 +186,16 @@ const SignUpPage = () => {
             {/* Password with show/hide toggle */}
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
-                {...register("password", { required: "Password is required" })}
+                {...register('password', { required: 'Password is required' })}
                 className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-600"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? (
                   <AiOutlineEyeInvisible size={22} />
@@ -213,11 +213,11 @@ const SignUpPage = () => {
             {/* Terms and privacy note */}
             <p className="text-xs text-black mt-3">
               By clicking below and creating an account, I agree to
-              YourTradeSource{" "}
+              YourTradeSource{' '}
               <Link href="/terms" className="text-blue-600 underline">
                 Terms of Service
-              </Link>{" "}
-              and{" "}
+              </Link>{' '}
+              and{' '}
               <Link href="/privacy" className="text-blue-600 underline">
                 Privacy Policy
               </Link>
@@ -235,8 +235,8 @@ const SignUpPage = () => {
 
           {/* Already have account link */}
           <p className="mt-4 text-sm">
-            Already have an account?{" "}
-            <Link href="/signin" className="font-semibold underline">
+            Already have an account?{' '}
+            <Link href="/signIn" className="font-semibold underline">
               Sign in
             </Link>
           </p>

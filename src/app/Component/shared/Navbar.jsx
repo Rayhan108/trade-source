@@ -1,39 +1,42 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import logo from "../../../assests/navLogo.png";
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import logo from '../../../assests/navLogo.png';
 // import userImg from "../../../assests/user.png";
-import styles from "../../styles.module.css";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { IoNotificationsOutline } from "react-icons/io5";
-import { LuMessageSquareMore } from "react-icons/lu";
-import { useAppSelector } from "../../../redux/hooks";
-import { selectCurrentUser, setUser } from "../../../redux/features/auth/authSlice";
-import { useGetSpecefiqUserQuery } from "../../../redux/features/user/userApi";
-
+import styles from '../../styles.module.css';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import { LuMessageSquareMore } from 'react-icons/lu';
+import { useAppSelector } from '../../../redux/hooks';
+import {
+  selectCurrentUser,
+  setUser,
+} from '../../../redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-    const user = useAppSelector(selectCurrentUser);
+  const user = useAppSelector(selectCurrentUser);
   // const [user,setUser]=useState(true)
-    const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
-     console.log("spec user---->",specUser?.data);
+  const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
+  console.log('spec user---->', specUser?.data);
   const pathname = usePathname();
-const role = specUser?.data?.role
-  const homeLink = user ? "/homepage" : "/"; 
+  const role = specUser?.data?.role;
+  const homeLink = user ? '/homepage' : '/';
 
   // Simulate user logged in state (replace with your auth logic)
-const navItems = [
-  { label: "Home", href:homeLink },
-  { label: "Interior", href: "/interior" },
-  { label: "Exterior", href: "/exterior" },
-  { label: "Lawn & Garden", href: "/lawn" },
-  { label: "Specialized & Other Services", href: "/specialized" },
-  { label: "Articles", href: "/article" },
-];
+  const navItems = [
+    { label: 'Home', href: homeLink },
+    { label: 'Interior', href: '/interior' },
+    { label: 'Exterior', href: '/exterior' },
+    { label: 'Lawn & Garden', href: '/lawn' },
+    { label: 'Specialized & Other Services', href: '/specialized' },
+    { label: 'Articles', href: '/article' },
+  ];
 
-  const profileLink = role === 'contractor' ? '/dashboard' :'/myProfile';
+  const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
+
   return (
     <nav
       className={` bg-white lg:px-2 xl:px-8 px-3 py-3 flex justify-center items-center ${styles.fontDmSans}`}
@@ -53,14 +56,14 @@ const navItems = [
 
       {/* Desktop nav items */}
       <ul className="hidden lg:flex lg:space-x-4 xl:space-x-5 2xl:space-x-8 font-medium text-gray-800 lg:mr-3 xl:mr-5 2xl:mr-20">
-        {navItems.map((item) => {
+        {navItems.map(item => {
           const isActive = item.href === pathname;
           return (
             <li key={item.label}>
               <Link
                 href={item.href}
                 className={`hover:text-blue-600 ${
-                  isActive ? "text-blue-600 font-semibold" : ""
+                  isActive ? 'text-blue-600 font-semibold' : ''
                 }`}
               >
                 {item.label}
@@ -77,9 +80,9 @@ const navItems = [
             <Link
               href="/refer"
               className={`font-medium hover:text-blue-600 ${
-                pathname === "/refer"
-                  ? "text-blue-600 font-semibold"
-                  : "text-gray-700"
+                pathname === '/refer'
+                  ? 'text-blue-600 font-semibold'
+                  : 'text-gray-700'
               }`}
             >
               Get $10
@@ -88,9 +91,9 @@ const navItems = [
               <Link href="/inbox">
                 <div
                   className={`p-2 border border-black rounded-full cursor-pointer ${
-                    pathname === "/inbox"
-                      ? "bg-blue-500 text-white"
-                      : "hover:bg-gray-200"
+                    pathname === '/inbox'
+                      ? 'bg-blue-500 text-white'
+                      : 'hover:bg-gray-200'
                   }`}
                 >
                   <LuMessageSquareMore size={24} />
@@ -99,9 +102,9 @@ const navItems = [
               <Link href="/notificationPage">
                 <div
                   className={`p-2 border border-black rounded-full cursor-pointer ${
-                    pathname === "/notificationPage"
-                      ? "bg-blue-500 text-white"
-                      : "hover:bg-gray-200"
+                    pathname === '/notificationPage'
+                      ? 'bg-blue-500 text-white'
+                      : 'hover:bg-gray-200'
                   }`}
                 >
                   <IoNotificationsOutline size={24} />
@@ -110,32 +113,36 @@ const navItems = [
               <Link href={profileLink}>
                 <button className="flex items-center space-x-2 cursor-pointer">
                   <Image
-                    src={specUser?.data?.image}
+                    src={
+                      specUser?.data?.image ||
+                      'https://tse3.mm.bing.net/th/id/OIP.kUFzwD5-mfBV0PfqgI5GrAHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3'
+                    }
                     alt="User Avatar"
                     width={30}
                     height={30}
                     className="rounded-full w-10 h-10 "
                   />
-                  <span className="font-medium text-gray-700">Hi, {specUser?.data?.firstName}</span>
+                  <span className="font-medium text-gray-700">
+                    Hi, {specUser?.data?.firstName}
+                  </span>
                 </button>
               </Link>
-         {/* <div>
+              {/* <div>
                              <button onClick={()=>setUser(false)} className="bg-blue-600 text-white px-1 py-2 rounded hover:bg-blue-700 w-full text-center">
              {    user?'Login':'Logout'}
                 </button>
          </div> */}
             </div>
-        
           </>
         ) : (
           <>
-            <Link href={"/authentication"}>
+            <Link href={'/authentication'}>
               <button className="border border-black lg:px-4 xl:px-4 py-1 rounded hover:bg-gray-100">
                 Log In / Sign Up
               </button>
             </Link>
-     
-                         {/* <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
+
+            {/* <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
              {    user?'Login':'Logout'}
                 </button> */}
           </>
@@ -176,14 +183,14 @@ const navItems = [
       {/* Mobile menu */}
       {isOpen && (
         <ul className="absolute top-16 left-0 right-0 bg-white border-t border-gray-300 flex flex-col lg:hidden z-10">
-          {navItems.map((item) => {
+          {navItems.map(item => {
             const isActive = item.href === pathname;
             return (
               <li key={item.label} className="border-b border-gray-200">
                 <Link
                   href={item.href}
                   className={`block px-6 py-3 text-gray-800 hover:bg-gray-100 ${
-                    isActive ? "text-blue-600 font-semibold" : ""
+                    isActive ? 'text-blue-600 font-semibold' : ''
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -195,14 +202,14 @@ const navItems = [
 
           {/* Mobile buttons */}
           <li className="flex flex-col px-6 py-3 space-y-2">
-            {user? (
+            {user ? (
               <>
                 <Link
                   href="/refer"
                   className={`font-medium hover:text-blue-600 text-center py-2 rounded ${
-                    pathname === "/refer"
-                      ? "text-blue-600 font-semibold"
-                      : "text-gray-700"
+                    pathname === '/refer'
+                      ? 'text-blue-600 font-semibold'
+                      : 'text-gray-700'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -212,9 +219,9 @@ const navItems = [
                   <Link href="/inbox">
                     <div
                       className={`p-2 border border-black rounded-full cursor-pointer ${
-                        pathname === "/inbox"
-                          ? "bg-blue-500 text-white"
-                          : "hover:bg-gray-200"
+                        pathname === '/inbox'
+                          ? 'bg-blue-500 text-white'
+                          : 'hover:bg-gray-200'
                       }`}
                     >
                       <LuMessageSquareMore size={24} />
@@ -223,30 +230,35 @@ const navItems = [
                   <Link href="/notificationPage">
                     <div
                       className={`p-2 border border-black rounded-full cursor-pointer ${
-                        pathname === "/notificationPage"
-                          ? "bg-blue-500 text-white"
-                          : "hover:bg-gray-200"
+                        pathname === '/notificationPage'
+                          ? 'bg-blue-500 text-white'
+                          : 'hover:bg-gray-200'
                       }`}
                     >
                       <IoNotificationsOutline size={24} />
                     </div>
                   </Link>
                   <div className="flex items-center space-x-2">
-                     <Link href={profileLink}>
-                <button className="flex items-center space-x-2 cursor-pointer">
-                  <Image
-                    src={specUser?.data?.image}
-                    alt="User Avatar"
-                    width={30}
-                    height={30}
-                    className="rounded-full w-10 h-10"
-                  />
-                  <span className="font-medium text-gray-700">Hi, {specUser?.data?.firstName}</span>
-                </button>
-              </Link>
-                <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
-             {    user?'Login':'Logout'}
-                </button>
+                    <Link href={profileLink}>
+                      <button className="flex items-center space-x-2 cursor-pointer">
+                        <Image
+                          src={specUser?.data?.image}
+                          alt="User Avatar"
+                          width={30}
+                          height={30}
+                          className="rounded-full w-10 h-10"
+                        />
+                        <span className="font-medium text-gray-700">
+                          Hi, {specUser?.data?.firstName}
+                        </span>
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => setUser(!user)}
+                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center"
+                    >
+                      {user ? 'Login' : 'Logout'}
+                    </button>
                   </div>
                 </div>
               </>
@@ -260,11 +272,13 @@ const navItems = [
                 <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
                   Become a Pro
                 </button>
-                          <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
-             {    user?'Login':'Logout'}
+                <button
+                  onClick={() => setUser(!user)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center"
+                >
+                  {user ? 'Login' : 'Logout'}
                 </button>
               </>
-              
             )}
           </li>
         </ul>

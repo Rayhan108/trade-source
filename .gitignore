@@ -35,4 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+package-lock.json
+pnpm-lock.yaml
+bun.lock
+yarn.lock

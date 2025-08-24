@@ -1,34 +1,36 @@
-import { baseApi } from "../../api/baseApi";
+import { baseApi } from '../../api/baseApi';
 
 const contractorApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
+    // createContractor
     createContractor: builder.mutation({
-      query: (userInfo) => ({
+      query: userInfo => ({
         url: `/user/create-contractor`,
-        method: "POST",  
-        body:userInfo,
+        method: 'POST',
+        body: userInfo,
       }),
-        invalidatesTags: ['user'],
+      invalidatesTags: ['user'],
     }),
+
+    // createServices
     createServices: builder.mutation({
-      query: (userInfo) => ({
+      query: userInfo => ({
         url: `/service/addServices`,
-        method: "POST",  
-        body:userInfo,
+        method: 'POST',
+        body: userInfo,
       }),
-        invalidatesTags: ['services'],
+      invalidatesTags: ['services'],
     }),
-
-//    getSpecefiqUser: builder.query({
-//       query: (id) => ({
-//         url: `/user/retrive/${id}`,
-//         method: "GET",  
-//         // body: userInfo,
-//       }),
-//     }),
-
-
+    // getSpecefiqUser
+    //    getSpecefiqUser: builder.query({
+    //       query: (id) => ({
+    //         url: `/user/retrive/${id}`,
+    //         method: "GET",
+    //         // body: userInfo,
+    //       }),
+    //     }),
   }),
-});   
+});
 
-export const {useCreateContractorMutation,useCreateServicesMutation} = contractorApi;
+export const { useCreateContractorMutation, useCreateServicesMutation } =
+  contractorApi;
