@@ -12,7 +12,11 @@ const ForgotpassPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = data => {
+  interface ForgotPassFormData {
+    email: string;
+  }
+
+  const onSubmit = (data: ForgotPassFormData) => {
     console.log('Form Data:', data);
     // Handle reset code sending logic here
   };
