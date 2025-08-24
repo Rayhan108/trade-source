@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 import ArticleCard from '../Card/ArticleCard';
 import { cardDatas } from '../Home/RecentArticle';
 import { Pagination } from 'antd';

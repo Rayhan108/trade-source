@@ -1,15 +1,17 @@
 'use client';
 import { useState } from 'react';
-import project1 from '../../../assests/project1.png';
-import project2 from '../../../assests/project2.png';
-import project3 from '../../../assests/project3.png';
+import project1 from '../../assests/project1.png';
+import project2 from '../../assests/project2.png';
+import project3 from '../../assests/project3.png';
 import ServiceDetails from './ServiceDetails';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 import ProjCard from './ProjCard';
 import { Projects } from '../Home/ProjectsNear';
 import ProjectCard from '../Card/ProjectCard';
 import LicenseCard from '../Card/LicenseCard';
+
 const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
+
 const cardDatas = [
   {
     title: 'Pink Dyer',
@@ -44,6 +46,7 @@ const cardDatas = [
     image: project3,
   },
 ];
+
 const licenses = [
   {
     title: 'Licensed',
@@ -67,7 +70,6 @@ const tabContent = {
       <div className={`container mx-auto ${styles.fontDmSans}`}>
         <div className="flex justify-between items-center ">
           <div>
-            {' '}
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
               Project <span className="font-semibold">{cardDatas?.length}</span>
             </h1>
@@ -90,7 +92,6 @@ const tabContent = {
       <div className={`container mx-auto ${styles.fontDmSans}`}>
         <div className=" ">
           <div>
-            {' '}
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
               Service <span className="font-semibold">{Projects?.length}</span>
             </h1>
@@ -109,7 +110,6 @@ const tabContent = {
       <div className={`container mx-auto ${styles.fontDmSans}`}>
         <div className=" ">
           <div>
-            {' '}
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
               Licenses & Insurance{' '}
               <span className="font-semibold">{Projects?.length}</span>

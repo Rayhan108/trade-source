@@ -1,9 +1,9 @@
-import { Search } from "lucide-react";
-import Image from "next/image";
-import hamer from "../../../assests/hammer.png";
-import banerImg from "../../../assests/bannerImg.jpg";
-import styles from "../../styles.module.css";
-import Service from "./Service";
+import { Search } from 'lucide-react';
+import Image from 'next/image';
+import hamer from '../../assests/hammer.png';
+import banerImg from '../../assests/bannerImg.jpg';
+import styles from '../../app/styles.module.css';
+import Service from './Service';
 
 export default function Banner() {
   return (
@@ -48,11 +48,11 @@ export default function Banner() {
               <p className="text-white/90 text-lg md:text-xl max-w-4xl mx-auto mb-12 leading-relaxed">
                 YourTradeSource connects homeowners with trusted, verified
                 contractors for home improvement, remodeling, and repairs. Find
-                the{" "}
+                the{' '}
                 <span className="text-[#ABE7B4] font-semibold">
                   perfect professional
-                </span>{" "}
-                for your project and bring your{" "}
+                </span>{' '}
+                for your project and bring your{' '}
                 <span className="text-[#ABE7B4] font-semibold">
                   vision to life
                 </span>

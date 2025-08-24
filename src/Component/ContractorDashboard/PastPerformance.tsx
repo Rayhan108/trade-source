@@ -44,11 +44,7 @@ export default function PastPerformance() {
             angleAxisId={0}
             tick={false}
           />
-          <RadialBar
-            label={false}
-            background
-            dataKey="uv"
-          />
+          <RadialBar label={false} background dataKey="uv" />
         </RadialBarChart>
 
         <div className="flex flex-col gap-4 ml-1">

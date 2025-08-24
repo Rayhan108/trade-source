@@ -1,14 +1,17 @@
-import { Search } from "lucide-react"
-import Image from "next/image"
-import house from '../../../assests/house.png'
+import { Search } from 'lucide-react';
+import Image from 'next/image';
+import house from '../../assests/house.png';
+
 const WelBan = () => {
-    return (
-     <div className=" bg-slate-700 flex items-center py-8 ">
+  return (
+    <div className=" bg-slate-700 flex items-center py-8 ">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">Welcome Back!</h1>
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+              Welcome Back!
+            </h1>
 
             {/* Search Bar */}
             <div className="relative  max-w-lg">
@@ -39,7 +42,7 @@ const WelBan = () => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default WelBan;

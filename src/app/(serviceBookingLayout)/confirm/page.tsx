@@ -1,7 +1,12 @@
 'use client';
+
 import cons1 from '../../../assests/cons1.png';
 import { useState } from 'react';
 import Image from 'next/image';
+import { SlBadge } from 'react-icons/sl';
+import { FaStripe } from 'react-icons/fa6';
+import { GiStripedSun } from 'react-icons/gi';
+import { useRouter } from 'next/navigation';
 import {
   FaCreditCard,
   FaCalendarAlt,
@@ -15,10 +20,7 @@ import {
   SiAmericanexpress,
   SiDiscover,
 } from 'react-icons/si';
-import { SlBadge } from 'react-icons/sl';
-import { FaStripe } from 'react-icons/fa6';
-import { GiStripedSun } from 'react-icons/gi';
-import { useRouter } from 'next/navigation';
+
 export default function PaymentBookingInterface() {
   const [selectedPayment, setSelectedPayment] = useState('card');
   const [cardNumber, setCardNumber] = useState('');

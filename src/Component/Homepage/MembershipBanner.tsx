@@ -1,23 +1,26 @@
-import Image from "next/image"
-import proj4 from "../../../assests/project4.png"
-import proj2 from "../../../assests/project2.png"
-import ar2 from "../../../assests/ar2.png"
-import fe1 from "../../../assests/fe1.jpg"
-import fe2 from "../../../assests/fe2.jpg"
-import male from "../../../assests/male.png"
+import Image from 'next/image';
+import proj4 from '../../assests/project4.png';
+import proj2 from '../../assests/project2.png';
+import ar2 from '../../assests/ar2.png';
+import fe1 from '../../assests/fe1.jpg';
+import fe2 from '../../assests/fe2.jpg';
+import male from '../../assests/male.png';
+
 const MembershipBanner = () => {
-    return (
-     <div className="relative overflow-hidden bg-[#01A6BE] px-6  lg:px-12  py-12 lg:py-5 my-8 container mx-auto">
+  return (
+    <div className="relative overflow-hidden bg-[#01A6BE] px-6  lg:px-12  py-12 lg:py-5 my-8 container mx-auto">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
           {/* Left Content */}
           <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold text-white lg:text-5xl xl:text-6xl">
-                Member Get <span className="text-red-500">20% Off</span> On All Services.
+                Member Get <span className="text-red-500">20% Off</span> On All
+                Services.
               </h1>
               <p className="text-lg text-white/90 lg:text-xl">
-                Become a YTS Member and enjoy 20% off all services — trusted pros, exclusive savings.
+                Become a YTS Member and enjoy 20% off all services — trusted
+                pros, exclusive savings.
               </p>
             </div>
             <div>
@@ -85,8 +88,6 @@ const MembershipBanner = () => {
                 />
               </div>
 
-           
-
               {/* Small profile image - center bottom */}
               <div className="absolute bottom-0 left-1/2 h-20 w-20 -translate-x-1/2 overflow-hidden rounded-full border-4 border-white shadow-lg lg:h-24 lg:w-24">
                 <Image
@@ -102,7 +103,7 @@ const MembershipBanner = () => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default MembershipBanner;

@@ -29,6 +29,7 @@ export default function CreateServiceForm() {
       details: '',
       category: '',
       price: '',
+      image: null,
     },
   });
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
@@ -44,16 +45,29 @@ export default function CreateServiceForm() {
     setSelectedSubcategories(updatedSubcategories);
   };
 
+  // Define the type for category options
+  type CategoryOption = {
+    label: string;
+    value: string;
+    subCategories?: {
+      label: string;
+      value: string;
+      parent: string;
+    }[];
+  };
+
   // Prepare options for react-select from categories and subcategories
-  const categoryOptions = allCategory?.data?.map(service => ({
-    label: service?.category,
-    value: service?.category,
-    subCategories: service?.subCategory?.map(sub => ({
-      label: sub,
-      value: `${service?.category}-${sub}`, // Combining category and subcategory for uniqueness
-      parent: service?.category, // Storing parent category to know which category the sub belongs to
-    })),
-  }));
+  const categoryOptions: CategoryOption[] | undefined = allCategory?.data?.map(
+    service => ({
+      label: service?.category,
+      value: service?.category,
+      subCategories: service?.subCategory?.map(sub => ({
+        label: sub,
+        value: `${service?.category}-${sub}`, // Combining category and subcategory for uniqueness
+        parent: service?.category, // Storing parent category to know which category the sub belongs to
+      })),
+    })
+  );
 
   // Handle category selection change
   const handleCategoryChange = selectedOptions => {
@@ -100,11 +114,18 @@ export default function CreateServiceForm() {
 
     try {
       const res = await createServices(formData);
-      console.log('res===>>>>', res);
+      console.log('res===>>>>', { res });
       if (res.data) {
         message.success(res?.data?.message);
       } else {
-        message.error(res?.error?.data?.message);
+        // Check if error is FetchBaseQueryError and has data
+        const errorMessage =
+          res.error && 'data' in res.error && (res.error as any).data?.message
+            ? (res.error as any).data.message
+            : res.error && 'message' in res.error
+            ? (res.error as { message?: string }).message
+            : 'An error occurred';
+        message.error(errorMessage);
       }
     } catch (error) {
       message.error(error);
@@ -126,31 +147,33 @@ export default function CreateServiceForm() {
               Upload cover of your service
             </label>
             {/* <Controller
-  name="image"
-  control={control}
-  // eslint-disable-next-line no-unused-vars
-  render={({ field: { onChange, value, ...field } }) => (
-    <div className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center hover:border-gray-400 transition-colors cursor-pointer">
-      <input
-        {...field}
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          // Capture the file and call onChange
-          onChange(e.target.files);
-        }}
-        className="hidden"
-        id="file-upload"
-      />
-      <label htmlFor="file-upload" className="cursor-pointer">
-        <div className="flex flex-col items-center">
-          <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
-          <span className="text-lg font-medium text-gray-600">Upload</span>
-        </div>
-      </label>
-    </div>
-  )}
-/> */}
+              name="image"
+              control={control}
+              // eslint-disable-next-line no-unused-vars
+              render={({ field: { onChange, value, ...field } }) => (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center hover:border-gray-400 transition-colors cursor-pointer">
+                  <input
+                    {...field}
+                    type="file"
+                    accept="image/*"
+                    onChange={e => {
+                      // Capture the file and call onChange
+                      onChange(e.target.files);
+                    }}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label htmlFor="file-upload" className="cursor-pointer">
+                    <div className="flex flex-col items-center">
+                      <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
+                      <span className="text-lg font-medium text-gray-600">
+                        Upload
+                      </span>
+                    </div>
+                  </label>
+                </div>
+              )}
+            /> */}
 
             <Controller
               name="image"
@@ -240,27 +263,18 @@ export default function CreateServiceForm() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
               placeholder=""
             />
-            {errors.details && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.details.message}
-              </p>
-            )}
           </div>
-          <label className="block text-sm font-medium text-gray-900 mb-3">
-            Category of Services
-          </label>
-          {/* Category Selection */}
           <Controller
-            name="categories"
+            name="category"
             control={control}
-            render={({ field }) => (
+            render={() => (
               <Select
-                {...field}
                 isMulti
                 options={categoryOptions}
+                value={selectedCategories}
                 onChange={handleCategoryChange}
-                getOptionLabel={e => e.label}
-                getOptionValue={e => e.value}
+                getOptionLabel={(e: CategoryOption) => e.label}
+                getOptionValue={(e: CategoryOption) => e.value}
                 placeholder="Select Categories"
                 className="w-full mb-4"
               />

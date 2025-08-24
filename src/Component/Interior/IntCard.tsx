@@ -15,7 +15,9 @@ export default function IntCard({ project }) {
         />
       </div>
       <div className="p-4">
-        <h3 className="text-base font-semibold text-black mb-2">{project?.title}</h3>
+        <h3 className="text-base font-semibold text-black mb-2">
+          {project?.title}
+        </h3>
         <span className="text-gray-700">{project?.subTitle}</span>
         <div className="flex items-center space-x-1 text-sm text-blue-600">
           <svg
@@ -26,7 +28,7 @@ export default function IntCard({ project }) {
             <path d="M10 15l-5.878 3.09 1.123-6.545L.49 7.91l6.564-.955L10 1l2.946 5.955 6.564.955-4.755 4.635 1.123 6.545z" />
           </svg>
           <span>{project?.rating}</span>
-          
+
           <span className="text-gray-400">({project?.reviews})</span>
           <span className="mx-1 text-gray-300">|</span>
           <span className="text-gray-700">from ${project?.price}</span>

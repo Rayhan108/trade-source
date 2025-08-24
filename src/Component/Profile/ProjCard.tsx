@@ -1,5 +1,5 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
 
 const ProjCard = ({ cardData }) => {
   console.log(cardData);
@@ -12,17 +12,17 @@ const ProjCard = ({ cardData }) => {
           className="w-full h-48 object-cover"
         />
         <div className="absolute top-3 right-3 flex flex-col space-y-2">
-          {cardData?.tags.includes("Featured") && (
+          {cardData?.tags.includes('Featured') && (
             <span className="bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
               Featured
             </span>
           )}
-          {cardData?.tags.includes("Edit") && (
+          {cardData?.tags.includes('Edit') && (
             <span className="bg-blue-700 text-white text-xs font-semibold px-3 py-1 rounded-full">
               Edit
             </span>
           )}
-          {cardData?.tags.includes("Remove") && (
+          {cardData?.tags.includes('Remove') && (
             <span className="bg-gray-900 text-white text-xs font-semibold px-3 py-1 rounded-full">
               Remove
             </span>
@@ -44,7 +44,7 @@ const ProjCard = ({ cardData }) => {
               <path d="M10 15l-5.878 3.09L5.64 11.09 1 7.545l6.061-.545L10 2l2.939 5 6.06.545-4.64 3.545 1.517 6.999z" />
             </svg>
           </span>
-          {cardData?.rating}{" "}
+          {cardData?.rating}{' '}
           <span className="text-[#80898A]">(Client Rating)</span>
           <div>
             <span className="text-gray-700 mr-2 ">|</span>

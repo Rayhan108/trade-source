@@ -1,10 +1,12 @@
-import React from "react";
+import React from 'react';
 
 export default function AccountBalance() {
   return (
     <div className="max-w-7xl min-h-screen mx-auto border rounded-md p-6 shadow-sm bg-white">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Account Balance</h2>
-        <div className="border-b border-gray-200 mb-8"></div>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        Account Balance
+      </h2>
+      <div className="border-b border-gray-200 mb-8"></div>
 
       <div className="mb-2">
         <p className="font-semibold text-lg">

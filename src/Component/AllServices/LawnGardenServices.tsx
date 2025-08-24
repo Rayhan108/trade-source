@@ -9,7 +9,6 @@ const LawnGardenServices = () => {
     >
       <div className="flex justify-between items-center mb-3">
         <div>
-          {' '}
           <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>
             Lawn & Garden Projects
           </h1>

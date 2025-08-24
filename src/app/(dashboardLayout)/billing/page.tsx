@@ -1,16 +1,25 @@
 'use client';
 
 import { Button } from 'antd';
-import { FaCcVisa, FaCcMastercard, FaCcAmex, FaCreditCard } from 'react-icons/fa';
+import {
+  FaCcVisa,
+  FaCcMastercard,
+  FaCcAmex,
+  FaCreditCard,
+} from 'react-icons/fa';
 
 export default function BillingInfo() {
   return (
     <div className="bg-white min-h-screen rounded-md shadow-sm p-3">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Billing Info</h2>
-    {/* Divider */}
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+        Billing Info
+      </h2>
+      {/* Divider */}
       <div className="border-b border-gray-200 mb-8"></div>
       <div className="mb-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Payment Method</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          Payment Method
+        </h3>
 
         {/* Card Logos */}
         <div className="flex items-center gap-4 mb-4">
@@ -28,7 +37,8 @@ export default function BillingInfo() {
           />
           <FaCreditCard className="absolute top-2.5 left-3 text-gray-400 text-lg" />
           <button className="absolute right-2 top-1.5 bg-black text-white text-sm px-3 py-1 rounded-md">
-            Autofill <span className="text-green-400 font-medium ml-1">link</span>
+            Autofill{' '}
+            <span className="text-green-400 font-medium ml-1">link</span>
           </button>
         </div>
 
@@ -41,7 +51,7 @@ export default function BillingInfo() {
       </div>
 
       {/* Action Buttons */}
-    <div className="flex w-full justify-end gap-3 pt-4">
+      <div className="flex w-full justify-end gap-3 pt-4">
         <Button className="w-1/2">Cancel</Button>
         <Button type="primary" htmlType="submit" className="bg-blue-600 w-1/2">
           Update

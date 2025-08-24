@@ -1,6 +1,6 @@
 import IntCard from '../Interior/IntCard';
 import { Projects2 } from '../Interior/IntNear';
-import styles from '../../styles.module.css';
+import styles from '../../app/styles.module.css';
 
 const SpecializedNear = () => {
   return (
@@ -8,7 +8,6 @@ const SpecializedNear = () => {
       className={`container mx-auto bg-[#ffffff] my-8 p-4 pt-8 ${styles.fontDmSans}`}
     >
       <div>
-        {' '}
         <h1 className={`text-4xl font-bold mb-5   ${styles.fontDmSans}`}>
           Specialized Projects Near You
         </h1>

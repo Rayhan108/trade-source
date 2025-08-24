@@ -1,11 +1,12 @@
 'use client';
+
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Modal, Radio, Button, Upload, Input } from 'antd';
 import { HiFlag } from 'react-icons/hi2';
 import { IoCameraOutline } from 'react-icons/io5';
 import { LockOutlined, UploadOutlined } from '@ant-design/icons';
-import img from '../../../assests/bannerImg.jpg';
+import img from '../../assests/bannerImg.jpg';
 
 const { TextArea } = Input;
 

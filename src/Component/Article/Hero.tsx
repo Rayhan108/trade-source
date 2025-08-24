@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
-import hero from '../../../assests/hero.png';
-import jesi from '../../../assests/jesi.jpg';
+import hero from '../../assests/hero.png';
+import jesi from '../../assests/jesi.jpg';
 
 export default function BlogHero() {
   const [scrollPosition, setScrollPosition] = useState(0);

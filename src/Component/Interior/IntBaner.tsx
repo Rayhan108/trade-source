@@ -1,4 +1,4 @@
-import { HiOutlineLocationMarker } from "react-icons/hi"
+import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 export default function InteriorBanner() {
   return (
@@ -6,12 +6,15 @@ export default function InteriorBanner() {
       <div className="">
         {/* Main Heading */}
         <h1 className="text-3xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl xl:text-5xl">
-          An Interior Isn&apos;t Just A Space; It&apos;s Where Comfort Meets Craftsmanship.
+          An Interior Isn&apos;t Just A Space; It&apos;s Where Comfort Meets
+          Craftsmanship.
         </h1>
 
         {/* Project Location Section */}
         <div className="mt-12 sm:mt-16">
-          <label className="block text-sm font-medium text-gray-700 mb-3">Project Location</label>
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            Project Location
+          </label>
 
           {/* Location Input Field */}
           <div className="relative">
@@ -28,5 +31,5 @@ export default function InteriorBanner() {
         </div>
       </div>
     </div>
-  )
+  );
 }
