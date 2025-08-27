@@ -7,11 +7,12 @@ type TEmail = {
 };
 
 export type TUser = {
+  email: string;
+  user: TEmail;
   userId: string;
   role: string;
   iat: number;
   exp: number;
-  user: TEmail;
   userName: string;
 };
 

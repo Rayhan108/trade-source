@@ -46,16 +46,12 @@ const contractorItems = [
 const Sidebar = () => {
   const pathname = usePathname();
   const user = useAppSelector(selectCurrentUser);
-
-  console.log({ user });
-
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
-  console.log('logged user---->', user);
-  console.log('specefiq user---->', specUser);
   const role = specUser?.data?.role;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const items = role === 'contractor' ? contractorItems : userItems;
+
   // logout
   const handleLogout = () => {
     dispatch(logout());

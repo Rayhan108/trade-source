@@ -1,63 +1,75 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import {
+  selectTime,
+  setTime,
+} from '../../../redux/features/project/projectSlice';
+import { dateOptions, timeOptions } from '../../../constants';
+
+interface FormValues {
+  preferredDate: string;
+  preferredTime: string;
+  projectDescription: string;
+}
+
 const TimePage = () => {
-  const serviceOptions = [
-    { id: 'urgent', label: 'Urgent (1-2 days)', value: 'Urgent (1-2 days)' },
-    { id: 'within2week', label: 'Within 2 weeks', value: 'Within 2 weeks' },
-    {
-      id: 'morethan2week',
-      label: 'More than 2 weeks',
-      value: 'More than 2 weeks',
-    },
-    {
-      id: 'planning',
-      label: 'Not sure still planning',
-      value: 'Not sure still planning',
-    },
-  ];
+  const dispatch = useAppDispatch();
   const router = useRouter();
+  const storedTime = useAppSelector(selectTime);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+    setValue,
+  } = useForm<FormValues>({
     defaultValues: {
-      serviceType: 'general',
-      projectDescription: '',
+      preferredDate: storedTime.preferredDate || '',
+      preferredTime: storedTime.preferredTime || '',
+      projectDescription: storedTime.projectDescription || '',
     },
     mode: 'onChange',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async data => {
+  // Set previous state on mount
+  useEffect(() => {
+    setValue('preferredDate', storedTime.preferredDate || '');
+    setValue('preferredTime', storedTime.preferredTime || '');
+    setValue('projectDescription', storedTime.projectDescription || '');
+  }, [storedTime, setValue]);
+
+  const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Form submitted:', data);
+
+    // Save to Redux
+    dispatch(setTime(data));
+
     setIsSubmitting(false);
     router.push('/selectConstructor');
-    // Handle form submission here
   };
 
   const handlePrevious = () => {
-    // Handle previous step navigation
-    router.push('/time');
+    router.push('/chooseService');
   };
+
   return (
     <div className="max-w-4xl mx-auto p-5">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl  my-12 font-bold text-gray-900 mb-6 leading-tight">
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl my-12 font-bold text-gray-900 mb-6 leading-tight">
         When would you like the work to be completed?
       </h1>
-      <div className=" bg-white py-8 px-4 sm:px-6 lg:px-8">
+
+      <div className="bg-white py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Header Section */}
             <div className="space-y-4">
-              <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-blue-600 leading-tight">
+              <h1 className="text-2xl lg:text-3xl font-bold text-blue-600 leading-tight">
                 Pick Your Preferred Time
               </h1>
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-3xl">
@@ -67,42 +79,82 @@ const TimePage = () => {
               <hr className="border-gray-300" />
             </div>
 
-            {/* Project Options Section */}
+            {/* Time Options */}
             <div className="space-y-6">
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
-                Project options
-              </h2>
+              <div className="space-y-3">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                  Day
+                </h2>
 
-              {/* Radio Button Options */}
-              {/* Radio Button Options styled like table rows */}
-              <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
-                {serviceOptions.map((option, index) => (
+                <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
+                  {dateOptions.map((option, index) => (
+                    <label
+                      key={option.id}
+                      className={`flex items-center space-x-4 px-6 py-4 cursor-pointer transition-colors duration-200
+                      ${
+                        index !== dateOptions.length - 1
+                          ? 'border-b border-gray-200'
+                          : ''
+                      }
+                      hover:bg-gray-50`}
+                    >
+                      <input
+                        type="radio"
+                        value={option.value}
+                        {...register('preferredDate', {
+                          required: 'Please select a preferred time',
+                        })}
+                        className="w-5 h-5 text-blue-600 border-2 border-gray-400"
+                      />
+                      <span className="text-gray-800 text-base sm:text-lg font-medium">
+                        {option.value}
+                      </span>
+                    </label>
+                  ))}
+
+                  {errors.preferredDate && (
+                    <p className="text-red-500 text-sm mt-2">
+                      {errors.preferredDate.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                  Time
+                </h2>
+                {timeOptions.map((option, index) => (
                   <label
-                    key={option.id}
+                    key={index}
                     className={`flex items-center space-x-4 px-6 py-4 cursor-pointer transition-colors duration-200
-        ${index !== serviceOptions.length - 1 ? 'border-b border-gray-200' : ''}
-        hover:bg-gray-50`}
+                      ${
+                        index !== timeOptions.length - 1
+                          ? 'border-b border-gray-200'
+                          : ''
+                      }
+                      hover:bg-gray-50`}
                   >
                     <input
                       type="radio"
-                      value={option.value}
-                      {...register('serviceType', {
-                        required: 'Please select a service type',
+                      value={option}
+                      {...register('preferredTime', {
+                        required: 'Please select a preferred time',
                       })}
                       className="w-5 h-5 text-blue-600 border-2 border-gray-400"
                     />
                     <span className="text-gray-800 text-base sm:text-lg font-medium">
-                      {option.label}
+                      {option}
                     </span>
                   </label>
                 ))}
-              </div>
 
-              {errors.serviceType && (
-                <p className="text-red-500 text-sm mt-2">
-                  {errors.serviceType.message}
-                </p>
-              )}
+                {errors.preferredTime && (
+                  <p className="text-red-500 text-sm mt-2">
+                    {errors.preferredTime.message}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Project Description */}
@@ -115,7 +167,7 @@ const TimePage = () => {
                     message: 'Please provide at least 10 characters',
                   },
                 })}
-                placeholder="Tell us more about your projects"
+                placeholder="Tell us more about your project"
                 rows={3}
                 className="w-full px-4 py-4 text-base border border-gray-300 rounded-xl bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               />

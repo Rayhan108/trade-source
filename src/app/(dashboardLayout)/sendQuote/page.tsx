@@ -14,6 +14,7 @@ import DatePicker from 'react-datepicker';
 import TimePicker from 'react-time-picker';
 import { Modal } from 'antd';
 import 'react-datepicker/dist/react-datepicker.css';
+import { dateOptions, timeOptions } from '../../../constants';
 
 export default function SendQuote() {
   const [selectedDate, setSelectedDate] = useState('Within a week');
@@ -25,13 +26,6 @@ export default function SendQuote() {
   const [showTimePicker, setShowTimePicker] = useState(false); // For showing time picker modal
   const [time, setTime] = useState('10:00'); // Default time value
   const [date, setDate] = useState(new Date());
-
-  const dateOptions = ['Today', 'Within 3 day', 'Within a week'];
-  const timeOptions = [
-    'Morning (8 AM - 12 PM)',
-    'Afternoon (12 PM - 5 PM)',
-    'Evening (5 PM - 9 PM)',
-  ];
 
   const handleDragOver = e => {
     e.preventDefault();
@@ -156,15 +150,15 @@ export default function SendQuote() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {dateOptions.map(option => (
             <button
-              key={option}
-              onClick={() => setSelectedDate(option)}
+              key={option.id}
+              onClick={() => setSelectedDate(option.value)}
               className={`px-6 py-2 rounded-full border transition-colors ${
-                selectedDate === option
+                selectedDate === option.value
                   ? 'border-blue-500 bg-blue-50 text-blue-700'
                   : 'border-gray-300 text-gray-700 hover:border-gray-400'
               }`}
             >
-              {option}
+              {option.value}
             </button>
           ))}
         </div>

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { FiDownload } from 'react-icons/fi';
 import { IoIosArrowDown } from 'react-icons/io';
 

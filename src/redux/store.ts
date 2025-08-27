@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import contractorReducer from './features/contractor/contractorSlice';
+import projectReducer from './features/project/projectSlice';
 import { baseApi } from './api/baseApi';
 import storage from 'redux-persist/lib/storage';
 import { persistStore } from 'redux-persist';
@@ -24,11 +25,21 @@ const persistConfigContractor = {
   storage,
 };
 
+const persistConfigProject = {
+  key: 'project',
+  storage,
+};
+
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 const persistedContractorReducer = persistReducer(
   persistConfigContractor,
   contractorReducer
+);
+
+const persistedProjectReducer = persistReducer(
+  persistConfigProject,
+  projectReducer
 );
 
 export const makeStore = () => {
@@ -37,6 +48,7 @@ export const makeStore = () => {
       [baseApi.reducerPath]: baseApi.reducer,
       auth: persistedAuthReducer,
       contractor: persistedContractorReducer,
+      project: persistedProjectReducer,
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({

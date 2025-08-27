@@ -1,8 +1,6 @@
 'use client';
+
 import { useState } from 'react';
-import project1 from '../../../assests/project1.png';
-import project2 from '../../../assests/project2.png';
-import project3 from '../../../assests/project3.png';
 import ServiceDetails from '../../../Component/Profile/ServiceDetails';
 import ProjCard from '../../../Component/Profile/ProjCard';
 import { Projects } from '../../../Component/Home/ProjectsNear';
@@ -12,59 +10,12 @@ import ProfDet from '../../../Component/Profile/ProfDet';
 import FeaturedMedia from '../../../Component/ContractorProfile/FeaturedMedia';
 import { FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
-const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
-const cardDatas = [
-  {
-    title: 'Pink Dyer',
-    location: 'Huston TX',
-    rating: 5,
-    budget: 350,
-    tags: ['Featured', 'Edit', 'Remove'],
-    image: project1,
-  },
-  {
-    title: 'Blue Sky',
-    location: 'Austin TX',
-    rating: 4,
-    budget: 420,
-    tags: ['Featured', 'Edit'],
-    image: project2,
-  },
-  {
-    title: 'Green Haven',
-    location: 'Dallas TX',
-    rating: 3,
-    budget: 280,
-    tags: ['Edit'],
-    image: project3,
-  },
-  {
-    title: 'Green Haven',
-    location: 'Dallas TX',
-    rating: 3,
-    budget: 280,
-    tags: ['Edit'],
-    image: project3,
-  },
-];
-const licenses = [
-  {
-    title: 'Licensed',
-    number: '90180938',
-    date: 'May 25, 2025',
-    state: 'State of California',
-    status: 'Verified',
-  },
-  {
-    title: 'Licensed',
-    number: '12345678',
-    date: 'June 15, 2024',
-    state: 'State of New York',
-    status: 'Verified',
-  },
-];
+import { cardDatas, licenses } from '../../../constants';
+
 const ContractorProfilePage = () => {
+  const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
   const [activeTab, setActiveTab] = useState('Projects');
+
   const tabContent = {
     Projects: (
       <div>
@@ -72,7 +23,7 @@ const ContractorProfilePage = () => {
           <div className="flex justify-between items-center ">
             <div>
               <h1 className={`text-4xl  mb-5   font-dm`}>
-                Project{' '}
+                Project
                 <span className="font-semibold">{cardDatas?.length}</span>
               </h1>
             </div>
@@ -149,6 +100,7 @@ const ContractorProfilePage = () => {
     //   </div>
     // ),
   };
+
   return (
     <div>
       <nav

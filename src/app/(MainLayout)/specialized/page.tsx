@@ -7,6 +7,7 @@ const SpecializedPage = () => {
       <div className="p-4">
         <InteriorBanner />
       </div>
+      
       <SpecializedNear />
     </div>
   );

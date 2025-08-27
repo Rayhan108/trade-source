@@ -17,7 +17,6 @@ const userApi = baseApi.injectEndpoints({
       query: id => ({
         url: `/user/retrive/${id}`,
         method: 'GET',
-        // body: userInfo,
       }),
     }),
   }),

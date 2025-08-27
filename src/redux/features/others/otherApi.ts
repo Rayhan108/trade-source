@@ -12,15 +12,54 @@ const otherApi = baseApi.injectEndpoints({
     //     invalidatesTags: ['user'],
     // }),
 
+    // getAllArticles
+    getAllArticles: builder.query({
+      query: () => ({
+        url: '/article/allArticle',
+        method: 'GET',
+      }),
+    }),
+
+    // getSingleArticle
+    getSingleArticle: builder.query({
+      query: id => ({
+        url: `/article/single-article/${id}`,
+        method: 'GET',
+      }),
+    }),
+
     // getAllCategory
     getAllCategory: builder.query({
       query: () => ({
         url: `/category/all-category`,
         method: 'GET',
-        // body: userInfo,
+      }),
+    }),
+
+    // postReport
+    postReport: builder.mutation({
+      query: ({ formData, contractorId }) => ({
+        url: `/user/report/${contractorId}`,
+        method: 'PATCH',
+        body: formData,
+      }),
+    }),
+
+    // bookService
+    bookService: builder.mutation({
+      query: body => ({
+        url: '/book/bookServices',
+        method: 'POST',
+        body: body,
       }),
     }),
   }),
 });
 
-export const { useGetAllCategoryQuery } = otherApi;
+export const {
+  useGetAllArticlesQuery,
+  useGetSingleArticleQuery,
+  useGetAllCategoryQuery,
+  usePostReportMutation,
+  useBookServiceMutation,
+} = otherApi;

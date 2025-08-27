@@ -1,21 +1,20 @@
-'use client';
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../app/styles.module.css';
 import ArticleCard from '../Card/ArticleCard';
-import { cardDatas } from '../Home/RecentArticle';
 import { Pagination } from 'antd';
 
-const ITEMS_PER_PAGE = 6; // adjust as needed
-
-const RecentlyPosted = () => {
+const RecentlyPosted = ({ allArticles }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   // Calculate current items to show
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentItems = cardDatas.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const currentItems = allArticles?.data?.result?.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
-  const onPageChange = page => {
+  const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -29,7 +28,7 @@ const RecentlyPosted = () => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 px-3 mb-8">
-        {currentItems.map((cardData, idx) => (
+        {currentItems?.map((cardData, idx) => (
           <ArticleCard key={idx} cardData={cardData} />
         ))}
       </div>
@@ -37,7 +36,7 @@ const RecentlyPosted = () => {
       <Pagination
         current={currentPage}
         pageSize={ITEMS_PER_PAGE}
-        total={cardDatas.length}
+        total={allArticles?.data?.result?.length}
         onChange={onPageChange}
         showSizeChanger={false}
         className="flex justify-center"

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
 import userImg1 from '../../../assests/cons1.png';
 import emptyImg from '../../../assests/Notification 1.png'; // Your uploaded empty state image

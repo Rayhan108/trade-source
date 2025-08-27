@@ -46,18 +46,12 @@ const SigninPage = () => {
   } = useForm();
 
   const handleSignin: SubmitHandler<FieldValues> = async data => {
-    console.log('Form Data:', data);
     const redirect = searchParams.get('redirectPath');
-    console.log('redirect path', redirect);
     try {
-      // Handle login logic here
       const res = await login(data).unwrap();
-      console.log('response--->:', res);
       setLoading(true);
       const user = verifyToken(res.data.accessToken);
       const modifiedUser = { email: data?.email, user: user };
-      // console.log(modifiedUser);
-      // console.log("dispatchUser", user);
       dispatch(setUser({ user: modifiedUser, token: res.data.accessToken }));
       setUserCookie(res.data.accessToken);
       setLoading(false);

@@ -1,19 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-import { Modal, Radio, Button, Upload, Input } from 'antd';
+import { Modal, Radio, Button, Upload, Input, message } from 'antd';
 import { HiFlag } from 'react-icons/hi2';
 import { IoCameraOutline } from 'react-icons/io5';
 import { LockOutlined, UploadOutlined } from '@ant-design/icons';
 import img from '../../assests/bannerImg.jpg';
+import { usePostReportMutation } from '../../redux/features/others/otherApi';
+import { RcFile } from 'antd/es/upload';
 
-const { TextArea } = Input;
-
-const ProfDet = () => {
+const ProfDet = ({ contractorId }: { contractorId?: string }) => {
+  const { TextArea } = Input;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
   const [reason, setReason] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [image, setImage] = useState<RcFile | null>(null);
+
+  const [postReport] = usePostReportMutation();
 
   const reasons = [
     'It is inaccurate or incorrect',
@@ -23,9 +28,35 @@ const ProfDet = () => {
     'It is something else',
   ];
 
-  const handleContinue = () => {
+  const handleContinueFirstModal = () => {
     setIsModalOpen(false);
     setIsSecondModalOpen(true);
+  };
+
+  const handleContinueSecondModal = async () => {
+    const reportData = {
+      report: {
+        reason: reason,
+        feedback: feedback,
+      },
+    };
+
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(reportData));
+    if (image) formData.append('image', image);
+
+    try {
+      const res = await postReport({ formData, contractorId }).unwrap();
+      if (res.success) {
+        message.success('Report is submitted successfully!');
+        setIsSecondModalOpen(false);
+        setReason('');
+        setFeedback('');
+        setImage(null);
+      }
+    } catch (error) {
+      message.error(error?.data?.message || 'Something went wrong');
+    }
   };
 
   const handleCancelAll = () => {
@@ -61,13 +92,15 @@ const ProfDet = () => {
             Request Quote
           </button>
         </div>
-        <div
-          className="flex gap-3 border-[#F44848] border-b-2 cursor-pointer"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <HiFlag size={24} className="text-[#F44848]" />
-          <p className="text-[#F44848]">Report Contractor</p>
-        </div>
+        {contractorId && (
+          <div
+            className="flex gap-3 border-[#F44848] border-b-2 cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <HiFlag size={24} className="text-[#F44848]" />
+            <p className="text-[#F44848]">Report Contractor</p>
+          </div>
+        )}
       </div>
 
       {/* About Section */}
@@ -122,7 +155,7 @@ const ProfDet = () => {
             </Button>
             <Button
               type="primary"
-              onClick={handleContinue}
+              onClick={handleContinueFirstModal}
               className="w-1/2 ml-2 bg-blue-600 hover:bg-blue-700"
               disabled={!reason}
             >
@@ -160,15 +193,33 @@ const ProfDet = () => {
 
           <div className="mb-4">
             <label className="font-medium block mb-1">Feedback</label>
-            <TextArea rows={4} placeholder="Describe your issue or question" />
+            <TextArea
+              rows={4}
+              placeholder="Describe your issue or question"
+              onChange={e => setFeedback(e.target.value)}
+            />
           </div>
 
           <div className="mb-6">
             <label className="font-medium block mb-2">Attach File</label>
-            <Upload beforeUpload={() => false} showUploadList={false}>
+
+            <Upload
+              beforeUpload={() => false}
+              showUploadList={true}
+              onChange={({ fileList }) => {
+                if (fileList.length > 0) {
+                  setImage(fileList[0].originFileObj as RcFile);
+                } else {
+                  setImage(null);
+                }
+              }}
+            >
               <Button icon={<UploadOutlined />}>Choose File</Button>
             </Upload>
-            <span className="ml-3 text-sm text-gray-500">No file chosen</span>
+
+            {!image && (
+              <span className="ml-3 text-sm text-red-500">No file chosen</span>
+            )}
           </div>
 
           <div className="flex justify-between">
@@ -180,7 +231,9 @@ const ProfDet = () => {
             </Button>
             <Button
               type="primary"
+              onClick={handleContinueSecondModal}
               className="w-1/2 ml-2 bg-blue-600 hover:bg-blue-700"
+              disabled={!feedback || !image}
             >
               Send Report
             </Button>

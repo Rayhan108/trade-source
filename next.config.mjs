@@ -55,6 +55,11 @@ const nextConfig = {
         hostname: 'tse3.mm.bing.net',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -1,6 +1,7 @@
 'use client';
+
 import { Modal } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DeletePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -4,6 +4,7 @@ import project1 from '../../assests/project1.png';
 import project2 from '../../assests/project2.png';
 import project3 from '../../assests/project3.png';
 import project4 from '../../assests/project4.png';
+import Link from 'next/link';
 export const Projects2 = [
   {
     id: 1,
@@ -52,9 +53,11 @@ const IntNear = () => {
         Interior Project Near You
       </h1>
       <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">
-        {Projects2?.map((project, idx) => {
-          return <IntCard key={idx} project={project} />;
-        })}
+        {Projects2?.map((project, idx) => (
+          <Link key={idx} href={'/location'}>
+            <IntCard project={project} />
+          </Link>
+        ))}
       </div>
     </div>
   );

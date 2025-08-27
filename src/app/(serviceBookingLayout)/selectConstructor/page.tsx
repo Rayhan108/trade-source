@@ -1,116 +1,138 @@
 'use client';
 
 import { useState } from 'react';
-import { Modal } from 'antd';
-import dayjs from 'dayjs';
-import { FiCalendar, FiClock, FiChevronDown } from 'react-icons/fi';
-import SelectContractorCard from '../../../Component/Card/SelectConstructorCard';
+import { message, Modal } from 'antd';
 import Calendar from 'react-calendar';
+import { FiCalendar, FiClock, FiChevronDown } from 'react-icons/fi';
+import SelectContractorCard from '../../../Component/Card/SelectConstractorCard';
 import 'react-calendar/dist/Calendar.css';
-import cons1 from '../../../assests/cons1.png';
-import cons2 from '../../../assests/cons2.png';
-import cons3 from '../../../assests/cons3.png';
-import Image from 'next/image';
-import { SlBadge } from 'react-icons/sl';
-
-const contractorData = [
-  {
-    id: 1,
-    name: 'Ellie Smith',
-    image: cons1,
-    verified: true,
-    completedTasks: 2949,
-    rating: 4.8,
-    reviews: 1694,
-    hourlyRate: 65,
-    expertise: 'General Handyman, Plumbing, Electrical',
-    services: [
-      'Furniture assembly',
-      'TV mounting',
-      'Minor electrical/plumbing fixes',
-      'Drywall repair & painting',
-      'Hanging shelves & wall decor',
-    ],
-  },
-  {
-    id: 2,
-    name: 'Genie Darwin',
-    image: cons2,
-    verified: true,
-    completedTasks: 2949,
-    rating: 4.8,
-    reviews: 1694,
-    hourlyRate: 65,
-    expertise: 'Carpentry, Home Renovation, Repairs',
-    services: [
-      'Furniture assembly',
-      'Drywall repair & painting',
-      'TV mounting',
-      'Minor electrical/plumbing fixes',
-      'Hanging shelves & wall decor',
-    ],
-  },
-  {
-    id: 3,
-    name: 'Genie Darwin',
-    image: cons3,
-    verified: true,
-    completedTasks: 2949,
-    rating: 4.8,
-    reviews: 1694,
-    hourlyRate: 65,
-    expertise: 'Electrical, HVAC, Appliance Repair',
-    services: [
-      'Minor electrical/plumbing fixes',
-      'TV mounting',
-      'Drywall repair & painting',
-      'Furniture assembly',
-      'Hanging shelves & wall decor',
-    ],
-  },
-  {
-    id: 4,
-    name: 'Genie Darwin',
-    image: cons1,
-    verified: true,
-    completedTasks: 2949,
-    rating: 4.8,
-    reviews: 1694,
-    hourlyRate: 65,
-    expertise: 'Electrical, HVAC, Appliance Repair',
-    services: [
-      'Furniture assembly',
-      'TV mounting',
-      'Minor electrical/plumbing fixes',
-      'Drywall repair & painting',
-      'Hanging shelves & wall decor',
-    ],
-  },
-];
-
-const sortOptions = [
-  'Price (Lowest to Highest)',
-  'Price (Highest to Lowest)',
-  'Highest Rated',
-  '# Completed Task',
-];
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import {
+  selectLocation,
+  selectService,
+  selectTime,
+  setService,
+  setTime,
+} from '../../../redux/features/project/projectSlice';
+import dayjs from 'dayjs';
+import { useGetAllServicesQuery } from '../../../redux/features/contractor/contractorApi';
+import { useRouter } from 'next/navigation';
+import { dateOptions, timeOptions } from '../../../constants';
+import { useBookServiceMutation } from '../../../redux/features/others/otherApi';
+import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
 
 export default function ContractorSearch() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
+  const sortOptions = [
+    'Price (Lowest to Highest)',
+    'Price (Highest to Lowest)',
+  ];
+  const storedLocation = useAppSelector(selectLocation);
+  const storedService = useAppSelector(selectService);
+  const storedTime = useAppSelector(selectTime);
   const [priceRange, setPriceRange] = useState(150);
   const [sortBy, setSortBy] = useState('Recommended');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tempDate, setTempDate] = useState(null);
+  const [tempDate, setTempDate] = useState<Date | null>(null);
+  const user = useAppSelector(selectCurrentUser);
+  const [page, setPage] = useState(1);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [bookService] = useBookServiceMutation();
 
-  const handleDateConfirm = () => {
-    if (tempDate) {
-      console.log('Confirmed Date:', dayjs(tempDate).format('YYYY-MM-DD'));
-      setSelectedDate(dayjs(tempDate).format('YYYY-MM-DD'));
+  const { data: services } = useGetAllServicesQuery({
+    categoryName: storedService.serviceType,
+    page,
+  });
+
+  const totalPage = services?.data?.meta?.totalPage || 1;
+
+  const isDateOption = (value: string) =>
+    dateOptions.some(option => option.value === value);
+
+  // Inside ContractorSearch, before return:
+  const sortedServices = [...(services?.data?.result || [])];
+
+  if (sortBy === 'Price (Lowest to Highest)') {
+    sortedServices.sort((a, b) => a.price - b.price);
+  } else if (sortBy === 'Price (Highest to Lowest)') {
+    sortedServices.sort((a, b) => b.price - a.price);
+  }
+
+  const handleSelect = async service => {
+    if (!storedLocation.address)
+      return message.warning('Please input an address');
+    if (!storedLocation.apt)
+      return message.warning('Please input an apartment');
+    if (!storedService.serviceId)
+      return message.warning('Please select a service');
+    if (!storedService.serviceType)
+      return message.warning('Please select a service type');
+    if (!storedService.projectDescription)
+      return message.warning('Please input a project description');
+    if (!storedTime.preferredDate)
+      return message.warning('Please select a date');
+    if (!storedTime.preferredTime)
+      return message.warning('Please select a time');
+    if (!storedTime.projectDescription)
+      return message.warning('Please input a project description');
+
+    dispatch(
+      setService({
+        serviceId: service._id,
+        contractorId: service.contractorId._id,
+        contractorName: `${service.contractorId.firstName} ${service.contractorId.lastName}`,
+        contractorImage: service.contractorId.image,
+        hourlyRate: service.price,
+      })
+    );
+
+    try {
+      const data = {
+        user: user?.user?.userId,
+        serviceType: storedService.serviceType,
+        location: storedLocation.address,
+        zip: storedLocation.apt,
+        projectDescription: storedTime.projectDescription,
+        date: storedTime.preferredDate,
+        time: storedTime.preferredTime,
+        todoList: [
+          storedService.projectDescription,
+          storedTime.projectDescription,
+        ],
+      };
+
+      const res = await bookService(data).unwrap();
+
+      if (res.success) {
+        message.success(res.message);
+        router.push('/confirm');
+      }
+    } catch (error) {
+      message.error(error?.data?.message || 'Something went wrong');
     }
-    setIsModalOpen(false);
   };
+
+  // const handleContinue = async () => {
+  //   if (!storedLocation.address)
+  //     return message.warning('Please input an address');
+  //   if (!storedLocation.apt)
+  //     return message.warning('Please input an apartment');
+  //   if (!storedService.serviceId)
+  //     return message.warning('Please select a service');
+  //   if (!storedService.serviceType)
+  //     return message.warning('Please select a service type');
+  //   if (!storedService.projectDescription)
+  //     return message.warning('Please input a project description');
+  //   if (!storedTime.preferredDate)
+  //     return message.warning('Please select a date');
+  //   if (!storedTime.preferredTime)
+  //     return message.warning('Please select a time');
+  //   if (!storedTime.projectDescription)
+  //     return message.warning('Please input a project description');
+
+  //   router.push('/confirm');
+  // };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -131,18 +153,17 @@ export default function ContractorSearch() {
                 </button>
               </div>
               <div className="space-y-3">
-                {['Today', 'Within 3 day', 'Within a week'].map(option => (
-                  <button
-                    key={option}
-                    onClick={() => setSelectedDate(option)}
+                {dateOptions.map(option => (
+                  <div
+                    key={option.id}
                     className={`w-full text-left px-4 py-3 rounded-full border transition-colors ${
-                      selectedDate === option
+                      storedTime.preferredDate === option.value
                         ? 'border-blue-500 bg-blue-50 text-blue-700'
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
-                    {option}
-                  </button>
+                    {option.value}
+                  </div>
                 ))}
               </div>
             </div>
@@ -152,24 +173,13 @@ export default function ContractorSearch() {
               <div className="flex items-center gap-2 mb-4">
                 <FiClock className="w-5 h-5 text-gray-600" />
                 <h3 className="font-semibold text-gray-900">Time</h3>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="ml-auto text-blue-600 text-sm font-medium"
-                >
-                  Pick a time
-                </button>
               </div>
               <div className="space-y-3">
-                {[
-                  'Morning (8 AM - 12 PM)',
-                  'Afternoon (12 PM - 5 PM)',
-                  'Evening (5 PM - 9 PM)',
-                ].map(option => (
+                {timeOptions.map(option => (
                   <button
                     key={option}
-                    onClick={() => setSelectedTime(option)}
                     className={`w-full text-left px-4 py-3 rounded-full border transition-colors ${
-                      selectedTime === option
+                      storedTime.preferredTime === option
                         ? 'border-blue-500 bg-blue-50 text-blue-700'
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
@@ -179,7 +189,6 @@ export default function ContractorSearch() {
                 ))}
               </div>
             </div>
-
             {/* Price Filter */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="font-semibold text-gray-900 mb-4">Price</h3>
@@ -221,6 +230,7 @@ export default function ContractorSearch() {
 
           {/* Right Side Content */}
           <div className="flex-1">
+            {/* Sort */}
             <div className="flex justify-end mb-6">
               <div className="relative">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -236,36 +246,62 @@ export default function ContractorSearch() {
 
                 {showSortDropdown && (
                   <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                    <div className="py-1">
-                      {/* <div className="px-3 py-2 text-xs font-medium text-blue-600 bg-blue-50">
-                        View Profile
-                      </div> */}
-                      {sortOptions.slice(1).map(option => (
-                        <button
-                          key={option}
-                          onClick={() => {
-                            setSortBy(option);
-                            setShowSortDropdown(false);
-                          }}
-                          className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          {option}
-                        </button>
-                      ))}
-                    </div>
+                    {sortOptions.map(option => (
+                      <button
+                        key={option}
+                        onClick={() => {
+                          setSortBy(option);
+                          setShowSortDropdown(false);
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        {option}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
             </div>
 
+            {/* Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {contractorData.map(contractor => (
+              {sortedServices?.map(service => (
                 <SelectContractorCard
-                  key={contractor.id}
-                  contractor={contractor}
+                  key={service._id}
+                  contractor={service}
+                  selected={storedService?.serviceId === service._id}
+                  onSelect={() => handleSelect(service)}
                 />
               ))}
             </div>
+
+            {/* Pagination */}
+            <div className="flex justify-center items-center gap-3 mt-8">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <span className="text-gray-700">
+                Page {page} of {totalPage}
+              </span>
+              <button
+                onClick={() => setPage(p => Math.min(totalPage, p + 1))}
+                disabled={page === totalPage}
+                className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+
+            {/* <button
+              onClick={handleContinue}
+              className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg"
+            >
+              Continue
+            </button> */}
           </div>
         </div>
       </div>
@@ -276,87 +312,45 @@ export default function ContractorSearch() {
         onCancel={() => setIsModalOpen(false)}
         footer={null}
         centered
-        width={600}
+        width={500}
         closable={false}
       >
-        <div>
-          <p className="text-center text-3xl font-bold py-5">
-            Choose Contractor for your project
+        <div className="flex flex-col justify-center items-center py-5">
+          <p className="text-center text-3xl font-bold pb-5">
+            Choose Date & Time
           </p>
-
-          <div className="flex flex-col md:flex-row items-start gap-6 p-4 ">
-            <div className="w-full md:w-[53%] ">
-              <h2 className="text-lg font-semibold mb-4">April – May 2025</h2>
-              <div className=" md:border-r-2 px-3 md:border-gray-400 overflow-hidden">
-                <Calendar
-                  onChange={date => {
-                    console.log('Calendar selected date:', date);
-                    console.log(
-                      'Formatted date:',
-                      dayjs(Array.isArray(date) ? date[0] : date).format(
-                        'YYYY-MM-DD'
-                      )
-                    );
-                    setTempDate(date);
-                  }}
-                  value={tempDate}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="mt-6">
-                <select
-                  className="w-full rounded-md px-4 py-2 border border-gray-300 "
-                  value={selectedTime}
-                  onChange={e => setSelectedTime(e.target.value)}
-                >
-                  <option value="">Select Time</option>
-                  <option value="12:00 PM">12:00 PM</option>
-                  <option value="1:00 PM">1:00 PM</option>
-                  <option value="2:00 PM">2:00 PM</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Contractor Info Section */}
-            <div className="w-full md:w-1/2 bg-gray-50 rounded-lg p-4 shadow-sm">
-              <div className="flex items-center gap-3 mb-3">
-                <Image
-                  src={cons1}
-                  alt="Contractor"
-                  className="w-10 h-10 object-cover rounded-full"
-                  width={100}
-                  height={100}
-                />
-                <div>
-                  <h3 className="font-semibold text-gray-900 flex gap-3">
-                    <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                      <SlBadge />
-                    </span>
-                    <span>Ellie Smith</span>
-                  </h3>
-                </div>
-              </div>
-              <p className="text-sm font-bold text-gray-700 mb-2">
-                <span className="mr-1">Request Date:</span>
-                {tempDate ? dayjs(tempDate).format('MMM DD,') : 'Select Date'}
-                {selectedTime || ''}
-              </p>
-              <p className="text-sm font-bold text-gray-700 mb-2">
-                This Contractor requires 2 hour
-              </p>
-              <p className="text-xs text-gray-500">
-                You can chat and adjust time after confirming
-              </p>
-
-              <button
-                onClick={handleDateConfirm}
-                className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
-              >
-                Select & Continue
-              </button>
-            </div>
-          </div>
+          <Calendar
+            defaultValue={
+              storedTime.preferredDate &&
+              !isDateOption(storedTime.preferredDate)
+                ? new Date(storedTime.preferredDate)
+                : undefined
+            }
+            onChange={date => {
+              if (date instanceof Date) {
+                setTempDate(date);
+                dispatch(
+                  setTime({ preferredDate: dayjs(date).format('YYYY-MM-DD') })
+                );
+              } else if (Array.isArray(date) && date[0] instanceof Date) {
+                setTempDate(date[0]);
+                dispatch(
+                  setTime({
+                    preferredDate: dayjs(date[0]).format('YYYY-MM-DD'),
+                  })
+                );
+              }
+              setIsModalOpen(false);
+            }}
+            value={
+              tempDate ||
+              (storedTime.preferredDate &&
+              !isDateOption(storedTime.preferredDate)
+                ? new Date(storedTime.preferredDate)
+                : null)
+            }
+            className="w-full"
+          />
         </div>
       </Modal>
     </div>

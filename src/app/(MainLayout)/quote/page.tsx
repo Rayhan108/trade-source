@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Select, DatePicker, TimePicker, Slider } from 'antd';
 import { TbCurrentLocation } from 'react-icons/tb';

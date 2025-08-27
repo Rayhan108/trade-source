@@ -5,7 +5,6 @@ import { Controller, useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { Modal, message } from 'antd';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-// import userImg from '../../../assests/user.png'
 import 'react-phone-input-2/lib/style.css';
 import { IoCameraOutline } from 'react-icons/io5';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
@@ -16,13 +15,13 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { setCookie } from 'nookies';
 import { protectedRoutes } from '../../../constants';
-
 import {
   useGetSpecefiqUserQuery,
   useUpdateSpecefiqUserMutation,
 } from '../../../redux/features/user/userApi';
 import { resetContractorData } from '../../../redux/features/contractor/contractorSlice';
 import Link from 'next/link';
+
 export default function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -35,11 +34,11 @@ export default function ProfilePage() {
   const pathname = usePathname();
 
   const [updateUser] = useUpdateSpecefiqUserMutation();
-  console.log(' spec user---->', specUser?.data);
   const role = specUser?.data?.role;
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   // logout
   const handleLogout = () => {
     dispatch(logout());
@@ -56,7 +55,7 @@ export default function ProfilePage() {
   const { handleSubmit, control } = useForm();
 
   const [previewImage, setPreviewImage] = useState(specUser?.data?.image);
-  const [imageFile, setImageFile] = useState(null); // keep the real file
+  const [imageFile, setImageFile] = useState(null);
 
   const handleImageChange = e => {
     const file = e.target.files?.[0];
@@ -70,7 +69,6 @@ export default function ProfilePage() {
   };
 
   const onSubmit = async data => {
-    console.log('Form Data:', { ...data, image: previewImage });
     try {
       if (!user?.user?.userId) {
         // message.error("User ID is missing");

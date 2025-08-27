@@ -6,6 +6,7 @@ const LawnAndGardenPage = () => {
       <div className="p-4">
         <InteriorBanner />
       </div>
+
       <LawnNear />
     </div>
   );

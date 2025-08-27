@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function AccountBalance() {
   return (
     <div className="max-w-7xl min-h-screen mx-auto border rounded-md p-6 shadow-sm bg-white">

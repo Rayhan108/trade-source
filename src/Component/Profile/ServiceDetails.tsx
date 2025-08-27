@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import img from '../../assests/bannerImg.jpg';
 import styles from '../../app/styles.module.css';

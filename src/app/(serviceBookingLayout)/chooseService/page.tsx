@@ -1,57 +1,80 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import {
+  selectService,
+  setService,
+} from '../../../redux/features/project/projectSlice';
+import { useGetAllCategoryQuery } from '../../../redux/features/others/otherApi';
+
+interface FormValues {
+  serviceType: string;
+  projectDescription: string;
+}
 
 const ChooseServicePage = () => {
-  const serviceOptions = [
-    { id: 'general', label: 'General Handyman', value: 'general' },
-    { id: 'electrician', label: 'Electrician Handyman', value: 'electrician' },
-    { id: 'plumbing', label: 'Plumbing Handyman', value: 'plumbing' },
-    { id: 'carpentry', label: 'Carpentry Handyman', value: 'carpentry' },
-    { id: 'appliance', label: 'Appliance Handyman', value: 'appliance' },
-  ];
+  const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const storedService = useAppSelector(selectService);
+
+  const { data: allCategory } = useGetAllCategoryQuery(undefined);
+
+  const categoryOptions = allCategory?.data?.map(service => ({
+    label: service?.category,
+    value: service?.category,
+  }));
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+    setValue,
+  } = useForm<FormValues>({
     defaultValues: {
-      serviceType: 'general',
-      projectDescription: '',
+      serviceType: storedService.serviceType || 'general',
+      projectDescription: storedService.projectDescription || '',
     },
     mode: 'onChange',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async data => {
+  // Set default values from stored service
+  useEffect(() => {
+    setValue('serviceType', storedService.serviceType || 'general');
+    setValue('projectDescription', storedService.projectDescription || '');
+  }, [storedService, setValue]);
+
+  const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Form submitted:', data);
+
+    // Save to Redux
+    dispatch(setService(data));
+
     setIsSubmitting(false);
     router.push('/time');
-    // Handle form submission here
   };
 
   const handlePrevious = () => {
-    // Handle previous step navigation
     router.push('/location');
   };
+
   return (
     <div className="max-w-4xl mx-auto p-5">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl  my-12 font-bold text-gray-900 mb-6 leading-tight">
-        Choose that most closely matches your project
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl my-12 font-bold text-gray-900 mb-6 leading-tight">
+        Choose the service that most closely matches your project
       </h1>
-      <div className=" bg-white py-8 px-4 sm:px-6 lg:px-8">
+
+      <div className="bg-white py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Header Section */}
             <div className="space-y-4">
-              <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-blue-600 leading-tight">
+              <h1 className="text-2xl lg:text-3xl font-bold text-blue-600 leading-tight">
                 Choose More Specific Service
               </h1>
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-3xl">
@@ -68,15 +91,17 @@ const ChooseServicePage = () => {
                 Project options
               </h2>
 
-              {/* Radio Button Options */}
-              {/* Radio Button Options styled like table rows */}
               <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
-                {serviceOptions.map((option, index) => (
+                {categoryOptions?.map((option, index) => (
                   <label
-                    key={option.id}
+                    key={index}
                     className={`flex items-center space-x-4 px-6 py-4 cursor-pointer transition-colors duration-200
-        ${index !== serviceOptions.length - 1 ? 'border-b border-gray-200' : ''}
-        hover:bg-gray-50`}
+                      ${
+                        index !== categoryOptions.length - 1
+                          ? 'border-b border-gray-200'
+                          : ''
+                      }
+                      hover:bg-gray-50`}
                   >
                     <input
                       type="radio"
@@ -110,7 +135,7 @@ const ChooseServicePage = () => {
                     message: 'Please provide at least 10 characters',
                   },
                 })}
-                placeholder="Tell us more about your projects"
+                placeholder="Tell us more about your project"
                 rows={3}
                 className="w-full px-4 py-4 text-base border border-gray-300 rounded-xl bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               />

@@ -4,6 +4,7 @@ import house1 from '../../../assests/material-symbols_star-rounded (4).png';
 import house2 from '../../../assests/material-symbols_star-rounded (5).png';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
+
 const YourServicePage = () => {
   const services = [
     {
@@ -25,6 +26,7 @@ const YourServicePage = () => {
       priceFrom: 350,
     },
   ];
+
   return (
     <div className="bg-white p-5">
       <div className="max-w-7xl border border-gray rounded-xl  mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">

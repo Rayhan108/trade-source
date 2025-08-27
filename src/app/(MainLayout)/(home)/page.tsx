@@ -1,9 +1,8 @@
 import Banner from '../../../Component/Home/Banner';
 import ConstractorNear from '../../../Component/Home/ConstractorNear';
-import HomeProject from '../../../Component/Home/HomeProject';
+// import HomeProject from '../../../Component/Home/HomeProject';
 import ProjectsNear from '../../../Component/Home/ProjectsNear';
 import RecentArticle from '../../../Component/Home/RecentArticle';
-import React from 'react';
 
 const LandingPage = () => {
   return (
@@ -11,7 +10,7 @@ const LandingPage = () => {
       <Banner />
       <ProjectsNear />
 
-      <HomeProject />
+      {/* <HomeProject /> */}
       <ConstractorNear />
       <RecentArticle />
     </div>

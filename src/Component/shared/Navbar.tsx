@@ -1,31 +1,31 @@
 'use client';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logo from '../../assests/navLogo.png';
-// import userImg from "../../../assests/user.png";
 import styles from '../../app/styles.module.css';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { LuMessageSquareMore } from 'react-icons/lu';
-import { useAppSelector } from '../../redux/hooks';
-import {
-  selectCurrentUser,
-  setUser,
-} from '../../redux/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { logout, selectCurrentUser } from '../../redux/features/auth/authSlice';
 import { useGetSpecefiqUserQuery } from '../../redux/features/user/userApi';
+import { resetContractorData } from '../../redux/features/contractor/contractorSlice';
+import { setCookie } from 'nookies';
+import { message } from 'antd';
+import { protectedRoutes } from '../../constants';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAppSelector(selectCurrentUser);
-  // const [user,setUser]=useState(true)
+
+  console.log({ user });
+
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
-  console.log('spec user---->', specUser?.data);
   const pathname = usePathname();
   const role = specUser?.data?.role;
   const homeLink = user ? '/homepage' : '/';
 
-  // Simulate user logged in state (replace with your auth logic)
   const navItems = [
     { label: 'Home', href: homeLink },
     { label: 'Interior', href: '/interior' },
@@ -36,6 +36,19 @@ export default function Navbar() {
   ];
 
   const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(resetContractorData());
+    router.push('/');
+    setCookie(null, 'user', '', { path: '/', maxAge: -1 });
+    message.success('Logout Success');
+    if (protectedRoutes.some(route => pathname.match(route))) {
+      router.push('/');
+    }
+  };
 
   return (
     <nav
@@ -127,11 +140,6 @@ export default function Navbar() {
                   </span>
                 </button>
               </Link>
-              {/* <div>
-                             <button onClick={()=>setUser(false)} className="bg-blue-600 text-white px-1 py-2 rounded hover:bg-blue-700 w-full text-center">
-             {    user?'Login':'Logout'}
-                </button>
-         </div> */}
             </div>
           </>
         ) : (
@@ -141,10 +149,6 @@ export default function Navbar() {
                 Log In / Sign Up
               </button>
             </Link>
-
-            {/* <button onClick={()=>setUser(!user)} className="bg-blue-600 text-white px-4 lg:py-4 xl:py-1 rounded hover:bg-blue-700 text-center">
-             {    user?'Login':'Logout'}
-                </button> */}
           </>
         )}
       </div>
@@ -253,14 +257,14 @@ export default function Navbar() {
                         </span>
                       </button>
                     </Link>
-                    <button
-                      onClick={() => setUser(!user)}
-                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center"
-                    >
-                      {user ? 'Login' : 'Logout'}
-                    </button>
                   </div>
                 </div>
+                <button
+                  onClick={() => handleLogout()}
+                  className="bg-blue-600 text-white px-4 p-2 rounded hover:bg-blue-700 w-full text-center"
+                >
+                  Logout
+                </button>
               </>
             ) : (
               <>
@@ -269,15 +273,6 @@ export default function Navbar() {
                     Log In / Sign Up
                   </button>
                 </Link>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center">
-                  Become a Pro
-                </button>
-                <button
-                  onClick={() => setUser(!user)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-center"
-                >
-                  {user ? 'Login' : 'Logout'}
-                </button>
               </>
             )}
           </li>

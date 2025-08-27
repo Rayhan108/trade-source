@@ -1,48 +1,19 @@
-import React from 'react';
-import ConstractorCard from '../Card/ConstractorCard';
-import cons1 from '../../assests/cons1.png';
-import cons2 from '../../assests/cons2.png';
-import cons3 from '../../assests/cons3.png';
-import styles from '../../app/styles.module.css';
+'use client';
 
-export const data = [
-  {
-    id: 1,
-    name: 'Annie',
-    imageSrc: cons1,
-    status: 'Expert Contractor',
-    completedTasks: 2949,
-    rating: 4.8,
-    reviews: 1694,
-    expertise: ['Interior Painting', 'Exterior Painting', 'Event Painting'],
-  },
-  {
-    id: 2,
-    name: 'John Doe',
-    imageSrc: cons2,
-    status: 'Professional Painter',
-    completedTasks: 1500,
-    rating: 4.6,
-    reviews: 980,
-    expertise: ['Wall Painting', 'Decorative Painting', 'Texture Painting'],
-  },
-  {
-    id: 3,
-    name: 'Sara Smith',
-    imageSrc: cons3,
-    status: 'Certified Contractor',
-    completedTasks: 3200,
-    rating: 4.9,
-    reviews: 2100,
-    expertise: [
-      'Exterior Painting',
-      'Interior Design',
-      'Wallpaper Installation',
-    ],
-  },
-];
+import ConstractorCard from '../Card/ConstractorCard';
+import styles from '../../app/styles.module.css';
+import { useState } from 'react';
+import { useGetAllServicesQuery } from '../../redux/features/contractor/contractorApi';
 
 const ConstractorNear = () => {
+  const [page, setPage] = useState(1);
+
+  const { data: services } = useGetAllServicesQuery({
+    page,
+  });
+
+  const totalPage = services?.data?.meta?.totalPage || 1;
+
   return (
     <div>
       <div className={`container mx-auto ${styles.fontDmSans}`}>
@@ -52,9 +23,30 @@ const ConstractorNear = () => {
           Contractor Near You
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-3 px-3">
-          {data?.map((data, idx) => {
-            return <ConstractorCard key={idx} data={data} />;
+          {services?.data?.result?.map((service, idx) => {
+            return <ConstractorCard key={idx} service={service} />;
           })}
+        </div>
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-3 mt-8">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span className="text-gray-700">
+            Page {page} of {totalPage}
+          </span>
+          <button
+            onClick={() => setPage(p => Math.min(totalPage, p + 1))}
+            disabled={page === totalPage}
+            className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

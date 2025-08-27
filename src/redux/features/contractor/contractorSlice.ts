@@ -35,10 +35,10 @@ const contractorSlice = createSlice({
   },
 });
 
-export default contractorSlice.reducer;
+export const { updateContractorData, resetContractorData } =
+  contractorSlice.actions;
 
 export const selectCurrentContractor = (state: RootState): TContractorData =>
   state.contractor;
 
-export const { updateContractorData, resetContractorData } =
-  contractorSlice.actions;
+export default contractorSlice.reducer;

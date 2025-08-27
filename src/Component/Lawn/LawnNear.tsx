@@ -1,6 +1,7 @@
 import IntCard from '../Interior/IntCard';
 import { Projects2 } from '../Interior/IntNear';
 import styles from '../../app/styles.module.css';
+import Link from 'next/link';
 
 const LawnNear = () => {
   return (
@@ -14,9 +15,11 @@ const LawnNear = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">
-        {Projects2?.map((project, idx) => {
-          return <IntCard key={idx} project={project} />;
-        })}
+        {Projects2?.map((project, idx) => (
+          <Link key={idx} href={'/location'}>
+            <IntCard project={project} />
+          </Link>
+        ))}
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import React from 'react';
 import ContractorProfile from '../../../Component/ContractorDashboard/ContractorProfile';
 const ConstractorProfile = () => {
   return (

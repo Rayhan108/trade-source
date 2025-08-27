@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
 
 const data = [

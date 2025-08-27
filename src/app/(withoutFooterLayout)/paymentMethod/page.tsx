@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaChevronDown, FaCreditCard } from 'react-icons/fa';
 import { FaStripe } from 'react-icons/fa6';
 import { GiStripedSun } from 'react-icons/gi';

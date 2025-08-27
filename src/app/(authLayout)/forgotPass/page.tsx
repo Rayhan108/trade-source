@@ -11,18 +11,19 @@ const ForgotPassPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const [forgotPassword] = useForgotPasswordMutation();
 
   const handleForgotPassword: SubmitHandler<FieldValues> = async data => {
-    console.log('Form Data:', data);
-
     try {
       const res = await forgotPassword(data).unwrap();
+
       if (res.success) {
         message.success(res.message);
+        reset();
       }
     } catch (error) {
       message.error(error?.data?.message || 'Something went wrong');

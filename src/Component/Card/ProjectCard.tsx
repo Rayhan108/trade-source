@@ -26,8 +26,8 @@ export default function ProjectCard({ project }) {
           >
             <path d="M10 15l-5.878 3.09 1.123-6.545L.49 7.91l6.564-.955L10 1l2.946 5.955 6.564.955-4.755 4.635 1.123 6.545z" />
           </svg>
-          <span>{project?.rating}</span>
-          <span className="text-gray-400">({project?.reviews})</span>
+          <span>{project?.rating || 5}</span>
+          <span className="text-gray-400">({project?.reviews || 100})</span>
           <span className="mx-1 text-gray-300">|</span>
           <span className="text-gray-700">from ${project?.price}</span>
         </div>

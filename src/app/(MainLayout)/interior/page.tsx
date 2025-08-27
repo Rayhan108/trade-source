@@ -1,4 +1,3 @@
-import React from 'react';
 import InteriorBanner from '../../../Component/Interior/IntBaner';
 import IntNear from '../../../Component/Interior/IntNear';
 const InteriorPage = () => {

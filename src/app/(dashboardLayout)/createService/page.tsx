@@ -33,6 +33,9 @@ export default function CreateServiceForm() {
     },
   });
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
+
+  console.log({ allCategory });
+
   const user = useAppSelector(selectCurrentUser);
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
   // console.log("user--->",specUser?.data?._id);
