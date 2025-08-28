@@ -1,9 +1,9 @@
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 
-export default function InteriorBanner() {
-  // const handleSearchChange=(e)=>{
-  //   setSearch(e.target.value)
-  // }
+export default function AllServicesBanner({setSearch}) {
+  const handleSearchChange=(e)=>{
+    setSearch(e.target.value)
+  }
   return (
     <div className="w-full bg-[#FFFFFF] container  mx-auto my-5 px-4 py-12 shadow-lg rounded-xl sm:px-6 lg:px-8">
       <div className="">
@@ -24,7 +24,7 @@ export default function InteriorBanner() {
             <input
               type="text"
          
-              // onChange={(e) =>handleSearchChange(e)}
+              onChange={(e) =>handleSearchChange(e)}
          
               className="w-full max-w-2xl rounded-lg border border-gray-300 bg-white px-4 py-3 pr-12 text-gray-900 focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400"
             />

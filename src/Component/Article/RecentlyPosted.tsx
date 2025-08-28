@@ -4,20 +4,18 @@ import ArticleCard from '../Card/ArticleCard';
 import { Pagination } from 'antd';
 
 const RecentlyPosted = ({ allArticles,setPage ,page}) => {
-  const meta = allArticles?.data?.meta;
+ const meta = allArticles?.data?.meta;
   console.log("all article---->", allArticles);
 
-  // Use the 'limit' from meta for dynamic items per page
-  const limit = meta?.limit;
-  const totalItems = meta?.total;
+  // Ensure meta and limit are defined
+  const limit = meta?.limit || 10; 
+  const totalItems = meta?.total || 0; 
 
-  // Calculate current items to show based on page and limit
-  const startIndex = (page - 1) * limit;
-  const currentItems = allArticles?.data?.result?.slice(
-    startIndex,
-    startIndex + limit
-  );
+  
+  // Check if there are enough items to slice
+  const currentItems = allArticles?.data?.result
 
+console.log("items-------->",currentItems);
   const onPageChange = (page: number) => {
     setPage(page);
   };
