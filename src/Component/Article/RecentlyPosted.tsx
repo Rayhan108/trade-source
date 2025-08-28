@@ -1,22 +1,27 @@
-import { useState } from 'react';
+
 import styles from '../../app/styles.module.css';
 import ArticleCard from '../Card/ArticleCard';
 import { Pagination } from 'antd';
 
-const RecentlyPosted = ({ allArticles }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 6;
+const RecentlyPosted = ({ allArticles,setPage ,page}) => {
+  const meta = allArticles?.data?.meta;
+  console.log("all article---->", allArticles);
 
-  // Calculate current items to show
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  // Use the 'limit' from meta for dynamic items per page
+  const limit = meta?.limit;
+  const totalItems = meta?.total;
+
+  // Calculate current items to show based on page and limit
+  const startIndex = (page - 1) * limit;
   const currentItems = allArticles?.data?.result?.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + limit
   );
 
   const onPageChange = (page: number) => {
-    setCurrentPage(page);
+    setPage(page);
   };
+
 
   return (
     <div className={`container my-10 mx-auto ${styles.fontInter}`}>
@@ -33,13 +38,16 @@ const RecentlyPosted = ({ allArticles }) => {
         ))}
       </div>
 
-      <Pagination
-        current={currentPage}
-        pageSize={ITEMS_PER_PAGE}
-        total={allArticles?.data?.result?.length}
+          <Pagination
+        current={page}
+        pageSize={limit} // Use dynamic page size based on 'limit'
+        total={totalItems} // Total number of items
         onChange={onPageChange}
         showSizeChanger={false}
         className="flex justify-center"
+        // Show the total number of pages (meta.totalPage)
+        pageSizeOptions={[limit.toString()]}
+        showTotal={(total) => `Total ${total} items`}
       />
     </div>
   );

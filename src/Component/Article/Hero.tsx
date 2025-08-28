@@ -2,8 +2,10 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import dayjs from 'dayjs';
 
-export default function BlogHero({ allArticles }) {
+export default function BlogHero({ allArticles}) {
+  // const meta = allArticles?.data?.meta
   console.log({ allArticles });
+
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollContainerRef = useRef(null);
 
@@ -12,9 +14,9 @@ export default function BlogHero({ allArticles }) {
   );
 
   const featuredArticles = allArticles?.data?.result.find(
-    article => article.isPopular === true
+    article => article.isFeatured === true
   );
-
+// console.log("featued article--->",featuredArticles);
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } =
@@ -62,7 +64,7 @@ export default function BlogHero({ allArticles }) {
                   {featuredArticles?.title}
                 </h1>
                 <div className="mb-4 flex items-center space-x-4 text-sm text-gray-600">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 ">
                     <div>
                       <Image
                         src={featuredArticles?.user?.image}
@@ -93,7 +95,7 @@ export default function BlogHero({ allArticles }) {
                 </p>
               </div>
 
-              <div className="order-1 md:order-2">
+              <div className="order-1 md:order-2 mb-3">
                 <div className="aspect-[4/3] w-full overflow-h_idden rounded-lg">
                   <Image
                     src={featuredArticles?.image}
@@ -107,110 +109,114 @@ export default function BlogHero({ allArticles }) {
             </div>
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="mb-6">
-              <span className="inline-flex items-center rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white">
-                Popular
-              </span>
-              <span className="ml-2 text-sm text-gray-600">This month</span>
-            </div>
+      <div className="lg:col-span-1">
+  {/* Only render if popularArticles exists and is not empty */}
+  {popularArticles && popularArticles.length > 0 && (
+    <div>
+      <div className="mb-6">
+        <span className="inline-flex items-center rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white">
+          Popular
+        </span>
+        <span className="ml-2 text-sm text-gray-600">This month</span>
+      </div>
 
-            <div className="relative">
-              <div
-                ref={scrollContainerRef}
-                className="h-96 overflow-y-auto pl-8 [&::-webkit-scrollbar]:h_idden"
-                style={{
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none',
-                }}
+      <div className="relative">
+        <div
+          ref={scrollContainerRef}
+          className="h-96 overflow-y-auto pl-8 [&::-webkit-scrollbar]:h_idden"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div className="space-y-6">
+            {popularArticles?.map((article, index) => (
+              <article
+                key={article._id}
+                className={`${
+                  index < popularArticles.length - 1
+                    ? 'border-b border-gray-200 pb-6'
+                    : 'pb-6'
+                } cursor-pointer hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors`}
               >
-                <div className="space-y-6">
-                  {popularArticles.map((article, index) => (
-                    <article
-                      key={article._id}
-                      className={`${
-                        index < popularArticles.length - 1
-                          ? 'border-b border-gray-200 pb-6'
-                          : 'pb-6'
-                      } cursor-pointer hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors`}
-                    >
-                      <h3 className="mb-2 text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-                        {article.title}
-                      </h3>
-                      <div className="mb-3 flex items-center space-x-1 text-sm text-gray-600">
-                        <div className="flex items-center space-x-2">
-                          <div className="">
-                            <Image
-                              src={article?.user?.image}
-                              alt="User Image"
-                              height={500}
-                              width={500}
-                              className="h-8 w-8 rounded-full"
-                            />
-                          </div>
-                          <span>
-                            {article.user.firstName} {article.user.lastName}
-                          </span>
-                          <span>|</span>
-                        </div>
-                        <span>
-                          {dayjs(article?.updatedAt).format('DD MMMM YYYY')}
-                        </span>
-                        {/* <span>|</span>
-                        <span>{article.readTime}</span> */}
-                      </div>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        {article.content}
-                      </p>
-                    </article>
-                  ))}
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                  {article.title}
+                </h3>
+                <div className="mb-3 flex items-center space-x-1 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2">
+                    <div className="">
+                      <Image
+                        src={article?.user?.image}
+                        alt="User Image"
+                        height={500}
+                        width={500}
+                        className="h-8 w-8 rounded-full"
+                      />
+                    </div>
+                    <span>
+                      {article.user.firstName} {article.user.lastName}
+                    </span>
+                    <span>|</span>
+                  </div>
+                  <span>
+                    {dayjs(article?.updatedAt).format('DD MMMM YYYY')}
+                  </span>
                 </div>
-              </div>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  {article.content}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
 
-              <div className="absolute left-0 top-0 h-full w-1 bg-gray-200 rounded-full">
-                <div
-                  className="bg-blue-600 rounded-full transition-all duration-200 w-full"
-                  style={{
-                    height: `${Math.max(
+        <div className="absolute left-0 top-0 h-full w-1 bg-gray-200 rounded-full ">
+          <div
+            className="bg-blue-600 rounded-full transition-all duration-200 w-full"
+            style={{
+              height: `${Math.max(
+                20,
+                ((scrollContainerRef.current?.clientHeight || 0) /
+                  (scrollContainerRef.current?.scrollHeight || 1)) *
+                  100
+              )}%`,
+              transform: `translateY(${
+                (scrollPosition *
+                  ((scrollContainerRef.current?.clientHeight || 0) -
+                    (Math.max(
                       20,
                       ((scrollContainerRef.current?.clientHeight || 0) /
                         (scrollContainerRef.current?.scrollHeight || 1)) *
                         100
-                    )}%`,
-                    transform: `translateY(${
-                      (scrollPosition *
-                        ((scrollContainerRef.current?.clientHeight || 0) -
-                          (Math.max(
-                            20,
-                            ((scrollContainerRef.current?.clientHeight || 0) /
-                              (scrollContainerRef.current?.scrollHeight || 1)) *
-                              100
-                          ) *
-                            (scrollContainerRef.current?.clientHeight || 0)) /
-                            100)) /
-                      100
-                    }px)`,
-                  }}
-                />
-              </div>
-            </div>
+                    ) *
+                      (scrollContainerRef.current?.clientHeight || 0)) /
+                    100)) /
+                100
+              }px)`,
+            }}
+          />
+        </div>
+      </div>
 
-            <div className="mt-6 flex justify-center space-x-2">
-              {[0, 25, 50, 75].map((position, index) => (
-                <button
-                  key={index}
-                  onClick={() => scrollToPosition(position)}
-                  className={`h-2 w-2 rounded-full transition-colors duration-200 ${
-                    scrollPosition >= position &&
-                    scrollPosition < (index === 3 ? 100 : position + 25)
-                      ? 'bg-blue-600'
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Scroll to section ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
+      <div className="mt-6 flex justify-center space-x-2 ">
+        {[0, 25, 50, 75].map((position, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToPosition(position)}
+            className={`h-2 w-2 rounded-full transition-colors duration-200 ${
+              scrollPosition >= position &&
+              scrollPosition < (index === 3 ? 100 : position + 25)
+                ? 'bg-blue-600'
+                : 'bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`Scroll to section ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
         </div>
       </div>
     </div>

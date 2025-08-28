@@ -4,6 +4,7 @@ import { RootState } from '../store';
 const baseQuery = fetchBaseQuery({
   // baseUrl: "http://10.0.60.55:5003/v1",
   baseUrl: 'http://10.10.20.13:5000/api/v1',
+  // baseUrl: 'https://5f05bcd58f5a.ngrok-free.app/api/v1',
   prepareHeaders: (headers, { getState }) => {
     headers.set('Accept', 'application/json');
 

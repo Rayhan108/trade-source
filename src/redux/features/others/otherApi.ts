@@ -14,8 +14,8 @@ const otherApi = baseApi.injectEndpoints({
 
     // getAllArticles
     getAllArticles: builder.query({
-      query: () => ({
-        url: '/article/allArticle',
+      query: (page) => ({
+        url: `/article/allArticle?page=${page}`,
         method: 'GET',
       }),
     }),

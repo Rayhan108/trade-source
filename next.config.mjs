@@ -1,4 +1,3 @@
-// next.config.mjs
 /** @type {import('next').NextConfig} */
 
 // Use env so you can change host/port/protocol per environment
@@ -59,6 +58,12 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'example.com',
         pathname: '/**',
+      },
+      // ngrok domain
+      {
+        protocol: 'http', 
+        hostname: '5f05bcd58f5a.ngrok-free.app',
+        pathname: '/uploads/**',
       },
     ],
   },
