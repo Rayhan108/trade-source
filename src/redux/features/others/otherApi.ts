@@ -53,6 +53,35 @@ const otherApi = baseApi.injectEndpoints({
         body: body,
       }),
     }),
+
+    // getUsersForSidebar
+    getUsersForSidebar: builder.query({
+      query: () => ({
+        url: '/message/users',
+        method: 'GET',
+      }),
+      providesTags: ['messages'],
+    }),
+
+    // getMessages
+    getMessages: builder.query({
+      query: userId => ({
+        url: `/message/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['messages'],
+    }),
+
+    // sendMessage
+    sendMessage: builder.mutation({
+      query: ({ receiverId, data }) => ({
+        url: `/message/send/${receiverId}`,
+        method: 'POST',
+        body: data,
+        formData: true,
+      }),
+      invalidatesTags: ['messages'],
+    }),
   }),
 });
 
@@ -62,4 +91,7 @@ export const {
   useGetAllCategoryQuery,
   usePostReportMutation,
   useBookServiceMutation,
+  useGetUsersForSidebarQuery,
+  useGetMessagesQuery,
+  useSendMessageMutation,
 } = otherApi;

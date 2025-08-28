@@ -12,7 +12,7 @@ export default function BlogHero({ allArticles }) {
   );
 
   const featuredArticles = allArticles?.data?.result.find(
-    article => article.isPopular === true
+    article => article.isFeatured === true
   );
 
   const handleScroll = () => {

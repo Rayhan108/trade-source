@@ -19,8 +19,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAppSelector(selectCurrentUser);
 
-  console.log({ user });
-
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
   const pathname = usePathname();
   const role = specUser?.data?.role;

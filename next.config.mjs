@@ -60,6 +60,11 @@ const nextConfig = {
         hostname: 'example.com',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: '10.10.20.41',
+        pathname: '/**',
+      },
     ],
   },
 };
