@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 export default function BlogHero({ allArticles}) {
   // const meta = allArticles?.data?.meta
@@ -89,9 +90,9 @@ export default function BlogHero({ allArticles}) {
 
                 <p className="mb-4 text-gray-700 leading-relaxed">
                   {featuredArticles?.content.slice(0, 50)}{' '}
-                  <a href="#" className="text-blue-600 underline">
+                  <Link href={`/article/${featuredArticles?._id}`} className="text-blue-600 underline">
                     Read More...
-                  </a>
+                  </Link>
                 </p>
               </div>
 

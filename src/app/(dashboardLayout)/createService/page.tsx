@@ -30,6 +30,7 @@ export default function CreateServiceForm() {
       category: '',
       price: '',
       image: null,
+        type: '',
     },
   });
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
@@ -101,6 +102,7 @@ export default function CreateServiceForm() {
         details: data?.details,
         categoryName,
         price: data?.price,
+        type:data?.type
       })
     );
 
@@ -149,34 +151,7 @@ export default function CreateServiceForm() {
             <label className="block text-sm font-medium text-gray-900 mb-3">
               Upload cover of your service
             </label>
-            {/* <Controller
-              name="image"
-              control={control}
-              // eslint-disable-next-line no-unused-vars
-              render={({ field: { onChange, value, ...field } }) => (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center hover:border-gray-400 transition-colors cursor-pointer">
-                  <input
-                    {...field}
-                    type="file"
-                    accept="image/*"
-                    onChange={e => {
-                      // Capture the file and call onChange
-                      onChange(e.target.files);
-                    }}
-                    className="hidden"
-                    id="file-upload"
-                  />
-                  <label htmlFor="file-upload" className="cursor-pointer">
-                    <div className="flex flex-col items-center">
-                      <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
-                      <span className="text-lg font-medium text-gray-600">
-                        Upload
-                      </span>
-                    </div>
-                  </label>
-                </div>
-              )}
-            /> */}
+    
 
             <Controller
               name="image"
@@ -302,7 +277,22 @@ export default function CreateServiceForm() {
               </div>
             ))}
           </div>
-
+          {/* service type dropdown */}
+ <div className="mt-4">
+        <label htmlFor="type" className="block">Service Type</label>
+        <select
+          id="type"
+          name="type"
+          {...register("type" ,{ required: 'Type is required' })}
+          className="border rounded p-2 w-full"
+        >
+          <option value="">Select Type</option>
+          <option value="indoor">Indoor</option>
+          <option value="outdoor">Outdoor</option>
+          <option value="garden">Garden</option>
+        </select>
+        {errors.type && <p className="text-red-500 text-sm">{errors.type.message}</p>}
+      </div>
           {/* Price Input */}
           <div>
             <label
