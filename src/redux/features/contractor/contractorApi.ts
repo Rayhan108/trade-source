@@ -34,10 +34,10 @@ const contractorApi = baseApi.injectEndpoints({
 
     // getAllServices
     getAllServices: builder.query({
-      query: ({ categoryName, page, limit }) => ({
+      query: ({ categoryName, page, limit,search }) => ({
         url: '/service/allServices',
         method: 'GET',
-        params: { categoryName, page, limit },
+        params: { categoryName, page, limit,search},
       }),
       providesTags: ['services'],
     }),

@@ -31,6 +31,7 @@ export default function CreateServiceForm() {
       price: '',
       image: null,
         type: '',
+     
     },
   });
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
@@ -39,7 +40,7 @@ export default function CreateServiceForm() {
 
   const user = useAppSelector(selectCurrentUser);
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
-  // console.log("user--->",specUser?.data?._id);
+  // console.log("user--->",specUser?.data);
   const removeService = category => {
     setSelectedCategories(
       selectedCategories.filter(cat => cat.value !== category.value)
@@ -102,7 +103,8 @@ export default function CreateServiceForm() {
         details: data?.details,
         categoryName,
         price: data?.price,
-        type:data?.type
+        type:data?.type,
+        location:specUser?.data?.location
       })
     );
 
