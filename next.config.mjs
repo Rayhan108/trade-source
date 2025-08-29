@@ -65,6 +65,11 @@ const nextConfig = {
         hostname: '10.10.20.41',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: '5f05bcd58f5a.ngrok-free.app',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -82,6 +82,42 @@ const otherApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['messages'],
     }),
+
+    // getNotifications
+    getNotifications: builder.query({
+      query: userId => ({
+        url: `/notification/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['notifications'],
+    }),
+
+    // makeNotificationsRead
+    markNotificationsRead: builder.mutation({
+      query: userId => ({
+        url: `/notification/mark-all/${userId}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['notifications', 'notificationsCount'],
+    }),
+
+    // markSingleNotificationAsRead
+    markSingleNotificationAsRead: builder.mutation({
+      query: noticeId => ({
+        url: `/notification/mark/${noticeId}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['notifications', 'notificationsCount'],
+    }),
+
+    // getUnseenNotificationCount
+    getUnseenNotificationCount: builder.query({
+      query: userId => ({
+        url: `/notification/unseen/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['notificationsCount'],
+    }),
   }),
 });
 
@@ -94,4 +130,8 @@ export const {
   useGetUsersForSidebarQuery,
   useGetMessagesQuery,
   useSendMessageMutation,
+  useGetNotificationsQuery,
+  useMarkNotificationsReadMutation,
+  useMarkSingleNotificationAsReadMutation,
+  useGetUnseenNotificationCountQuery,
 } = otherApi;

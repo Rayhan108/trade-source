@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
-import { FiSearch, FiPaperclip, FiSend } from 'react-icons/fi';
+import { FiPaperclip, FiSend } from 'react-icons/fi';
 import Image from 'next/image';
-import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
 import { useAppSelector } from '../../../redux/hooks';
 import {
@@ -12,11 +12,13 @@ import {
   useSendMessageMutation,
 } from '../../../redux/features/others/otherApi';
 import { message as antdMessage } from 'antd';
+import dayjs from 'dayjs';
+import { getSocket } from '../../../lib/socket';
 
 interface Message {
   _id: string;
   senderId: string;
-  time: string;
+  createdAt: string;
   text: string;
   image: string;
 }
@@ -24,13 +26,17 @@ interface Message {
 export default function MessagingApp() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  // const [file, setFile] = useState<File | null>(null);
+  // const [preview, setPreview] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const [textMessage, setTextMessage] = useState('');
   const [selectedUserId, setSelectedUserId] = useState('');
   const [sendMessage] = useSendMessageMutation();
   const { user } = useAppSelector(selectCurrentUser);
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const [previews, setPreviews] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { data: allUsers, isLoading: usersLoading } =
     useGetUsersForSidebarQuery(undefined);
@@ -50,7 +56,7 @@ export default function MessagingApp() {
     }
   }, [messages]);
 
-  const myUserId = user.userId;
+  const myUserId = user?.userId;
 
   const selectedContactData = allUsers?.data?.find(
     (c: any) => c._id === selectedUserId
@@ -58,21 +64,27 @@ export default function MessagingApp() {
 
   // Connect to socket
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_HOST_SOCKET_API as string);
-    setSocket(newSocket);
+    if (!myUserId) return;
 
-    newSocket.on('connect', () => {
-      console.log('Connected to socket:', newSocket.id);
-    });
+    const socket = getSocket(myUserId);
+    setSocket(socket);
 
-    newSocket.on('new-message', (msg: any) => {
-      setMessages(prev => [...prev, msg]);
-    });
+    const handleConnect = () => {
+      console.log('Connected to socket:', socket.id);
+    };
+
+    const handleOnlineUsers = (userIds: string[]) => {
+      setOnlineUsers(userIds);
+    };
+
+    socket.on('connect', handleConnect);
+    socket.on('getOnlineUsers', handleOnlineUsers);
 
     return () => {
-      newSocket.disconnect();
+      socket.off('connect', handleConnect);
+      socket.off('getOnlineUsers', handleOnlineUsers);
     };
-  }, []);
+  }, [myUserId]);
 
   useEffect(() => {
     return () => {
@@ -81,18 +93,50 @@ export default function MessagingApp() {
   }, [previews]);
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files[0]) {
       const selectedFiles = Array.from(e.target.files);
+      // setFiles(prev => [...prev, ...selectedFiles]);
+      setFiles([...selectedFiles]);
 
-      setFiles(prev => [...prev, ...selectedFiles]);
+      // cleanup old preview
+      if (previews) URL.revokeObjectURL(previews[0]);
 
       const newPreviews = selectedFiles.map(file => URL.createObjectURL(file));
-      setPreviews(prev => [...prev, ...newPreviews]);
+      // setPreviews(prev => [...prev, ...newPreviews]);
+      setPreviews([...newPreviews]);
     }
   };
 
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewMessage = (newMessage: Message) => {
+      // only add message if it's from the currently selected user OR sent by me
+      if (
+        newMessage.senderId === selectedUserId ||
+        newMessage.senderId === myUserId
+      ) {
+        setMessages(prev => [...prev, newMessage]);
+      }
+    };
+
+    socket.on('newMessage', handleNewMessage);
+
+    return () => {
+      socket.off('newMessage', handleNewMessage);
+    };
+  }, [socket, selectedUserId, myUserId]);
+
+  // Cleanup preview on unmount
+  useEffect(() => {
+    return () => {
+      if (previews) URL.revokeObjectURL(previews[0]);
+    };
+  }, [previews]);
+
+  // Send message
   const handleSendMessage = async () => {
-    if (!socket || (!textMessage && files.length === 0)) return;
+    if (!socket || (!textMessage && !files)) return;
 
     if (!selectedUserId) {
       antdMessage.warning('Select a receiver!');
@@ -100,12 +144,10 @@ export default function MessagingApp() {
     }
 
     const formData = new FormData();
-
     if (textMessage) {
       formData.append('data', JSON.stringify({ text: textMessage }));
     }
-
-    if (files.length > 0) {
+    if (files) {
       formData.append('image', files[0]);
     }
 
@@ -116,13 +158,10 @@ export default function MessagingApp() {
       }).unwrap();
 
       if (res.success) {
-        antdMessage.success(res.message);
-        // socket.emit('newMessage', newMsg);
-
         const newMsg: Message = {
           _id: res.data._id,
           senderId: myUserId,
-          time: new Date(res.data.createdAt).toLocaleTimeString([], {
+          createdAt: new Date(res.data.createdAt).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
           }),
@@ -134,9 +173,23 @@ export default function MessagingApp() {
         setTextMessage('');
         setFiles([]);
         setPreviews([]);
+
+        // reset file input so user can pick the same image again
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       }
     } catch (error: any) {
       antdMessage.error(error?.data?.message || 'Something went wrong');
+    }
+  };
+
+  const handleImageCancle = (idx: number) => {
+    setFiles(files.filter((_, i) => i !== idx));
+    setPreviews(previews.filter((_, i) => i !== idx));
+    // reset file input so user can pick the same image again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -175,7 +228,7 @@ export default function MessagingApp() {
       ) : (
         <div className="flex container mx-auto my-12 bg-gray-50">
           {/* Sidebar */}
-          <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
+          <div className="w-80 bg-white border-r border-gray-200 flex flex-col h-[80vh]">
             {/* Contacts */}
             <div className="flex-1 overflow-y-auto">
               {usersLoading ? (
@@ -192,8 +245,8 @@ export default function MessagingApp() {
                   ))}
                 </div>
               ) : (
-                <div>
-                  <div className="p-4 border-b border-gray-100">
+                <div className="p-1">
+                  {/* <div className="p-4 border-b border-gray-100">
                     <div className="relative">
                       <input
                         type="text"
@@ -202,10 +255,12 @@ export default function MessagingApp() {
                       />
                       <FiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     </div>
-                  </div>
-                  {
-                    // Loaded users
-                    allUsers?.data?.map((contact: any) => (
+                  </div> */}
+
+                  {/* Loaded users */}
+                  {allUsers?.data?.map((contact: any) => {
+                    const isOnline = onlineUsers.includes(contact._id);
+                    return (
                       <div
                         key={contact._id}
                         onClick={() => setSelectedUserId(contact._id)}
@@ -224,7 +279,7 @@ export default function MessagingApp() {
                             width={500}
                             height={500}
                           />
-                          {contact.online && (
+                          {isOnline && (
                             <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                           )}
                         </div>
@@ -234,15 +289,15 @@ export default function MessagingApp() {
                           </h3>
                         </div>
                       </div>
-                    ))
-                  }
+                    );
+                  })}
                 </div>
               )}
             </div>
           </div>
 
           {/* Main Chat */}
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col h-[80vh]">
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map(msg => {
@@ -268,7 +323,38 @@ export default function MessagingApp() {
                       />
                     )}
                     <div className="max-w-xs lg:max-w-md">
-                      {msg.text ? (
+                      {msg.image && msg.text ? (
+                        <div
+                          className={`inline-block max-w-xs ${
+                            isMe ? 'text-right' : 'text-left'
+                          }`}
+                        >
+                          <div
+                            className={`rounded-2xl overflow-hidden ${
+                              isMe
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-blue-100 text-gray-800'
+                            }`}
+                          >
+                            {/* Image */}
+                            <Image
+                              src={msg.image}
+                              alt="Shared image"
+                              className="rounded-t-2xl"
+                              width={200}
+                              height={200}
+                            />
+                            {/* Subtitle (text with only bottom border) */}
+                            <div
+                              className={`px-3 py-2 text-sm border-t ${
+                                isMe ? 'border-blue-400' : 'border-blue-200'
+                              }`}
+                            >
+                              {msg.text}
+                            </div>
+                          </div>
+                        </div>
+                      ) : msg.text ? (
                         <div
                           className={`px-4 py-2 rounded-2xl text-sm ${
                             isMe
@@ -279,23 +365,23 @@ export default function MessagingApp() {
                           {msg.text}
                         </div>
                       ) : (
-                        <div className="p-3 rounded-2xl">
+                        <div className="p-2 rounded-2xl">
                           <Image
                             src={msg.image}
                             alt="Shared image"
                             className="rounded-lg"
-                            width={150}
-                            height={150}
+                            width={200}
+                            height={200}
                           />
                         </div>
                       )}
 
                       <div
-                        className={`text-xs text-gray-500 mt-1 ${
+                        className={`text-xs text-gray-600 pb-2 ${
                           isMe ? 'text-right' : 'text-left'
                         }`}
                       >
-                        {msg.time}
+                        {dayjs(msg.createdAt).format('DD MMMM YYYY @ h:mm a')}
                       </div>
                     </div>
                   </div>
@@ -308,7 +394,7 @@ export default function MessagingApp() {
             {selectedUserId && (
               <div>
                 {previews.length > 0 && (
-                  <div className="flex flex-row-reverse gap-2 p-2 overflow-x-auto">
+                  <div className="flex justify-end gap-2 p-2 overflow-x-auto">
                     {previews.map((src, idx) => (
                       <div key={idx} className="relative">
                         <Image
@@ -319,10 +405,7 @@ export default function MessagingApp() {
                           className="rounded-md object-cover"
                         />
                         <button
-                          onClick={() => {
-                            setFiles(files.filter((_, i) => i !== idx));
-                            setPreviews(previews.filter((_, i) => i !== idx));
-                          }}
+                          onClick={() => handleImageCancle(idx)}
                           className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                         >
                           ✕
@@ -338,9 +421,10 @@ export default function MessagingApp() {
                       <FiPaperclip className="w-5 h-5" />
                       <input
                         type="file"
+                        ref={fileInputRef}
                         className="hidden"
                         onChange={handleFileUpload}
-                        multiple
+                        multiple={false} // only allow one image
                       />
                     </label>
                     <div className="flex-1 relative">
@@ -363,6 +447,7 @@ export default function MessagingApp() {
                       />
                     </div>
                     <button
+                      hidden={!textMessage && files.length === 0}
                       onClick={handleSendMessage}
                       className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
                     >

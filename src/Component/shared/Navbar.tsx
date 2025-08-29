@@ -1,6 +1,7 @@
 'use client';
+
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '../../assests/navLogo.png';
 import styles from '../../app/styles.module.css';
 import Link from 'next/link';
@@ -14,12 +15,20 @@ import { resetContractorData } from '../../redux/features/contractor/contractorS
 import { setCookie } from 'nookies';
 import { message } from 'antd';
 import { protectedRoutes } from '../../constants';
+import { useGetUnseenNotificationCountQuery } from '../../redux/features/others/otherApi';
+import { Socket } from 'socket.io-client';
+import { getSocket } from '../../lib/socket';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [socket, setSocket] = useState<Socket | null>(null);
   const user = useAppSelector(selectCurrentUser);
-
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
+  const { data: unSeenNotificationCount } = useGetUnseenNotificationCountQuery(
+    user?.user?.userId
+  );
+
   const pathname = usePathname();
   const role = specUser?.data?.role;
   const homeLink = user ? '/homepage' : '/';
@@ -47,6 +56,48 @@ export default function Navbar() {
       router.push('/');
     }
   };
+
+  const myUserId = user?.user?.userId;
+
+  useEffect(() => {
+    if (unSeenNotificationCount?.data) {
+      setNotificationCount(Number(unSeenNotificationCount?.data));
+    }
+  }, [unSeenNotificationCount]);
+
+  // Connect to socket
+  useEffect(() => {
+    if (!myUserId) return;
+
+    const socket = getSocket(myUserId);
+    setSocket(socket);
+
+    const handleConnect = () => {
+      console.log('Connected to socket:', socket.id);
+    };
+
+    socket.on('connect', handleConnect);
+
+    return () => {
+      socket.off('connect', handleConnect);
+    };
+  }, [myUserId]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewNotification = (newNotice: any) => {
+      console.log({ newNotice });
+
+      setNotificationCount(prev => prev + 1);
+    };
+
+    socket.on('newNotification', handleNewNotification);
+
+    return () => {
+      socket.off('newNotification', handleNewNotification);
+    };
+  }, [socket, unSeenNotificationCount]);
 
   return (
     <nav
@@ -103,22 +154,32 @@ export default function Navbar() {
                 <div
                   className={`p-2 border border-black rounded-full cursor-pointer ${
                     pathname === '/inbox'
-                      ? 'bg-blue-500 text-white'
-                      : 'hover:bg-gray-200'
+                      ? 'bg-blue-500 text-white border-blue-500'
+                      : 'hover:bg-gray-100 border-gray-300'
                   }`}
                 >
                   <LuMessageSquareMore size={24} />
                 </div>
               </Link>
               <Link href="/notificationPage">
-                <div
-                  className={`p-2 border border-black rounded-full cursor-pointer ${
-                    pathname === '/notificationPage'
-                      ? 'bg-blue-500 text-white'
-                      : 'hover:bg-gray-200'
-                  }`}
-                >
-                  <IoNotificationsOutline size={24} />
+                <div className="relative">
+                  {/* Notification Icon Button */}
+                  <div
+                    className={`p-2 border rounded-full transition-all duration-200 shadow-sm cursor-pointer ${
+                      pathname === '/notificationPage'
+                        ? 'bg-blue-500 text-white border-blue-500'
+                        : 'hover:bg-gray-100 border-gray-300'
+                    }`}
+                  >
+                    <IoNotificationsOutline size={24} />
+                  </div>
+
+                  {/* Notification Counter Badge */}
+                  {notificationCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium px-1.5 py-0.5 rounded-full shadow-md animate-bounce">
+                      {notificationCount}
+                    </span>
+                  )}
                 </div>
               </Link>
               <Link href={profileLink}>
