@@ -1,32 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import img from '../../assests/bannerImg.jpg';
+
 import Image from 'next/image';
 
-export default function VideoSlider() {
-  const slides = [
-    {
-      imageUrl: img,
-      title: 'Dream Ireland Painting',
-      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    },
-    {
-      imageUrl: img,
-      title: 'Second Slide Title',
-      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    },
-    {
-      imageUrl: img,
-      title: 'Third Slide Title',
-      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    },
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
+export default function VideoSlider({profileData}) {
+  // console.log("profile data-------->",profileData);
+ const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const slides = profileData?.profileVedio|| []
+  
+  // console.log("siled------->",slides);
+
+ 
 
   const currentSlide = slides[activeIndex];
+
+  // console.log("currentSlide------->",currentSlide);
 
   const handleDotClick = index => {
     setActiveIndex(index);
@@ -47,8 +37,8 @@ export default function VideoSlider() {
         {!isPlaying && (
           <>
             <Image
-              src={currentSlide.imageUrl}
-              alt={currentSlide.title}
+              src={currentSlide?.thumbImageUrl}
+              alt={currentSlide?.title}
               className="w-full h-full object-cover brightness-75"
               fill
               priority
@@ -58,12 +48,12 @@ export default function VideoSlider() {
             {/* Text and dots container - positioned at bottom */}
             <div className="absolute bottom-6 left-6 md:left-12 right-6 md:right-12 text-white z-10">
               <h2 className="text-xl md:text-3xl font-bold mb-4">
-                {currentSlide.title}
+                {currentSlide?.title}
               </h2>
 
               {/* Dots */}
               <div className="flex space-x-2">
-                {slides.map((_, i) => (
+                {slides?.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => handleDotClick(i)}
@@ -98,7 +88,7 @@ export default function VideoSlider() {
         {isPlaying && (
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
-            src={currentSlide.videoUrl}
+            src={currentSlide?.videoUrl}
             controls
             autoPlay
             onEnded={handleVideoEnd}

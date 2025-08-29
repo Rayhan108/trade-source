@@ -1,11 +1,15 @@
+'use client'
 import Link from 'next/link';
 import ProfBanner from '../../../../Component/Profile/ProfBanner';
 import ProfDet from '../../../../Component/Profile/ProfDet';
 import Tabs from '../../../../Component/Profile/Tab';
+import { useGetSpecefiqUserQuery } from '../../../../redux/features/user/userApi';
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const contractorId = params.id;
-
+const {data:singleProfile}=useGetSpecefiqUserQuery(contractorId)
+console.log("singleProfile----->",singleProfile);
+const profileData = singleProfile?.data
   return (
     <div className="">
       <nav
@@ -37,8 +41,8 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         </h1>
 
         <div className="container mx-auto bg-white shadow-2xl p-5 rounded-xl my-10">
-          <ProfBanner />
-          <ProfDet contractorId={contractorId} />
+          <ProfBanner  profileData={profileData} />
+          <ProfDet contractorId={contractorId}  profileData={profileData}/>
           <Tabs />
         </div>
       </div>

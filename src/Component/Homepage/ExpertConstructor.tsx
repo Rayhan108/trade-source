@@ -1,20 +1,32 @@
-'use client';
+"use client";
 
-import ConstractorCard from '../Card/ConstractorCard';
-import styles from '../../app/styles.module.css';
-import { useState } from 'react';
-import { useGetAllServicesQuery } from '../../redux/features/contractor/contractorApi';
+import ConstractorCard from "../Card/ConstractorCard";
+import styles from "../../app/styles.module.css";
+import { useState } from "react";
+
+import { useGetAllUserQuery } from "../../redux/features/user/userApi";
+import { Pagination } from "antd";
 
 const ExpertConstructor = () => {
   const [page, setPage] = useState(1);
-
-  const { data: services } = useGetAllServicesQuery({
+  const role = "contractor";
+  const { data: contractors } = useGetAllUserQuery({
     page,
-    limit: 8,
+    role,
   });
+// console.log("all contractors >>>>>>>>>>>>>>",contractors);
+  const meta = contractors?.data?.meta;
+  // Use the 'limit' from meta for dynamic items per page
+  const limit = meta?.limit;
+  const totalItems = meta?.total;
 
-  const totalPage = services?.data?.meta?.totalPage || 1;
+  // Calculate current items to show based on page and limit
 
+  const currentItems = contractors?.data?.result;
+
+  const onPageChange = (page: number) => {
+    setPage(page);
+  };
   return (
     <div>
       <div className={`container mx-auto ${styles.fontDmSans}`}>
@@ -22,31 +34,23 @@ const ExpertConstructor = () => {
           Expert Contractor
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-3 px-3 md:px-0">
-          {services?.data?.result?.map((service, idx) => {
-            return <ConstractorCard key={idx} service={service} />;
+          {currentItems?.map((contractor, idx) => {
+            return <ConstractorCard key={idx} contractor={contractor} />;
           })}
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center gap-3 mt-8">
-          <button
-            onClick={() => setPage(p => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
-          >
-            Prev
-          </button>
-          <span className="text-gray-700">
-            Page {page} of {totalPage}
-          </span>
-          <button
-            onClick={() => setPage(p => Math.min(totalPage, p + 1))}
-            disabled={page === totalPage}
-            className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+        <Pagination
+          current={page}
+          pageSize={limit} // Use dynamic page size based on 'limit'
+          total={totalItems} // Total number of items
+          onChange={onPageChange}
+          showSizeChanger={false}
+          className="flex justify-center"
+          // Show the total number of pages (meta.totalPage)
+          pageSizeOptions={[limit?.toString()]}
+          // showTotal={(total) => `Total ${total} items`}
+        />
       </div>
     </div>
   );

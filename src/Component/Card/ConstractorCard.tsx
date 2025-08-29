@@ -1,29 +1,31 @@
+import { User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoIosStar } from 'react-icons/io';
-import { SlBadge } from 'react-icons/sl';
 
-export default function ConstractorCard({ service }) {
+
+export default function ConstractorCard({ contractor }) {
+  console.log("contractor---------->",contractor);
   return (
     <div className="max-w-sm w-full bg-green-200 rounded-lg shadow-md overflow-hidden mx-auto ">
       <div className="relative h-64">
         <Image
-          src={service.image}
-          alt={service.title}
+          src={contractor.image}
+          alt={contractor.title}
           layout="fill"
           objectFit="cover"
           className="block"
           priority
         />
         <h2 className="absolute bottom-4 left-1 sm:left-4 text-white sm:font-bold text-xs sm:text-xl drop-shadow-lg">
-          {service.title}
+          {contractor.title}
         </h2>
-        <Link href={`/profile/${service?.contractorId?._id}`}>
+        <Link href={`/profile/${contractor?._id}`}>
           <button className="flex sm:hidden  absolute bottom-2 sm:bottom-4 right-1 bg-blue-600 text-white text-sm sm:font-semibold py-1 px-1 rounded-md shadow-md hover:bg-blue-700 transition">
-            View Profile
+            View Profilej
           </button>
         </Link>
-        <Link href={`/profile/${service?.contractorId?._id}`}>
+        <Link href={`/profile/${contractor?._id}`}>
           <button className="hidden sm:flex absolute bottom-4 right-4 bg-blue-600 text-white text-sm font-semibold py-1.5 px-3 rounded-md shadow-md hover:bg-blue-700 transition">
             View Profile
           </button>
@@ -37,10 +39,12 @@ export default function ConstractorCard({ service }) {
             {data.completedTasks} Completed Task{data.completedTasks > 1 ? 's' : ''}
           </span> */}
           <span className="flex items-center gap-2">
-            <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              <SlBadge />
+            <span className="bg-  rounded-full w-5 h-5 flex items-center justify-center text-blue-700 text-xs">
+              {/* <SlBadge /> */}
+              <User />
             </span>
-            {service.projectStatus}
+            {(contractor?.firstName) + ' ' + (contractor?.lastName)
+}
           </span>
           {/* <span className="flex items-center gap-2">
             <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -51,24 +55,24 @@ export default function ConstractorCard({ service }) {
           </span> */}
           <span className="flex items-center gap-2">
             <IoIosStar className="text-[#D4AF37] text-xl" />
-            {service?.review?.length
+            {contractor?.review?.length
               ? (
-                  service.review.reduce(
+                  contractor.review.reduce(
                     (sum: number, item: { rating: number }) =>
                       sum + item.rating,
                     0
-                  ) / service.review.length || 5
+                  ) / contractor.review.length || 5
                 ).toFixed(1)
               : 0}{' '}
-            ({service.review.length} review
-            {service.review.length > 1 ? 's' : ''})
+            ({contractor?.review?.length} review
+            {contractor?.review?.length > 1 ? 's' : ''})
           </span>
         </div>
 
         <div>
           <p className="font-semibold mb-2">Expertise</p>
           <ul className="list-disc list-inside text-sm space-y-1">
-            {service?.contractorId?.servicesYouProvide.map((item, idx) => (
+            {contractor?.servicesYouProvide?.map((item, idx) => (
               <li key={idx}>{item}</li>
             ))}
           </ul>

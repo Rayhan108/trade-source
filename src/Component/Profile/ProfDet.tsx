@@ -1,68 +1,101 @@
-'use client';
+import { useState } from "react";
+import Image from "next/image";
+import { Modal, Radio, Button, Upload, Input, message } from "antd";
+import { HiFlag } from "react-icons/hi2";
+import { LockOutlined, UploadOutlined } from "@ant-design/icons";
+import { RcFile } from "antd/es/upload";
+import Link from "next/link";
+import { useGiveReportMutation } from "../../redux/features/contractor/contractorApi";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { Modal, Radio, Button, Upload, Input, message } from 'antd';
-import { HiFlag } from 'react-icons/hi2';
-import { IoCameraOutline } from 'react-icons/io5';
-import { LockOutlined, UploadOutlined } from '@ant-design/icons';
-import img from '../../assests/bannerImg.jpg';
-import { usePostReportMutation } from '../../redux/features/others/otherApi';
-import { RcFile } from 'antd/es/upload';
-
-const ProfDet = ({ contractorId }: { contractorId?: string }) => {
+const ProfDet = ({ contractorId, profileData }) => {
   const { TextArea } = Input;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
-  const [reason, setReason] = useState('');
-  const [feedback, setFeedback] = useState('');
   const [image, setImage] = useState<RcFile | null>(null);
-
-  const [postReport] = usePostReportMutation();
+  const [selectedReason, setSelectedReason] = useState<string>(""); // Store selected reason
+  const [feedback, setFeedback] = useState<string>(""); // Store feedback data for the second modal
+  const [postReport] = useGiveReportMutation();
 
   const reasons = [
-    'It is inaccurate or incorrect',
-    'It is not a real person',
-    'It is a scam',
-    'It is offensive',
-    'It is something else',
+    "It is inaccurate or incorrect",
+    "It is not a real person",
+    "It is a scam",
+    "It is offensive",
+    "It is something else",
   ];
 
+  // Handle first modal continue
   const handleContinueFirstModal = () => {
+    if (!selectedReason) {
+      message.error("Please select a reason.");
+      return;
+    }
     setIsModalOpen(false);
     setIsSecondModalOpen(true);
   };
 
+  // Handle second modal submit
   const handleContinueSecondModal = async () => {
-    const reportData = {
-      report: {
-        reason: reason,
-        feedback: feedback,
-      },
-    };
+    // Logging the data before submission
+    console.log("Form Data:", {
+      reason: selectedReason,
+      feedback,
+      image,
+    });
 
     const formData = new FormData();
-    formData.append('data', JSON.stringify(reportData));
-    if (image) formData.append('image', image);
+    const modifiedData = {
+      report: {
+        reason: selectedReason,
+        feedback,
+      },
+    };
+    formData.append("data", JSON.stringify(modifiedData)); // Pass selected reason and feedback to the backend
 
+    formData.append("image", image);
+
+    // console.log("formData--------->",formData);
+    //    console.log('Form Data--->>>>>>>>>>>:', formData);
+
+    // Log the FormData contents
+    // console.log('Form Data Contents:');
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // });
     try {
-      const res = await postReport({ formData, contractorId }).unwrap();
+      const res = await postReport({
+        info: formData,
+        id: contractorId,
+      }).unwrap();
+      // console.log("response--------->",res);
+
       if (res.success) {
-        message.success('Report is submitted successfully!');
+        message.success(res?.message);
         setIsSecondModalOpen(false);
-        setReason('');
-        setFeedback('');
+        setSelectedReason("");
+        setFeedback("");
         setImage(null);
+      } else {
+        message.error(res?.message);
       }
     } catch (error) {
-      message.error(error?.data?.message || 'Something went wrong');
+      message.error(error?.message);
     }
   };
 
+  // Handle cancel modal
   const handleCancelAll = () => {
     setIsModalOpen(false);
     setIsSecondModalOpen(false);
-    setReason('');
+  };
+
+  // Handle file upload
+  const handleFileChange = ({ fileList }) => {
+    if (fileList.length > 0) {
+      setImage(fileList[0].originFileObj as RcFile);
+    } else {
+      setImage(null);
+    }
   };
 
   return (
@@ -72,25 +105,23 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
         <div className="flex items-center gap-5">
           <div className="relative w-28 h-28 rounded-full overflow-hidden">
             <Image
-              src={img}
+              src={profileData?.image}
               alt="Profile"
               fill
               className="object-cover rounded-full"
             />
-            <div className="bg-black opacity-80 w-full p-1 shadow-md cursor-pointer relative top-20 py-4">
-              <IoCameraOutline
-                size={24}
-                className="text-white absolute bottom-1 left-10"
-              />
-            </div>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Gram Dew</h2>
-            <p className="text-gray-600">Interior Painting</p>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {profileData?.firstName + " " + profileData?.lastName}
+            </h2>
+            <p className="text-gray-600">{profileData?.address}</p>
           </div>
-          <button className="bg-blue-600 h-10 text-white text-sm px-3 py-0 rounded-xl transition">
-            Request Quote
-          </button>
+          <Link href={"/quote"}>
+            <button className="bg-blue-600 h-10 text-white text-sm px-3 py-0 rounded-xl transition">
+              Request Quote
+            </button>
+          </Link>
         </div>
         {contractorId && (
           <div
@@ -105,14 +136,7 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
 
       {/* About Section */}
       <div className="mb-8">
-        <p className="text-[#0F161C] text-sm">
-          Hi, I&apos;m Gram Dew from Dream Ireland Painting. With years of
-          experience in interior painting, I&apos;m dedicated to transforming
-          spaces with high-quality finishes. I work closely with my clients to
-          bring their vision to life, ensuring professional and detailed
-          results. Check out my projects and reviews, and feel free to reach out
-          for your next painting project!
-        </p>
+        <p className="text-[#0F161C] text-sm">{profileData?.bio}</p>
       </div>
 
       {/* First Modal */}
@@ -131,15 +155,16 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
             Why are you reporting the Contractor?
           </div>
           <div className="text-gray-500 text-sm mb-5 flex items-center gap-2">
-            <LockOutlined /> This won&apos;t be shared with Contractor.
+            <LockOutlined /> This won't be shared with Contractor.
           </div>
 
+          {/* Radio Group for reasons */}
           <Radio.Group
-            onChange={e => setReason(e.target.value)}
-            value={reason}
-            className="custom-radio-group space-y-4 flex flex-col sm:w-[350px] "
+            value={selectedReason}
+            onChange={(e) => setSelectedReason(e.target.value)} // Update selected reason
+            className="custom-radio-group space-y-4 flex flex-col sm:w-[350px]"
           >
-            {reasons.map(r => (
+            {reasons.map((r) => (
               <Radio key={r} value={r}>
                 {r}
               </Radio>
@@ -157,7 +182,7 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
               type="primary"
               onClick={handleContinueFirstModal}
               className="w-1/2 ml-2 bg-blue-600 hover:bg-blue-700"
-              disabled={!reason}
+              disabled={!selectedReason} // Button will be enabled only when a reason is selected
             >
               Continue
             </Button>
@@ -191,32 +216,27 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
             </p>
           </div>
 
+          {/* Feedback Textarea */}
           <div className="mb-4">
             <label className="font-medium block mb-1">Feedback</label>
             <TextArea
               rows={4}
               placeholder="Describe your issue or question"
-              onChange={e => setFeedback(e.target.value)}
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)} // Update feedback state
             />
           </div>
 
+          {/* File Upload */}
           <div className="mb-6">
             <label className="font-medium block mb-2">Attach File</label>
-
             <Upload
               beforeUpload={() => false}
               showUploadList={true}
-              onChange={({ fileList }) => {
-                if (fileList.length > 0) {
-                  setImage(fileList[0].originFileObj as RcFile);
-                } else {
-                  setImage(null);
-                }
-              }}
+              onChange={handleFileChange}
             >
               <Button icon={<UploadOutlined />}>Choose File</Button>
             </Upload>
-
             {!image && (
               <span className="ml-3 text-sm text-red-500">No file chosen</span>
             )}
@@ -231,9 +251,9 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
             </Button>
             <Button
               type="primary"
-              onClick={handleContinueSecondModal}
+              onClick={handleContinueSecondModal} // Handle data submission
               className="w-1/2 ml-2 bg-blue-600 hover:bg-blue-700"
-              disabled={!feedback || !image}
+              disabled={!image} // Ensure a file is chosen before submitting
             >
               Send Report
             </Button>

@@ -12,15 +12,6 @@ const contractorApi = baseApi.injectEndpoints({
       invalidatesTags: ['user'],
     }),
 
-    // // getAllContractors
-    // getAllContractors: builder.mutation({
-    //   query: userInfo => ({
-    //     url: '/user/create-contractor',
-    //     method: 'POST',
-    //     body: userInfo,
-    //   }),
-    //   invalidatesTags: ['user'],
-    // }),
 
     // createServices
     createServices: builder.mutation({
@@ -49,6 +40,14 @@ const contractorApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    // getSingleService
+    giveReport: builder.mutation({
+      query: ({id,info})=> ({
+        url: `/user/report/${id}`,
+        method: 'PATCH',
+        body:info
+      }),
+    }),
 
     // makePayment
     makePayment: builder.mutation({
@@ -68,4 +67,5 @@ export const {
   useGetAllServicesQuery,
   useGetSingleServiceQuery,
   useMakePaymentMutation,
+  useGiveReportMutation
 } = contractorApi;
