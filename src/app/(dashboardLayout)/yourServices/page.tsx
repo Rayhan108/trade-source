@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import house1 from '../../../assests/material-symbols_star-rounded (4).png';
-import house2 from '../../../assests/material-symbols_star-rounded (5).png';
+import house1 from '@/assests/material-symbols_star-rounded (4).png';
+import house2 from '@/assests/material-symbols_star-rounded (5).png';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
 

@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
-import userImg from '../../../assests/cons1.png';
+import userImg from '@/assests/cons1.png';
 import Image from 'next/image';
 import Link from 'next/link';
+
 export default function ProjectStatus() {
   const [activeTab, setActiveTab] = useState('Inprogress');
 

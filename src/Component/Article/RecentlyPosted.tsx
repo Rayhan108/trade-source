@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../../app/styles.module.css';
+import styles from '@./app/styles.module.css';
 import ArticleCard from '../Card/ArticleCard';
 import { Pagination } from 'antd';
 

@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { TbCurrentLocation } from 'react-icons/tb';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   selectLocation,
   setLocation,
-} from '../../../redux/features/project/projectSlice';
+} from '@/redux/features/project/projectSlice';
 
 const LocationPage = () => {
   const dispatch = useAppDispatch();

@@ -5,13 +5,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { FiPlus } from 'react-icons/fi';
 import { MdClose } from 'react-icons/md';
 import Select from 'react-select';
-import { useGetAllCategoryQuery } from '../../../redux/features/others/otherApi';
-import { useCreateServicesMutation } from '../../../redux/features/contractor/contractorApi';
+import { useGetAllCategoryQuery } from '@/redux/features/others/otherApi';
+import { useCreateServicesMutation } from '@/redux/features/contractor/contractorApi';
 import { message } from 'antd';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
-import { useAppSelector } from '../../../redux/hooks';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { useAppSelector } from '@/redux/hooks';
 import Image from 'next/image';
-import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
+import { useGetSpecefiqUserQuery } from '@/redux/features/user/userApi';
 
 export default function CreateServiceForm() {
   const [selectedImage, setSelectedImage] = useState(null);

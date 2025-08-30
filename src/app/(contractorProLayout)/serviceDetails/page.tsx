@@ -2,9 +2,9 @@
 import { useForm } from 'react-hook-form';
 import { TbCurrentLocation } from 'react-icons/tb';
 import { FaLocationDot } from 'react-icons/fa6';
-import { useAppDispatch } from '../../../redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 import { useRouter } from 'next/navigation';
-import { updateContractorData } from '../../../redux/features/contractor/contractorSlice';
+import { updateContractorData } from '@/redux/features/contractor/contractorSlice';
 
 const ServiceDetailsPage = () => {
   // Initialize react-hook-form

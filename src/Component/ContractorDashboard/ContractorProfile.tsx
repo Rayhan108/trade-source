@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { Input, Button } from 'antd';
-import userImg from '../../assests/user.png';
+import userImg from '@/assests/user.png';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 

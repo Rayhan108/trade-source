@@ -1,15 +1,15 @@
 'use client';
 
-import ProjectCard from '../Card/ProjectCard';
-import styles from '../../app/styles.module.css';
+import styles from '@/app/styles.module.css';
 import Link from 'next/link';
-import { useGetAllServicesQuery } from '../../redux/features/contractor/contractorApi';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
 import { useState } from 'react';
+import project1 from '@/assests/project1.png';
+import project2 from '@/assests/project2.png';
+import project3 from '@/assests/project3.png';
+import project4 from '@/assests/project4.png';
+import ProjectCard from '../Card/ProjectCard';
 
-import project1 from '../../assests/project1.png';
-import project2 from '../../assests/project2.png';
-import project3 from '../../assests/project3.png';
-import project4 from '../../assests/project4.png';
 export const Projects = [
   {
     id: 1,

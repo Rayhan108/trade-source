@@ -1,5 +1,5 @@
 'use client';
-import userImg from '../../../assests/user.png';
+import userImg from '@/assests/user.png';
 import { useState } from 'react';
 import {
   Calendar,
@@ -14,7 +14,7 @@ import DatePicker from 'react-datepicker';
 import TimePicker from 'react-time-picker';
 import { Modal } from 'antd';
 import 'react-datepicker/dist/react-datepicker.css';
-import { dateOptions, timeOptions } from '../../../constants';
+import { dateOptions, timeOptions } from '@/constants';
 
 export default function SendQuote() {
   const [selectedDate, setSelectedDate] = useState('Within a week');

@@ -1,4 +1,4 @@
-import { baseApi } from '../../api/baseApi';
+import { baseApi } from '@/redux/api/baseApi';
 
 const otherApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -92,8 +92,8 @@ const otherApi = baseApi.injectEndpoints({
       providesTags: ['notifications'],
     }),
 
-    // makeNotificationsRead
-    markNotificationsRead: builder.mutation({
+    // markAllNotificationsAsRead
+    markAllNotificationsAsRead: builder.mutation({
       query: userId => ({
         url: `/notification/mark-all/${userId}`,
         method: 'PATCH',
@@ -111,7 +111,7 @@ const otherApi = baseApi.injectEndpoints({
     }),
 
     // getUnseenNotificationCount
-    getUnseenNotificationCount: builder.query({
+    getUnseenNotificationCount: builder.query<{ data: number }, string>({
       query: userId => ({
         url: `/notification/unseen/${userId}`,
         method: 'GET',
@@ -131,7 +131,7 @@ export const {
   useGetMessagesQuery,
   useSendMessageMutation,
   useGetNotificationsQuery,
-  useMarkNotificationsReadMutation,
+  useMarkAllNotificationsAsReadMutation,
   useMarkSingleNotificationAsReadMutation,
   useGetUnseenNotificationCountQuery,
 } = otherApi;

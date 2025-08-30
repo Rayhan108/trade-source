@@ -8,7 +8,8 @@ import {
   FaPlus,
   FaCheck,
 } from 'react-icons/fa';
-import cons1 from '../../../assests/cons1.png';
+import cons1 from '@/assests/cons1.png';
+
 export default function BookingConfirmation() {
   return (
     <div className="max-w-7xl mx-auto bg-gray-50 p-6 rounded-lg my-5 ">

@@ -1,10 +1,11 @@
-import Statics from '../../../Component/ContractorDashboard/Statics';
-import PastPerformance from '../../../Component/ContractorDashboard/PastPerformance';
+import Statics from '@/Component/ContractorDashboard/Statics';
+import PastPerformance from '@/Component/ContractorDashboard/PastPerformance';
 import Link from 'next/link';
+
 const DashboardPage = () => {
   const proContractor = true;
   return (
-    <> 
+    <>
       {proContractor ? (
         <div className="bg-white max-w-7xl p-4 min-h-screen flex gap-3">
           <div className="w-[70%]">

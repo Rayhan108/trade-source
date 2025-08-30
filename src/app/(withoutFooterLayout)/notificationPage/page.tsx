@@ -1,27 +1,27 @@
 'use client';
 
 import Image from 'next/image';
-import emptyImg from '../../../assests/Notification 1.png'; // Your uploaded empty state image
+import emptyImg from '@/assests/Notification 1.png'; // Your uploaded empty state image
 import {
   useGetNotificationsQuery,
-  useMarkNotificationsReadMutation,
+  useMarkAllNotificationsAsReadMutation,
   useMarkSingleNotificationAsReadMutation,
-} from '../../../redux/features/others/otherApi';
-import { useAppSelector } from '../../../redux/hooks';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
-import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
+} from '@/redux/features/others/otherApi';
+import { useAppSelector } from '@/redux/hooks';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '@/redux/features/user/userApi';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { message } from 'antd';
-import { getSocket } from '../../../lib/socket';
+import { getSocket } from '@/lib/socket';
 
 const NotificationPage = () => {
   const { user } = useAppSelector(selectCurrentUser);
   const { data: specUser } = useGetSpecefiqUserQuery(user?.userId);
   const { data: oldNotifications } = useGetNotificationsQuery(user?.userId);
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [markNotificationsRead] = useMarkNotificationsReadMutation();
+  const [markNotificationsRead] = useMarkAllNotificationsAsReadMutation();
   const [markSingleNotificationAsRead] =
     useMarkSingleNotificationAsReadMutation();
   const [notifications, setNotifications] = useState<
@@ -62,7 +62,7 @@ const NotificationPage = () => {
     if (!socket) return;
 
     const handleNewNotification = (newNotice: any) => {
-      setNotifications(prev => [newNotice, ...prev]);
+      if (newNotice._id) setNotifications(prev => [newNotice, ...prev]);
     };
 
     socket.on('newNotification', handleNewNotification);

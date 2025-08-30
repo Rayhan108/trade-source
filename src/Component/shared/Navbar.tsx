@@ -2,22 +2,22 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import logo from '../../assests/navLogo.png';
-import styles from '../../app/styles.module.css';
+import logo from '@/assests/navLogo.png';
+import styles from '@/app/styles.module.css';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { LuMessageSquareMore } from 'react-icons/lu';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { logout, selectCurrentUser } from '../../redux/features/auth/authSlice';
-import { useGetSpecefiqUserQuery } from '../../redux/features/user/userApi';
-import { resetContractorData } from '../../redux/features/contractor/contractorSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { logout, selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '@/redux/features/user/userApi';
+import { resetContractorData } from '@/redux/features/contractor/contractorSlice';
 import { setCookie } from 'nookies';
 import { message } from 'antd';
-import { protectedRoutes } from '../../constants';
-import { useGetUnseenNotificationCountQuery } from '../../redux/features/others/otherApi';
+import { protectedRoutes } from '@/constants';
+import { useGetUnseenNotificationCountQuery } from '@/redux/features/others/otherApi';
 import { Socket } from 'socket.io-client';
-import { getSocket } from '../../lib/socket';
+import { getSocket } from '@/lib/socket';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +60,7 @@ export default function Navbar() {
   const myUserId = user?.user?.userId;
 
   useEffect(() => {
-    if (unSeenNotificationCount?.data) {
+    if (unSeenNotificationCount) {
       setNotificationCount(Number(unSeenNotificationCount?.data));
     }
   }, [unSeenNotificationCount]);
@@ -87,9 +87,13 @@ export default function Navbar() {
     if (!socket) return;
 
     const handleNewNotification = (newNotice: any) => {
-      console.log({ newNotice });
-
-      setNotificationCount(prev => prev + 1);
+      if (newNotice.unReadCount >= 0) {
+        setNotificationCount(newNotice.unReadCount);
+      } else if (newNotice.unReadMinus == 1) {
+        setNotificationCount(prev => prev - 1);
+      } else {
+        setNotificationCount(prev => prev + 1);
+      }
     };
 
     socket.on('newNotification', handleNewNotification);

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { HiMail, HiClipboardCopy, HiCheck } from 'react-icons/hi';
-import refer from '../../../assests/Referral.png';
+import refer from '@/assests/Referral.png';
 import Image from 'next/image';
 export default function ReferPage() {
   const [email, setEmail] = useState('');

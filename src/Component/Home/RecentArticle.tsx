@@ -1,16 +1,13 @@
 'use client';
 
-import styles from '../../app/styles.module.css';
+import styles from '@/app/styles.module.css';
 import ArticleCard from '../Card/ArticleCard';
 import Link from 'next/link';
-import { useGetAllArticlesQuery } from '../../redux/features/others/otherApi';
+import { useGetAllArticlesQuery } from '@/redux/features/others/otherApi';
 import LoadingSpinner from '../Loading';
 
 const RecentArticle = () => {
   const { data: articles, isLoading } = useGetAllArticlesQuery(undefined);
-
-  console.log(articles?.data?.result?.length);
-
 
   if (isLoading) return <LoadingSpinner />;
 

@@ -6,8 +6,8 @@ import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { SlBadge } from 'react-icons/sl';
 import { IoIosHammer } from 'react-icons/io';
 import { Modal, Pagination } from 'antd';
-import styles from '../../app/styles.module.css';
-import img from '../../assests/bannerImg.jpg';
+import styles from '@/app/styles.module.css';
+import img from '@/assests/bannerImg.jpg';
 
 const reviews = [
   {

@@ -6,8 +6,8 @@ import { Modal, Radio, Button, Upload, Input, message } from 'antd';
 import { HiFlag } from 'react-icons/hi2';
 import { IoCameraOutline } from 'react-icons/io5';
 import { LockOutlined, UploadOutlined } from '@ant-design/icons';
-import img from '../../assests/bannerImg.jpg';
-import { usePostReportMutation } from '../../redux/features/others/otherApi';
+import bannerImg from '@/assests/bannerImg.jpg';
+import { usePostReportMutation } from '@/redux/features/others/otherApi';
 import { RcFile } from 'antd/es/upload';
 
 const ProfDet = ({ contractorId }: { contractorId?: string }) => {
@@ -72,7 +72,7 @@ const ProfDet = ({ contractorId }: { contractorId?: string }) => {
         <div className="flex items-center gap-5">
           <div className="relative w-28 h-28 rounded-full overflow-hidden">
             <Image
-              src={img}
+              src={bannerImg}
               alt="Profile"
               fill
               className="object-cover rounded-full"

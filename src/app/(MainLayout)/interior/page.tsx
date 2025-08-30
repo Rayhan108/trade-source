@@ -1,5 +1,5 @@
-import InteriorBanner from '../../../Component/Interior/IntBaner';
-import IntNear from '../../../Component/Interior/IntNear';
+import InteriorBanner from '@/Component/Interior/IntBaner';
+import IntNear from '@/Component/Interior/IntNear';
 const InteriorPage = () => {
   return (
     <div>

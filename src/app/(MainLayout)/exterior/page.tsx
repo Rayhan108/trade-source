@@ -1,5 +1,5 @@
-import InteriorBanner from '../../../Component/Interior/IntBaner';
-import ExtNear from '../../../Component/Exterior/ExtNear';
+import InteriorBanner from '@/Component/Interior/IntBaner';
+import ExtNear from '@/Component/Exterior/ExtNear';
 
 const ExteriorPage = () => {
   return (

@@ -3,12 +3,9 @@
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import {
-  selectTime,
-  setTime,
-} from '../../../redux/features/project/projectSlice';
-import { dateOptions, timeOptions } from '../../../constants';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { selectTime, setTime } from '@/redux/features/project/projectSlice';
+import { dateOptions, timeOptions } from '@/constants';
 
 interface FormValues {
   preferredDate: string;

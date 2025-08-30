@@ -1,5 +1,5 @@
-import InteriorBanner from '../../../Component/Interior/IntBaner';
-import LawnNear from '../../../Component/Lawn/LawnNear';
+import InteriorBanner from '@/Component/Interior/IntBaner';
+import LawnNear from '@/Component/Lawn/LawnNear';
 const LawnAndGardenPage = () => {
   return (
     <div>

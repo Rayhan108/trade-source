@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import userImg from '../../../../assests/user.png';
+import userImg from '@/assests/user.png';
 import {
   Calendar,
   MapPin,

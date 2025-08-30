@@ -1,6 +1,6 @@
-import project1 from '../assests/project1.png';
-import project2 from '../assests/project2.png';
-import project3 from '../assests/project3.png';
+import project1 from '@/assests/project1.png';
+import project2 from '@/assests/project2.png';
+import project3 from '@/assests/project3.png';
 
 export const protectedRoutes = [
   '/login',

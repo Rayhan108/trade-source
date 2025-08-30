@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import ProfBanner from '../../../../Component/Profile/ProfBanner';
-import ProfDet from '../../../../Component/Profile/ProfDet';
-import Tabs from '../../../../Component/Profile/Tab';
+import ProfBanner from '@/Component/Profile/ProfBanner';
+import ProfDet from '@/Component/Profile/ProfDet';
+import Tabs from '@/Component/Profile/Tab';
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const contractorId = params.id;

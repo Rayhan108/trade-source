@@ -1,4 +1,4 @@
-import Navbar from '../../Component/shared/Navbar';
+import Navbar from '@/Component/shared/Navbar';
 
 const WithoutFooterProject = ({ children }) => {
   return (

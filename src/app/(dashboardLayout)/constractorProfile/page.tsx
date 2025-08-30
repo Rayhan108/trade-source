@@ -1,4 +1,5 @@
-import ContractorProfile from '../../../Component/ContractorDashboard/ContractorProfile';
+import ContractorProfile from '@/Component/ContractorDashboard/ContractorProfile';
+
 const ConstractorProfile = () => {
   return (
     <div>

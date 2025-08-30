@@ -1,16 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import ServiceDetails from '../../../Component/Profile/ServiceDetails';
-import ProjCard from '../../../Component/Profile/ProjCard';
-import { Projects } from '../../../Component/Home/ProjectsNear';
-import ProjectCard from '../../../Component/Card/ProjectCard';
-import LicenseCard from '../../../Component/Card/LicenseCard';
-import ProfDet from '../../../Component/Profile/ProfDet';
-import FeaturedMedia from '../../../Component/ContractorProfile/FeaturedMedia';
+import ServiceDetails from '@/Component/Profile/ServiceDetails';
+import ProjCard from '@/Component/Profile/ProjCard';
+import { Projects } from '@/Component/Home/ProjectsNear';
+import ProjectCard from '@/Component/Card/ProjectCard';
+import LicenseCard from '@/Component/Card/LicenseCard';
+import ProfDet from '@/Component/Profile/ProfDet';
+import FeaturedMedia from '@/Component/ContractorProfile/FeaturedMedia';
 import { FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
-import { cardDatas, licenses } from '../../../constants';
+import { cardDatas, licenses } from '@/constants';
 
 const ContractorProfilePage = () => {
   const tabs = ['Projects', 'Services', 'Licenses & Insurance'];

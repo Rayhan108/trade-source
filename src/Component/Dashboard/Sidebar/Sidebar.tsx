@@ -3,16 +3,13 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import {
-  logout,
-  selectCurrentUser,
-} from '../../../redux/features/auth/authSlice';
-import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
-import { resetContractorData } from '../../../redux/features/contractor/contractorSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { logout, selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '@/redux/features/user/userApi';
+import { resetContractorData } from '@/redux/features/contractor/contractorSlice';
 import { setCookie } from 'nookies';
 import { message } from 'antd';
-import { protectedRoutes } from '../../../constants';
+import { protectedRoutes } from '@/constants';
 
 // Define user and contractor routes
 const userItems = [

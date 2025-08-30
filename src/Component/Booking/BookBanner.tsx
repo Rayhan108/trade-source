@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Download, Settings, Calendar, Hammer, Handshake } from 'lucide-react';
-import hero from '../../assests/bookBanner.jpg';
-import baseMap from '../../assests/Basemap image.png';
+import hero from '@/assests/bookBanner.jpg';
+import baseMap from '@/assests/Basemap image.png';
 import { PiMapPinAreaBold } from 'react-icons/pi';
 import Link from 'next/link';
 

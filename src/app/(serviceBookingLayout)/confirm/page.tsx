@@ -8,12 +8,15 @@ import {
   selectLocation,
   selectService,
   selectTime,
-} from '../../../redux/features/project/projectSlice';
-import { useAppSelector } from '../../../redux/hooks';
+} from '@/redux/features/project/projectSlice';
+import { useAppSelector } from '@/redux/hooks';
 import Link from 'next/link';
-import { useGetSingleServiceQuery, useMakePaymentMutation } from '../../../redux/features/contractor/contractorApi';
+import {
+  useGetSingleServiceQuery,
+  useMakePaymentMutation,
+} from '@/redux/features/contractor/contractorApi';
 import { message } from 'antd';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
 
 export default function PaymentBookingInterface() {
   const storedService = useAppSelector(selectService);

@@ -4,16 +4,16 @@ import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
 import { FiPaperclip, FiSend } from 'react-icons/fi';
 import Image from 'next/image';
 import { Socket } from 'socket.io-client';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
-import { useAppSelector } from '../../../redux/hooks';
+import { message as antdMessage } from 'antd';
+import dayjs from 'dayjs';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
 import {
   useGetMessagesQuery,
   useGetUsersForSidebarQuery,
   useSendMessageMutation,
-} from '../../../redux/features/others/otherApi';
-import { message as antdMessage } from 'antd';
-import dayjs from 'dayjs';
-import { getSocket } from '../../../lib/socket';
+} from '@/redux/features/others/otherApi';
+import { useAppSelector } from '@/redux/hooks';
+import { getSocket } from '@/lib/socket';
 
 interface Message {
   _id: string;
@@ -35,6 +35,7 @@ export default function MessagingApp() {
   const [selectedUserId, setSelectedUserId] = useState('');
   const [sendMessage] = useSendMessageMutation();
   const { user } = useAppSelector(selectCurrentUser);
+
   const messageEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

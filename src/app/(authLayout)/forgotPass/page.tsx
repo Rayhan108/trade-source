@@ -2,10 +2,10 @@
 
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Image from 'next/image';
-import backgroundImg from '../../../assests/bannerImg.jpg';
-import logo from '../../../assests/YL 2.png';
-import { useForgotPasswordMutation } from '../../../redux/features/auth/authApi';
+import backgroundImg from '@/assests/bannerImg.jpg';
+import logo from '@/assests/YL 2.png';
 import { message } from 'antd';
+import { useForgotPasswordMutation } from '@/redux/features/auth/authApi';
 
 const ForgotPassPage = () => {
   const {

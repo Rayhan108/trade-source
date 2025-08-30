@@ -3,12 +3,12 @@
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   selectService,
   setService,
-} from '../../../redux/features/project/projectSlice';
-import { useGetAllCategoryQuery } from '../../../redux/features/others/otherApi';
+} from '@/redux/features/project/projectSlice';
+import { useGetAllCategoryQuery } from '@/redux/features/others/otherApi';
 
 interface FormValues {
   serviceType: string;

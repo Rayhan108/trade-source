@@ -2,8 +2,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import img from '../../assests/bannerImg.jpg';
-import styles from '../../app/styles.module.css';
+import img from '@/assests/bannerImg.jpg';
+import styles from '@/app/styles.module.css';
 import { Modal, Pagination } from 'antd';
 
 const reviews = [

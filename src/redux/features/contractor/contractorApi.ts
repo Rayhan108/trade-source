@@ -1,4 +1,4 @@
-import { baseApi } from '../../api/baseApi';
+import { baseApi } from '@/redux/api/baseApi';
 
 const contractorApi = baseApi.injectEndpoints({
   endpoints: builder => ({

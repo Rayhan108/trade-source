@@ -1,8 +1,8 @@
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import hamer from '../../assests/hammer.png';
-import banerImg from '../../assests/bannerImg.jpg';
-import styles from '../../app/styles.module.css';
+import hamer from '@/assests/hammer.png';
+import banerImg from '@/assests/bannerImg.jpg';
+import styles from '@/app/styles.module.css';
 import Service from './Service';
 
 export default function Banner() {
