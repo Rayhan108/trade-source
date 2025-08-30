@@ -1,13 +1,11 @@
+'use client';
 
-"use client";
-
-
-import { ReactNode, useRef } from "react";
-import { Provider } from "react-redux";
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import { AppStore, makeStore } from "../redux/store";
-import LoadingPage from '../app/loading'
+import { ReactNode, useRef } from 'react';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import { AppStore, makeStore } from '@/redux/store';
+import LoadingPage from '@/app/loading';
 export default function StoreProvider({ children }: { children: ReactNode }) {
   const storeRef = useRef<AppStore>(undefined);
 
@@ -19,8 +17,8 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
 
   return (
     <Provider store={storeRef.current}>
-      <PersistGate loading={<LoadingPage/>} persistor={persistedStore}>
-      {children}
+      <PersistGate loading={<LoadingPage />} persistor={persistedStore}>
+        {children}
       </PersistGate>
     </Provider>
   );

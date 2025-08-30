@@ -1,26 +1,26 @@
-import { baseApi } from "../../api/baseApi";
+import { baseApi } from '@/redux/api/baseApi';
 
 const userApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
-   
+  endpoints: builder => ({
+    // updateSpecefiqUser
     updateSpecefiqUser: builder.mutation({
-      query: ({id,userInfo}) => ({
+      query: ({ id, userInfo }) => ({
         url: `/user/edit-profile/${id}`,
-        method: "PATCH",  
+        method: 'PATCH',
         body: userInfo,
       }),
-        invalidatesTags: ['user'],
+      invalidatesTags: ['user'],
     }),
-   getSpecefiqUser: builder.query({
-      query: (id) => ({
+
+    // getSpecefiqUser
+    getSpecefiqUser: builder.query({
+      query: id => ({
         url: `/user/retrive/${id}`,
-        method: "GET",  
-        // body: userInfo,
+        method: 'GET',
       }),
     }),
-
-
   }),
-});   
+});
 
-export const {useUpdateSpecefiqUserMutation,useGetSpecefiqUserQuery} = userApi;
+export const { useUpdateSpecefiqUserMutation, useGetSpecefiqUserQuery } =
+  userApi;
