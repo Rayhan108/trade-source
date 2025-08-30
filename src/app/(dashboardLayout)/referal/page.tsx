@@ -1,7 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { HiMail, HiClipboardCopy, HiCheck } from "react-icons/hi";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useSendReferalMutation } from "@/redux/features/refer/referApi";
+import { useGetSpecefiqUserQuery } from "@/redux/features/user/userApi";
+import { useAppSelector } from "@/redux/hooks";
+import { message } from "antd";
+
+import { useForm } from "react-hook-form";
+import { HiMail } from "react-icons/hi";
   const referrals = [
     { name: 'Amy', status: 'Referred', reward: '$10 credit', claimed: false },
     { name: 'Amy', status: 'Referred', reward: '$10 credit', claimed: true },
@@ -10,27 +16,43 @@ import { HiMail, HiClipboardCopy, HiCheck } from "react-icons/hi";
   ];
 
 export default function ReferalPage() {
-  const [email, setEmail] = useState("");
-  const [copied, setCopied] = useState(false);
-  const referralLink = "Md Rayhan Shorker";
+   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [sendMail]=useSendReferalMutation()
+  const user = useAppSelector(selectCurrentUser)
+  const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
+  console.log("single user--->",specUser?.data);
 
-  const handleSendInvitation = () => {
-    if (email) {
-      // Handle send invitation logic here
-      console.log("Sending invitation to:", email);
-      setEmail("");
+  // const [copied, setCopied] = useState(false);
+  // const referralLink = "Md Rayhan Shorker";
+
+   const onSubmit = async (data) => {
+    console.log("data-->",data);
+    const modifyData={
+      email:data?.email,
+      code:specUser?.data?.refercode
     }
-  };
-
-  const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(referralLink);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1000);
-    } catch (err) {
-      console.error("Failed to copy link:", err);
+  const res  = await sendMail(modifyData).unwrap()
+  console.log("response--->",res);
+  if(res?.success){
+    message.success(res?.message)
+  }else{
+     message.error(res?.message)
+  }
+    } catch (error) {
+      message.error(error?.message)
     }
-  };
+   }
+
+  // const handleCopyLink = async () => {
+  //   try {
+  //     await navigator.clipboard.writeText(referralLink);
+  //     setCopied(true);
+  //     setTimeout(() => setCopied(false), 1000);
+  //   } catch (err) {
+  //     console.error("Failed to copy link:", err);
+  //   }
+  // };
 
   return (
     <div>
@@ -76,6 +98,7 @@ export default function ReferalPage() {
               </div>
 
               {/* Email Input Section */}
+               <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-6">
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="flex-1 relative">
@@ -83,54 +106,25 @@ export default function ReferalPage() {
                     <input
                       type="email"
                       placeholder="Enter email address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      {...register("email", { required: "Email is required", pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email format" } })}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-700"
                     />
                   </div>
                   <button
-                    onClick={handleSendInvitation}
+                    type="submit"
                     className="px-6 py-3 bg-gray-400 hover:bg-gray-500 text-white font-medium rounded-lg transition-colors duration-200 whitespace-nowrap"
                   >
                     Send Invitation
                   </button>
                 </div>
+                {/* Error message */}
+                {errors.email &&   <p className="text-red-500 text-xs">
+    {typeof errors.email.message === "string" && errors.email.message}
+  </p>}
               </div>
+            </form>
 
-              {/* Or Divider */}
-              <div className="flex items-center mb-6">
-                <div className="flex-1 border-t border-gray-300"></div>
-                <span className="px-4 text-gray-500 font-medium">Or</span>
-                <div className="flex-1 border-t border-gray-300"></div>
-              </div>
-
-              {/* Referral Link Section */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={referralLink}
-                    readOnly
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm"
-                  />
-                </div>
-                <button
-                  onClick={handleCopyLink}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 whitespace-nowrap flex items-center justify-center gap-2"
-                >
-                  {copied ? (
-                    <>
-                      <HiCheck className="w-4 h-4" />
-                      Copied!
-                    </>
-                  ) : (
-                    <>
-                      <HiClipboardCopy className="w-4 h-4" />
-                      Copy Link
-                    </>
-                  )}
-                </button>
-              </div>
+      
             </div>
 
 
