@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function ProjectCard({ project }) {
+export default function  ProjectCard({ project }) {
   // console.log('Project prop:--------->', project);
   const reviews = Array.isArray(project?.review) ? project.review : [];
 // console.log("reviews---->",reviews);

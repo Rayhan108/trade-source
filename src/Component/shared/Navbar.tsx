@@ -31,7 +31,8 @@ export default function Navbar() {
     { label: 'Interior', href: '/interior' },
     { label: 'Exterior', href: '/exterior' },
     { label: 'Lawn & Garden', href: '/lawn' },
-    { label: 'Specialized & Other Services', href: '/specialized' },
+    { label: 'Specialized & Other Services', href: '/allServices' },
+    // { label: 'Specialized & Other Services', href: '/specialized' },
     { label: 'Articles', href: '/article' },
   ];
 
