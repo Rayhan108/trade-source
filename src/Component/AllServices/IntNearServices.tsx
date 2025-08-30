@@ -1,7 +1,7 @@
 import IntCard from '../Interior/IntCard';
-import { Projects2 } from '../Interior/IntNear';
-import styles from '../../app/styles.module.css';
+import styles from '@/app/styles.module.css';
 import Link from 'next/link';
+import { Projects2 } from '../Interior/IntNear';
 
 const IntNearServices = () => {
   return (

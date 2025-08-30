@@ -1,9 +1,9 @@
 'use client'
-import WelBan from '../../../Component/Homepage/WelBan';
-import ExpertConstructor from '../../../Component/Homepage/ExpertConstructor';
-import MembershipBanner from '../../../Component/Homepage/MembershipBanner';
-import Service from '../../../Component/Home/Service';
-import RecentArticle from '../../../Component/Home/RecentArticle';
+import WelBan from '@/Component/Homepage/WelBan';
+import ExpertConstructor from '@/Component/Homepage/ExpertConstructor';
+import MembershipBanner from '@/Component/Homepage/MembershipBanner';
+import Service from '@/Component/Home/Service';
+import RecentArticle from '@/Component/Home/RecentArticle';
 import { useEffect, useState } from 'react';
 
 const HomePage = () => {

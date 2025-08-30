@@ -1,4 +1,4 @@
-import LoadingSpinner from '../Component/Loading';
+import LoadingSpinner from "@/Component/Loading";
 
 const LoadingPage = () => {
   return <LoadingSpinner />;

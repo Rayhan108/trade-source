@@ -1,34 +1,32 @@
-"use client";
-import { useState } from "react";
-import styles from "../../app/styles.module.css";
-import IntCard from "./IntCard";
+'use state'
+import styles from '@/app/styles.module.css';
+import IntCard from './IntCard';
+import Link from 'next/link';
+import { Pagination } from 'antd';
+import NoItems from '@/utils/NoItems';
+import { useState } from 'react';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
 
-import Link from "next/link";
-import { useGetAllServicesQuery } from "../../redux/features/contractor/contractorApi";
-import { Pagination } from "antd";
-import NoItems from "../../utils/NoItems";
 
-const IntNear = ({ debouncedSearchTerm }) => {
-  const [page, setPage] = useState(1);
-  const type ='indoor'
-  const { data: allService } = useGetAllServicesQuery({
-    page,
-    search: debouncedSearchTerm,
-    type
-  });
-
-  const meta = allService?.data?.meta;
-  // Use the 'limit' from meta for dynamic items per page
-  const limit = meta?.limit;
-  const totalItems = meta?.total;
-
-  // Calculate current items to show based on page and limit
-
-  const currentItems = allService?.data?.result;
-
-  const onPageChange = (page: number) => {
-    setPage(page);
-  };
+const IntNear = ({debouncedSearchTerm}) => {
+    const [page, setPage] = useState(1);
+    const { data: allService } = useGetAllServicesQuery({
+      page,
+      search: debouncedSearchTerm,
+    });
+  
+    const meta = allService?.data?.meta;
+    // Use the 'limit' from meta for dynamic items per page
+    const limit = meta?.limit;
+    const totalItems = meta?.total;
+  
+    // Calculate current items to show based on page and limit
+  
+    const currentItems = allService?.data?.result;
+  
+    const onPageChange = (page: number) => {
+      setPage(page);
+    };
   return (
     <div
       className={`container mx-auto bg-[#ffffff] my-8 p-4 pt-8 ${styles.fontDmSans}`}

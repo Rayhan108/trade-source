@@ -1,4 +1,4 @@
-import ServiceNav from '../../Component/Booking/ServiceNav';
+import ServiceNav from '@/Component/Booking/ServiceNav';
 
 const BookingLayout = ({ children }) => {
   return (

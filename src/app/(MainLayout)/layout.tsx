@@ -1,5 +1,5 @@
-import FooterPage from '../../Component/shared/Footer';
-import Navbar from '../../Component/shared/Navbar';
+import FooterPage from '@/Component/shared/Footer';
+import Navbar from '@/Component/shared/Navbar';
 
 const MainLayout = ({ children }) => {
   return (

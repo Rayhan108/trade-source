@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import logo from '../../assests/navLogo.png';
+import logo from '@/assests/navLogo.png';
 import Link from 'next/link';
 import { IoIosHammer } from 'react-icons/io';
-import Footer from '../../Component/shared/Footer';
+import Footer from '@/Component/shared/Footer';
 const BookingLayout = ({ children }) => {
   return (
     <>

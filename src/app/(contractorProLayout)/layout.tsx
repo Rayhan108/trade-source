@@ -1,4 +1,5 @@
-import ContractorProNav from '../../Component/ContractorPro/ContractorProNav';
+import ContractorProNav from '@/Component/ContractorPro/ContractorProNav';
+
 const ContractorProLayout = ({ children }) => {
   return (
     <>

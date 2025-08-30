@@ -1,20 +1,17 @@
-"use client"
-import IntCard from "../Interior/IntCard";
+'use client'
+import IntCard from '../Interior/IntCard';
+import styles from '../../app/styles.module.css';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
+import NoItems from '@/utils/NoItems';
+import { Pagination } from 'antd';
 
-import styles from "../../app/styles.module.css";
-import Link from "next/link";
-import { useState } from "react";
-import { useGetAllServicesQuery } from "../../redux/features/contractor/contractorApi";
-import NoItems from "../../utils/NoItems";
-import { Pagination } from "antd";
-
-const LawnNear = ({ debouncedSearchTerm }) => {
-  const [page, setPage] = useState(1);
-    const type ='garden'
+const LawnNear = ({debouncedSearchTerm}) => {
+    const [page, setPage] = useState(1);
   const { data: allService } = useGetAllServicesQuery({
     page,
     search: debouncedSearchTerm,
-    type
   });
 
   const meta = allService?.data?.meta;
@@ -38,8 +35,7 @@ const LawnNear = ({ debouncedSearchTerm }) => {
           Lawn & Garden Projects Near You
         </h1>
       </div>
-
-      <div className="px-3">
+   <div className="px-3">
         {currentItems?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             {currentItems.map((project, idx) => (
@@ -52,17 +48,20 @@ const LawnNear = ({ debouncedSearchTerm }) => {
           <NoItems />
         )}
       </div>
-      <Pagination
-        current={page}
-        pageSize={limit} // Use dynamic page size based on 'limit'
-        total={totalItems} // Total number of items
-        onChange={onPageChange}
-        showSizeChanger={false}
-        className="flex justify-center"
-        // Show the total number of pages (meta.totalPage)
-        pageSizeOptions={[limit?.toString()]}
-        // showTotal={(total) => `Total ${total} items`}
-      />
+   <div className="mb-3">
+        <Pagination
+          current={page}
+          pageSize={limit} // Use dynamic page size based on 'limit'
+          total={totalItems} // Total number of items
+          onChange={onPageChange}
+          showSizeChanger={false}
+          className="flex justify-center"
+          // Show the total number of pages (meta.totalPage)
+          pageSizeOptions={[limit?.toString()]}
+          // showTotal={(total) => `Total ${total} items`}
+        />
+      </div>
+
     </div>
   );
 };

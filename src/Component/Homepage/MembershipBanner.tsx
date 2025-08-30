@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import proj4 from '../../assests/project4.png';
-import proj2 from '../../assests/project2.png';
-import ar2 from '../../assests/ar2.png';
-import fe1 from '../../assests/fe1.jpg';
-import fe2 from '../../assests/fe2.jpg';
-import male from '../../assests/male.png';
+import proj4 from '@/assests/project4.png';
+import proj2 from '@/assests/project2.png';
+import ar2 from '@/assests/ar2.png';
+import fe1 from '@/assests/fe1.jpg';
+import fe2 from '@/assests/fe2.jpg';
+import male from '@/assests/male.png';
 
 const MembershipBanner = () => {
   return (

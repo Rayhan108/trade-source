@@ -1,9 +1,8 @@
 'use client'
 import Link from 'next/link';
-import ProfBanner from '../../../../Component/Profile/ProfBanner';
-import ProfDet from '../../../../Component/Profile/ProfDet';
-import Tabs from '../../../../Component/Profile/Tab';
-import { useGetSpecefiqUserQuery } from '../../../../redux/features/user/userApi';
+import ProfBanner from '@/Component/Profile/ProfBanner';
+import ProfDet from '@/Component/Profile/ProfDet';
+import Tabs from '@/Component/Profile/Tab';
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const contractorId = params.id;

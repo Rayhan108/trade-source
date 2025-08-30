@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
-import backgroundImg from '../../../assests/bannerImg.jpg';
-import logo from '../../../assests/YL 2.png';
+import backgroundImg from '@/assests/bannerImg.jpg';
+import logo from '@/assests/YL 2.png';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -14,7 +14,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
-import { useSignUpMutation } from '../../../redux/features/auth/authApi';
+import { useSignUpMutation } from '@/redux/features/auth/authApi';
 
 const SignUpPage = () => {
   const router = useRouter();

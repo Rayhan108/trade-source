@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getCurrentUser } from '../utils/getCurrentUser';
+import { getCurrentUser } from '@/utils/getCurrentUser';
 
 const UserContext = createContext(undefined);
 

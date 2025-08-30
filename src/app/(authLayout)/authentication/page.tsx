@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import backgroundImg from '../../../assests/bannerImg.jpg';
-import logo from '../../../assests/YL 2.png';
+import backgroundImg from '@/assests/bannerImg.jpg';
+import logo from '@/assests/YL 2.png';
 import Link from 'next/link';
 export default function AuthenticationPage() {
   return (

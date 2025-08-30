@@ -6,12 +6,12 @@ import {
   FaInstagram,
   FaPinterestP,
 } from 'react-icons/fa';
-import hero from '../../../../assests/hero.png';
-import jesi from '../../../../assests/jesi.jpg';
+import hero from '@/assests/hero.png';
+import jesi from '@/assests/jesi.jpg';
 import Image from 'next/image';
-import RecentArticle from '../../../../Component/Home/RecentArticle';
-import { useGetSingleArticleQuery } from '../../../../redux/features/others/otherApi';
-import LoadingSpinner from '../../../../Component/Loading';
+import RecentArticle from '@/Component/Home/RecentArticle';
+import { useGetSingleArticleQuery } from '@/redux/features/others/otherApi';
+import LoadingSpinner from '@/Component/Loading';
 import dayjs from 'dayjs';
 
 const ArticleDetailsPage = ({ params }: { params: { id: string } }) => {

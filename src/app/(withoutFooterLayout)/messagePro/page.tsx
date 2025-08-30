@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { FiSearch, FiPaperclip, FiSend } from 'react-icons/fi';
 import Image from 'next/image';
-import userImg1 from '../../../assests/cons1.png';
-import userImg2 from '../../../assests/cons3.png';
-import userImg3 from '../../../assests/cons2.png';
-import choket from '../../../assests/choket.png';
+import userImg1 from '@/assests/cons1.png';
+import userImg2 from '@/assests/cons3.png';
+import userImg3 from '@/assests/cons2.png';
+import choket from '@/assests/choket.png';
 import { SlBadge } from 'react-icons/sl';
 const MessageProPage = () => {
   const [selectedContact, setSelectedContact] = useState('ellie');

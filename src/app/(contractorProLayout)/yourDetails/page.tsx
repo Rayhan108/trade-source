@@ -3,12 +3,12 @@
 import { useForm, Controller } from 'react-hook-form';
 import { Input } from 'antd';
 import 'react-phone-input-2/lib/style.css';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   selectCurrentContractor,
   updateContractorData,
-} from '../../../redux/features/contractor/contractorSlice';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
+} from '@/redux/features/contractor/contractorSlice';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 

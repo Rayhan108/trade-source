@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import house from '../../assests/house.png';
+import house from '@/assests/house.png';
 
 const WelBan = ({setSearch}) => {
      const handleSearchChange=(e)=>{

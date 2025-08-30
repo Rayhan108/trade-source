@@ -59,11 +59,15 @@ const nextConfig = {
         hostname: 'example.com',
         pathname: '/**',
       },
-      // ngrok domain
       {
-        protocol: 'http', 
+        protocol: 'http',
+        hostname: '10.10.20.41',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
         hostname: '5f05bcd58f5a.ngrok-free.app',
-        pathname: '/uploads/**',
+        pathname: '/**',
       },
     ],
   },

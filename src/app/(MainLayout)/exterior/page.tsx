@@ -1,6 +1,6 @@
 'use client'
-import InteriorBanner from '../../../Component/Interior/IntBaner';
-import ExtNear from '../../../Component/Exterior/ExtNear';
+import InteriorBanner from '@/Component/Interior/IntBaner';
+import ExtNear from '@/Component/Exterior/ExtNear';
 import { useEffect, useState } from 'react';
 
 const ExteriorPage = () => {

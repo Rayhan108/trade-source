@@ -1,23 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Image from "next/image";
-import backgroundImg from "../../../assests/bannerImg.jpg";
-import logo from "../../../assests/YL 2.png";
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { RiEyeCloseLine } from "react-icons/ri";
-
-import Link from "next/link";
-import { message } from "antd";
-import { useLoginMutation } from "../../../redux/features/auth/authApi";
-import { useAppDispatch } from "../../../redux/hooks";
-import { useRouter, useSearchParams } from "next/navigation";
-import { setCookie } from "nookies";
-import { setUser } from "../../../redux/features/auth/authSlice";
-import { verifyToken } from "../../../utils/verifyToken";
+import { useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import Image from 'next/image';
+import backgroundImg from '@/assests/bannerImg.jpg';
+import logo from '@/assests/YL 2.png';
+import { FcGoogle } from 'react-icons/fc';
+import { FaApple } from 'react-icons/fa';
+import { AiOutlineEyeInvisible } from 'react-icons/ai';
+import { RiEyeCloseLine } from 'react-icons/ri';
+import Link from 'next/link';
+import { message } from 'antd';
+import { useLoginMutation } from '@/redux/features/auth/authApi';
+import { useAppDispatch } from '@/redux/hooks';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { setCookie } from 'nookies';
+import { setUser } from '@/redux/features/auth/authSlice';
+import { verifyToken } from '@/utils/verifyToken';
 
 const SigninPage = () => {
   const [showPassword, setShowPassword] = useState(false);

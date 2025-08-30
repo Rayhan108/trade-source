@@ -1,10 +1,10 @@
 'use client';
 
 import ProjectCard from '../Card/ProjectCard';
-import styles from '../../app/styles.module.css';
+import styles from '@/app/styles.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useGetAllServicesQuery } from '../../redux/features/contractor/contractorApi';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
 
 const HomeProject = () => {
   const [page, setPage] = useState<number>(1);

@@ -1,5 +1,5 @@
-import BookBanner from '../../../Component/Booking/BookBanner';
-import Faq from '../../../Component/Booking/Faq';
+import BookBanner from '@/Component/Booking/BookBanner';
+import Faq from '@/Component/Booking/Faq';
 
 const FaqPage = () => {
   return (

@@ -1,7 +1,7 @@
-"use client"
+'use client'
+import InteriorBanner from '@/Component/Interior/IntBaner';
+import LawnNear from '@/Component/Lawn/LawnNear';
 import { useEffect, useState } from 'react';
-import InteriorBanner from '../../../Component/Interior/IntBaner';
-import LawnNear from '../../../Component/Lawn/LawnNear';
 const LawnAndGardenPage = () => {
       const [search, setSearch] = useState("");
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(search);

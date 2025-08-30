@@ -1,4 +1,4 @@
-import cons1 from '../../../assests/cons1.png';
+import cons1 from '@/assests/cons1.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaCheckCircle, FaStar } from 'react-icons/fa';

@@ -1,10 +1,9 @@
 'use client';
 
 import ConstractorCard from '../Card/ConstractorCard';
-import styles from '../../app/styles.module.css';
+import styles from '@/app/styles.module.css';
 import { useState } from 'react';
-import { useGetAllUserQuery } from '../../redux/features/user/userApi';
-import { Pagination } from 'antd';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
 
 const ConstractorNear = () => {
   const [page, setPage] = useState(1);

@@ -4,22 +4,22 @@ import { useState } from 'react';
 import { message, Modal } from 'antd';
 import Calendar from 'react-calendar';
 import { FiCalendar, FiClock, FiChevronDown } from 'react-icons/fi';
-import SelectContractorCard from '../../../Component/Card/SelectConstractorCard';
+import SelectContractorCard from '@/Component/Card/SelectConstractorCard';
 import 'react-calendar/dist/Calendar.css';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   selectLocation,
   selectService,
   selectTime,
   setService,
   setTime,
-} from '../../../redux/features/project/projectSlice';
+} from '@/redux/features/project/projectSlice';
 import dayjs from 'dayjs';
-import { useGetAllServicesQuery } from '../../../redux/features/contractor/contractorApi';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
 import { useRouter } from 'next/navigation';
-import { dateOptions, timeOptions } from '../../../constants';
-import { useBookServiceMutation } from '../../../redux/features/others/otherApi';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
+import { dateOptions, timeOptions } from '@/constants';
+import { useBookServiceMutation } from '@/redux/features/others/otherApi';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
 
 export default function ContractorSearch() {
   const sortOptions = [

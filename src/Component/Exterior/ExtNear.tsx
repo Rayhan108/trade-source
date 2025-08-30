@@ -1,7 +1,6 @@
 'use client'
 import IntCard from '../Interior/IntCard';
-
-import styles from '../../app/styles.module.css';
+import styles from '@/app/styles.module.css';
 import Link from 'next/link';
 import { useGetAllServicesQuery } from '../../redux/features/contractor/contractorApi';
 import { useState } from 'react';

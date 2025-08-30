@@ -6,10 +6,10 @@ import Image from 'next/image';
 import { Button, message } from 'antd';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
 import { RiEyeCloseLine } from 'react-icons/ri';
-import { useAppSelector } from '../../../redux/hooks';
-import { selectCurrentUser } from '../../../redux/features/auth/authSlice';
-import { useGetSpecefiqUserQuery } from '../../../redux/features/user/userApi';
-import { useChangePasswordMutation } from '../../../redux/features/auth/authApi';
+import { useAppSelector } from '@/redux/hooks';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { useGetSpecefiqUserQuery } from '@/redux/features/user/userApi';
+import { useChangePasswordMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
 
 export default function PasswordPage() {

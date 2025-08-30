@@ -10,7 +10,7 @@ import {
   FaCheck,
 } from 'react-icons/fa';
 import { Modal } from 'antd';
-import cons1 from '../../../../assests/cons1.png';
+import cons1 from '@/assests/cons1.png';
 
 export default function ProjectDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);

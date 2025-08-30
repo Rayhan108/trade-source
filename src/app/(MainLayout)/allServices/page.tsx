@@ -1,11 +1,10 @@
-"use client";
-
-import Service from "../../../Component/Home/Service";
-import { useEffect, useState } from "react";
-import { useGetAllServicesQuery } from "../../../redux/features/contractor/contractorApi";
-import AllServices from "../../../Component/AllServices/AllServices";
-import { Pagination } from "antd";
-import AllServicesBanner from "../../../Component/AllServices/AllServicesBanner";
+'use client'
+import Service from '@/Component/Home/Service';
+import { useEffect, useState } from 'react';
+import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorApi';
+import AllServicesBanner from '@/Component/AllServices/AllServicesBanner';
+import AllServices from '@/Component/AllServices/AllServices';
+import { Pagination } from 'antd';
 
 const AllServicesPage = () => {
   const [search, setSearch] = useState("");

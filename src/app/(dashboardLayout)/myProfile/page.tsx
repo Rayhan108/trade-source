@@ -7,19 +7,16 @@ import { Modal, message } from 'antd';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import 'react-phone-input-2/lib/style.css';
 import { IoCameraOutline } from 'react-icons/io5';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import {
-  logout,
-  selectCurrentUser,
-} from '../../../redux/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { logout, selectCurrentUser } from '@/redux/features/auth/authSlice';
 import { usePathname, useRouter } from 'next/navigation';
 import { setCookie } from 'nookies';
-import { protectedRoutes } from '../../../constants';
+import { protectedRoutes } from '@/constants';
 import {
   useGetSpecefiqUserQuery,
   useUpdateSpecefiqUserMutation,
-} from '../../../redux/features/user/userApi';
-import { resetContractorData } from '../../../redux/features/contractor/contractorSlice';
+} from '@/redux/features/user/userApi';
+import { resetContractorData } from '@/redux/features/contractor/contractorSlice';
 import Link from 'next/link';
 
 export default function ProfilePage() {

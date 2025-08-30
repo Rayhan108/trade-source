@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { FiPlus, FiChevronDown } from 'react-icons/fi';
-import license from '../../../assests/Licenses 1.png';
+import license from '@/assests/Licenses 1.png';
 import { useRouter } from 'next/navigation';
 
 export default function DocumentVerification() {

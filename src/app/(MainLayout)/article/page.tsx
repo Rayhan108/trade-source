@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Hero from "../../../Component/Article/Hero";
-import RecentlyPosted from "../../../Component/Article/RecentlyPosted";
-import LoadingSpinner from "../../../Component/Loading";
-import { useGetAllArticlesQuery } from "../../../redux/features/others/otherApi";
+import Hero from '@/Component/Article/Hero';
+import RecentlyPosted from '@/Component/Article/RecentlyPosted';
+import LoadingSpinner from '@/Component/Loading';
+import { useGetAllArticlesQuery } from '@/redux/features/others/otherApi';
+import { useState } from 'react';
 
 const ArticlePage = () => {
   const [page, setPage] = useState(1);

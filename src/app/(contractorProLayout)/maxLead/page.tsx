@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { MdClose } from 'react-icons/md';
-import { useAppSelector } from '../../../redux/hooks';
-import { selectCurrentContractor } from '../../../redux/features/contractor/contractorSlice';
-import { useGetAllCategoryQuery } from '../../../redux/features/others/otherApi';
+import { useAppSelector } from '@/redux/hooks';
+import { selectCurrentContractor } from '@/redux/features/contractor/contractorSlice';
+import { useGetAllCategoryQuery } from '@/redux/features/others/otherApi';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
-import { useCreateContractorMutation } from '../../../redux/features/contractor/contractorApi';
+import { useCreateContractorMutation } from '@/redux/features/contractor/contractorApi';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
 

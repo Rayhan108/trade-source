@@ -1,5 +1,4 @@
 
-import styles from '../../app/styles.module.css';
 import ArticleCard from '../Card/ArticleCard';
 import { Pagination } from 'antd';
 
@@ -22,7 +21,7 @@ console.log("items-------->",currentItems);
 
 
   return (
-    <div className={`container my-10 mx-auto ${styles.fontInter}`}>
+    <div className={`container my-10 mx-auto font-inter`}>
       <div className="my-6">
         <span className="inline-flex items-center rounded bg-blue-600 px-3 py-1 text-3xl font-medium text-white">
           Recently

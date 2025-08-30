@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { FiMapPin, FiCalendar } from 'react-icons/fi';
 import { HiMiniHomeModern } from 'react-icons/hi2';
 import Image from 'next/image';
-import userImg from '../../../assests/user.png';
+import userImg from '@/assests/user.png';
 import { IoCallSharp } from 'react-icons/io5';
 import { MdOutlineMessage } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
+
 const projectData = [
   {
     id: 1,
