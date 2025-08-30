@@ -10,6 +10,7 @@ import project1 from '../../assests/project1.png';
 import project2 from '../../assests/project2.png';
 import project3 from '../../assests/project3.png';
 import project4 from '../../assests/project4.png';
+import { Pagination } from 'antd';
 export const Projects = [
   {
     id: 1,
@@ -45,47 +46,80 @@ export const Projects = [
   },
 ];
 
-const ProjectsNear = () => {
+const ProjectsNear = ({debouncedSearchTerm}) => {
   const [page, setPage] = useState(1);
   const { data: services } = useGetAllServicesQuery({
     page,
-    limit: 8,
+    search:debouncedSearchTerm
   });
 
-  const totalPage = services?.data?.meta?.totalPage || 1;
+  const meta = services?.data?.meta
+const limit = meta?.limit;
+  const totalItems = meta?.total;
+
+  // Calculate current items to show based on page and limit
+
+  const currentItems = services?.data?.result
+
+  const onPageChange = (page: number) => {
+    setPage(page);
+  };
 
   return (
     <div className={`container mx-auto ${styles.fontDmSans}`}>
       <h1 className={`text-4xl font-bold mb-5  ${styles.fontDmSans}`}>
         Project Near You
       </h1>
-      <div className="grid  grid-cols-2 md:grid-cols-4 gap-3 px-3">
-        {services?.data?.result?.map((project, idx) => (
-          <Link key={idx} href={'/location'}>
-            <ProjectCard project={project} />
-          </Link>
-        ))}
-      </div>
+        <div className="px-3 mb-3">
+      {currentItems && currentItems.length > 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {currentItems.map((project, idx) => (
+            <Link key={idx} href={'/location'}>
+              <ProjectCard project={project} />
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-12 text-center bg-gray-50 rounded-lg shadow-inner">
+          <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 mb-4">
+    <svg
+      className="w-6 h-6 text-gray-400"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={3}
+        d="M12 4v16m8-8H4"
+      />
+    </svg>
+  </div>
+          <h2 className="text-lg font-semibold text-gray-700">
+            No items found
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Try adjusting your search or check back later.
+          </p>
+        </div>
+      )}
+    </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-3 mt-8">
-        <button
-          onClick={() => setPage(p => Math.max(1, p - 1))}
-          disabled={page === 1}
-          className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span className="text-gray-700">
-          Page {page} of {totalPage}
-        </span>
-        <button
-          onClick={() => setPage(p => Math.min(totalPage, p + 1))}
-          disabled={page === totalPage}
-          className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
-        >
-          Next
-        </button>
+       <div className="mb-3">
+        <Pagination
+          current={page}
+          pageSize={limit} // Use dynamic page size based on 'limit'
+          total={totalItems} // Total number of items
+          onChange={onPageChange}
+          showSizeChanger={false}
+          className="flex justify-center"
+          // Show the total number of pages (meta.totalPage)
+          pageSizeOptions={[limit?.toString()]}
+          // showTotal={(total) => `Total ${total} items`}
+        />
       </div>
     </div>
   );

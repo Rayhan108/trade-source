@@ -2,7 +2,10 @@ import { Search } from 'lucide-react';
 import Image from 'next/image';
 import house from '../../assests/house.png';
 
-const WelBan = () => {
+const WelBan = ({setSearch}) => {
+     const handleSearchChange=(e)=>{
+    setSearch(e.target.value)
+  }
   return (
     <div className=" bg-slate-700 flex items-center py-8 ">
       <div className="container mx-auto px-4">
@@ -18,6 +21,7 @@ const WelBan = () => {
               <input
                 type="text"
                 placeholder="What are you looking for?"
+     onChange={(e) =>handleSearchChange(e)}
                 className="w-full px-6 py-3 md:py-4 pr-12 rounded-full text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg"
               />
               <button className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors">

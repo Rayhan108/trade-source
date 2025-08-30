@@ -5,7 +5,10 @@ import banerImg from '../../assests/bannerImg.jpg';
 import styles from '../../app/styles.module.css';
 import Service from './Service';
 
-export default function Banner() {
+export default function Banner({setSearch}) {
+    const handleSearchChange=(e)=>{
+    setSearch(e.target.value)
+  }
   return (
     <>
       <div className={`relative w-full mb-8  ${styles.fontDmSans}`}>
@@ -64,6 +67,7 @@ export default function Banner() {
                 <div className="relative">
                   <input
                     type="text"
+                     onChange={(e) =>handleSearchChange(e)}
                     placeholder="What are you looking for?"
                     className="w-full px-6 py-4 pr-14 text-gray-700 bg-white rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-[#ABE7B4] focus:ring-offset-2 focus:ring-offset-transparent text-lg"
                   />

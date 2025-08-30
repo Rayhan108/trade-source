@@ -30,6 +30,7 @@ export default function ProfilePage() {
   };
   const user = useAppSelector(selectCurrentUser);
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
+  // console.log("spec user-->",specUser);
   const router = useRouter();
   const pathname = usePathname();
 

@@ -3,16 +3,28 @@
 import ConstractorCard from '../Card/ConstractorCard';
 import styles from '../../app/styles.module.css';
 import { useState } from 'react';
-import { useGetAllServicesQuery } from '../../redux/features/contractor/contractorApi';
+import { useGetAllUserQuery } from '../../redux/features/user/userApi';
+import { Pagination } from 'antd';
 
 const ConstractorNear = () => {
   const [page, setPage] = useState(1);
-
-  const { data: services } = useGetAllServicesQuery({
+const role = 'contractor'
+  const {data:contractors} = useGetAllUserQuery({
     page,
+    role
   });
 
-  const totalPage = services?.data?.meta?.totalPage || 1;
+  const meta = contractors?.data?.meta;
+const limit = meta?.limit;
+  const totalItems = meta?.total;
+
+  // Calculate current items to show based on page and limit
+
+  const currentItems = contractors?.data?.result
+
+  const onPageChange = (page: number) => {
+    setPage(page);
+  };
 
   return (
     <div>
@@ -23,31 +35,25 @@ const ConstractorNear = () => {
           Contractor Near You
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-3 px-3">
-          {services?.data?.result?.map((service, idx) => {
-            return <ConstractorCard key={idx} service={service} />;
+          {currentItems?.map((contractor, idx) => {
+            return <ConstractorCard key={idx} contractor={contractor} />;
           })}
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center gap-3 mt-8">
-          <button
-            onClick={() => setPage(p => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
-          >
-            Prev
-          </button>
-          <span className="text-gray-700">
-            Page {page} of {totalPage}
-          </span>
-          <button
-            onClick={() => setPage(p => Math.min(totalPage, p + 1))}
-            disabled={page === totalPage}
-            className="px-4 py-2 border rounded-lg bg-white disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+        <div className="mb-3">
+        <Pagination
+          current={page}
+          pageSize={limit} 
+          total={totalItems} 
+          onChange={onPageChange}
+          showSizeChanger={false}
+          className="flex justify-center"
+
+          pageSizeOptions={[limit?.toString()]}
+
+        />
+      </div>
       </div>
     </div>
   );

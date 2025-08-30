@@ -74,14 +74,7 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // getAllUser
-    getAllUser: builder.query({
-      query: () => ({
-        url: `/user/allUser`,
-        method: 'GET',
-        // body: userInfo,
-      }),
-    }),
+
   }),
 });
 
@@ -94,5 +87,5 @@ export const {
   useLazyLoginWithFacebookQuery,
   useGetOtpMutation,
   useVerifyOtpMutation,
-  useGetAllUserQuery,
+
 } = authApi;

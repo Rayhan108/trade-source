@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import Image from 'next/image';
-import backgroundImg from '../../../assests/bannerImg.jpg';
-import logo from '../../../assests/YL 2.png';
-import { FcGoogle } from 'react-icons/fc';
-import { FaApple } from 'react-icons/fa';
-import { AiOutlineEyeInvisible } from 'react-icons/ai';
-import { RiEyeCloseLine } from 'react-icons/ri';
+import { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import Image from "next/image";
+import backgroundImg from "../../../assests/bannerImg.jpg";
+import logo from "../../../assests/YL 2.png";
+import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { RiEyeCloseLine } from "react-icons/ri";
 
-import Link from 'next/link';
-import { message } from 'antd';
-import { useLoginMutation } from '../../../redux/features/auth/authApi';
-import { useAppDispatch } from '../../../redux/hooks';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { setCookie } from 'nookies';
-import { setUser } from '../../../redux/features/auth/authSlice';
-import { verifyToken } from '../../../utils/verifyToken';
+import Link from "next/link";
+import { message } from "antd";
+import { useLoginMutation } from "../../../redux/features/auth/authApi";
+import { useAppDispatch } from "../../../redux/hooks";
+import { useRouter, useSearchParams } from "next/navigation";
+import { setCookie } from "nookies";
+import { setUser } from "../../../redux/features/auth/authSlice";
+import { verifyToken } from "../../../utils/verifyToken";
 
 const SigninPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,9 +32,9 @@ const SigninPage = () => {
   }
 
   const setUserCookie = (userInfo: UserInfo): void => {
-    setCookie(null, 'user', JSON.stringify(userInfo), {
+    setCookie(null, "user", JSON.stringify(userInfo), {
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      path: '/',
+      path: "/",
     });
   };
   const searchParams = useSearchParams();
@@ -45,8 +45,8 @@ const SigninPage = () => {
     formState: { errors },
   } = useForm();
 
-  const handleSignin: SubmitHandler<FieldValues> = async data => {
-    const redirect = searchParams.get('redirectPath');
+  const handleSignin: SubmitHandler<FieldValues> = async (data) => {
+    const redirect = searchParams.get("redirectPath");
     try {
       const res = await login(data).unwrap();
       setLoading(true);
@@ -59,14 +59,14 @@ const SigninPage = () => {
       message.success(res.message);
 
       if (redirect) {
-        console.log('inside if block login page');
+        console.log("inside if block login page");
         router.push(redirect);
       } else {
-        router.push('/');
+        router.push("/homepage");
       }
     } catch (error) {
-      message.error(error?.data?.message || 'Something went wrong');
-      console.error('Error:', error);
+      message.error(error?.data?.message || "Something went wrong");
+      console.error("Error:", error);
     } finally {
       setLoading(false);
     }
@@ -108,11 +108,11 @@ const SigninPage = () => {
               <input
                 type="email"
                 placeholder="Email"
-                {...register('email', {
-                  required: 'Email is required',
+                {...register("email", {
+                  required: "Email is required",
                   pattern: {
                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: 'Invalid email format',
+                    message: "Invalid email format",
                   },
                 })}
                 className="w-full p-2.5 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -126,16 +126,16 @@ const SigninPage = () => {
 
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                {...register('password', { required: 'Password is required' })}
+                {...register("password", { required: "Password is required" })}
                 className="w-full p-2.5 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
                   <AiOutlineEyeInvisible size={22} />
@@ -155,7 +155,7 @@ const SigninPage = () => {
               <label className="flex items-center space-x-2 select-none">
                 <input
                   type="checkbox"
-                  {...register('remember')}
+                  {...register("remember")}
                   className="w-4 h-4"
                 />
                 <span>Remember password</span>

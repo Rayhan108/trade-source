@@ -1,28 +1,27 @@
-import { User } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { IoIosStar } from 'react-icons/io';
-
+import { User } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { IoIosStar } from "react-icons/io";
 
 export default function ConstractorCard({ contractor }) {
-  console.log("contractor---------->",contractor);
+  console.log("contractor---------->", contractor);
   return (
     <div className="max-w-sm w-full bg-green-200 rounded-lg shadow-md overflow-hidden mx-auto ">
       <div className="relative h-64">
         <Image
-          src={contractor.image}
-          alt={contractor.title}
+          src={contractor?.image}
+          alt={contractor?.title}
           layout="fill"
           objectFit="cover"
           className="block"
           priority
         />
         <h2 className="absolute bottom-4 left-1 sm:left-4 text-white sm:font-bold text-xs sm:text-xl drop-shadow-lg">
-          {contractor.title}
+          {contractor?.title}
         </h2>
         <Link href={`/profile/${contractor?._id}`}>
           <button className="flex sm:hidden  absolute bottom-2 sm:bottom-4 right-1 bg-blue-600 text-white text-sm sm:font-semibold py-1 px-1 rounded-md shadow-md hover:bg-blue-700 transition">
-            View Profilej
+            View Profile
           </button>
         </Link>
         <Link href={`/profile/${contractor?._id}`}>
@@ -43,8 +42,7 @@ export default function ConstractorCard({ contractor }) {
               {/* <SlBadge /> */}
               <User />
             </span>
-            {(contractor?.firstName) + ' ' + (contractor?.lastName)
-}
+            {contractor?.firstName + " " + contractor?.lastName}
           </span>
           {/* <span className="flex items-center gap-2">
             <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -63,9 +61,9 @@ export default function ConstractorCard({ contractor }) {
                     0
                   ) / contractor.review.length || 5
                 ).toFixed(1)
-              : 0}{' '}
+              : 0}{" "}
             ({contractor?.review?.length} review
-            {contractor?.review?.length > 1 ? 's' : ''})
+            {contractor?.review?.length > 1 ? "s" : ""})
           </span>
         </div>
 
@@ -78,7 +76,7 @@ export default function ConstractorCard({ contractor }) {
           </ul>
         </div>
       </div>
-      <Link href={'/quote'}>
+      <Link href={"/quote"}>
         <button className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition">
           Request Quote
         </button>

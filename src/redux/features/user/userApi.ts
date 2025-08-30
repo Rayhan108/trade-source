@@ -21,10 +21,10 @@ const userApi = baseApi.injectEndpoints({
     }),
     
     getAllUser: builder.query({
-      query: ({ page, role }) => ({
+      query: ({ page, role,search}) => ({
         url: `/user/allUser`,
         method: "GET",
-        params: { page, role },
+        params: { page, role,search },
       }),
     }),
   }),
