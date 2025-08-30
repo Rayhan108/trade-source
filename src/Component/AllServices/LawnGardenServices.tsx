@@ -1,9 +1,10 @@
 import IntCard from '../Interior/IntCard';
-import { Projects2 } from '../Interior/IntNear';
+
 import styles from '@/app/styles.module.css';
 import Link from 'next/link';
 
 const LawnGardenServices = () => {
+    const Projects2 =[]
   return (
     <div
       className={`container mx-auto bg-[#ffffff] my-8 p-4 pt-8 ${styles.fontDmSans}`}

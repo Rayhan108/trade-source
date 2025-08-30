@@ -1,7 +1,9 @@
-import Banner from '@/Component/Home/Banner';
-import ConstractorNear from '@/Component/Home/ConstractorNear';
-import ProjectsNear from '@/Component/Home/ProjectsNear';
-import RecentArticle from '@/Component/Home/RecentArticle';
+'use client'
+import Banner from "@/Component/Home/Banner";
+import ConstractorNear from "@/Component/Home/ConstractorNear";
+import ProjectsNear from "@/Component/Home/ProjectsNear";
+import RecentArticle from "@/Component/Home/RecentArticle";
+import { useEffect, useState } from "react";
 
 const LandingPage = () => {
   const [search, setSearch] = useState("");

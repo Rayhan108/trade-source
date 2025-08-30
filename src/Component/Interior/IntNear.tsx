@@ -1,4 +1,4 @@
-'use state'
+'use client'
 import styles from '@/app/styles.module.css';
 import IntCard from './IntCard';
 import Link from 'next/link';

@@ -1,69 +1,69 @@
-'use client';
-import { useState } from 'react';
-import project1 from '@/assests/project1.png';
-import project2 from '@/assests/project2.png';
-import project3 from '@/assests/project3.png';
-import ServiceDetails from './ServiceDetails';
-import styles from '@/app/styles.module.css';
-import ProjCard from './ProjCard';
-import { Projects } from '../Home/ProjectsNear';
-import ProjectCard from '../Card/ProjectCard';
-import LicenseCard from '../Card/LicenseCard';
+"use client";
+import { useState } from "react";
+import project1 from "@/assests/project1.png";
+import project2 from "@/assests/project2.png";
+import project3 from "@/assests/project3.png";
+import ServiceDetails from "./ServiceDetails";
+import styles from "@/app/styles.module.css";
+import ProjCard from "./ProjCard";
 
-const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
+import ProjectCard from "../Card/ProjectCard";
+import LicenseCard from "../Card/LicenseCard";
+
+const tabs = ["Projects", "Services", "Licenses & Insurance"];
 
 const cardDatas = [
   {
-    title: 'Pink Dyer',
-    location: 'Huston TX',
+    title: "Pink Dyer",
+    location: "Huston TX",
     rating: 5,
     budget: 350,
-    tags: ['Featured', 'Edit', 'Remove'],
+    tags: ["Featured", "Edit", "Remove"],
     image: project1,
   },
   {
-    title: 'Blue Sky',
-    location: 'Austin TX',
+    title: "Blue Sky",
+    location: "Austin TX",
     rating: 4,
     budget: 420,
-    tags: ['Featured', 'Edit'],
+    tags: ["Featured", "Edit"],
     image: project2,
   },
   {
-    title: 'Green Haven',
-    location: 'Dallas TX',
+    title: "Green Haven",
+    location: "Dallas TX",
     rating: 3,
     budget: 280,
-    tags: ['Edit'],
+    tags: ["Edit"],
     image: project3,
   },
   {
-    title: 'Green Haven',
-    location: 'Dallas TX',
+    title: "Green Haven",
+    location: "Dallas TX",
     rating: 3,
     budget: 280,
-    tags: ['Edit'],
+    tags: ["Edit"],
     image: project3,
   },
 ];
 
 const licenses = [
   {
-    title: 'Licensed',
-    number: '90180938',
-    date: 'May 25, 2025',
-    state: 'State of California',
-    status: 'Verified',
+    title: "Licensed",
+    number: "90180938",
+    date: "May 25, 2025",
+    state: "State of California",
+    status: "Verified",
   },
   {
-    title: 'Licensed',
-    number: '12345678',
-    date: 'June 15, 2024',
-    state: 'State of New York',
-    status: 'Verified',
+    title: "Licensed",
+    number: "12345678",
+    date: "June 15, 2024",
+    state: "State of New York",
+    status: "Verified",
   },
 ];
-
+const Projects = [];
 const tabContent = {
   Projects: (
     <div>
@@ -105,13 +105,13 @@ const tabContent = {
       </div>
     </div>
   ),
-  'Licenses & Insurance': (
+  "Licenses & Insurance": (
     <div>
       <div className={`container mx-auto ${styles.fontDmSans}`}>
         <div className=" ">
           <div>
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
-              Licenses & Insurance{' '}
+              Licenses & Insurance{" "}
               <span className="font-semibold">{Projects?.length}</span>
             </h1>
           </div>
@@ -133,19 +133,19 @@ const tabContent = {
 };
 
 export default function Tabs() {
-  const [activeTab, setActiveTab] = useState('Projects');
+  const [activeTab, setActiveTab] = useState("Projects");
 
   return (
     <div className="container mx-auto my-8">
       <div className="flex border-b border-gray-300">
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`pb-3 px-4 text-sm font-medium focus:outline-none ${
               activeTab === tab
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
             {tab}

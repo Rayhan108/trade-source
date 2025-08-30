@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import ServiceDetails from '@/Component/Profile/ServiceDetails';
 import ProjCard from '@/Component/Profile/ProjCard';
-import { Projects } from '@/Component/Home/ProjectsNear';
+
 import ProjectCard from '@/Component/Card/ProjectCard';
 import LicenseCard from '@/Component/Card/LicenseCard';
 import ProfDet from '@/Component/Profile/ProfDet';
@@ -15,7 +15,7 @@ import { cardDatas, licenses } from '@/constants';
 const ContractorProfilePage = () => {
   const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
   const [activeTab, setActiveTab] = useState('Projects');
-
+const Projects=[]
   const tabContent = {
     Projects: (
       <div>
@@ -100,7 +100,8 @@ const ContractorProfilePage = () => {
     //   </div>
     // ),
   };
-
+const contractorId = 1
+const profileData = {}
   return (
     <div>
       <nav
@@ -129,7 +130,8 @@ const ContractorProfilePage = () => {
         {/* Components */}
         <div className="bg-white p-8 rounded-xl">
           <FeaturedMedia />
-          <ProfDet />
+          
+          <ProfDet contractorId={contractorId}  profileData={profileData}/>
           {/* tab */}
           <div className="container mx-auto my-8">
             <div className="flex border-b border-gray-300">

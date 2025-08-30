@@ -4,11 +4,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Modal, Radio, Button, Upload, Input, message } from 'antd';
 import { HiFlag } from 'react-icons/hi2';
-import { IoCameraOutline } from 'react-icons/io5';
 import { LockOutlined, UploadOutlined } from '@ant-design/icons';
 import bannerImg from '@/assests/bannerImg.jpg';
-import { usePostReportMutation } from '@/redux/features/others/otherApi';
+
 import { RcFile } from 'antd/es/upload';
+import { useGiveReportMutation } from '@/redux/features/contractor/contractorApi';
+import Link from 'next/link';
 
 const ProfDet = ({ contractorId, profileData }) => {
   const { TextArea } = Input;

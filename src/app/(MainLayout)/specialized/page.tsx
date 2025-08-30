@@ -1,14 +1,18 @@
+'use client'
 import InteriorBanner from '@/Component/Interior/IntBaner';
-import SpecializedNear from '@/Component/Specialized/SpecializedNear';
+// import SpecializedNear from '@/Component/Specialized/SpecializedNear';
+import { useState } from 'react';
 
 const SpecializedPage = () => {
+    // eslint-disable-next-line no-unused-vars
+    const [search, setSearch] = useState("");
   return (
     <div>
       <div className="p-4">
-        <InteriorBanner />
+        <InteriorBanner setSearch={setSearch}/>
       </div>
       
-      <SpecializedNear />
+      {/* <SpecializedNear /> */}
     </div>
   );
 };

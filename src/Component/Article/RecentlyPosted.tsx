@@ -1,24 +1,21 @@
+import ArticleCard from "../Card/ArticleCard";
+import { Pagination } from "antd";
 
-import ArticleCard from '../Card/ArticleCard';
-import { Pagination } from 'antd';
-
-const RecentlyPosted = ({ allArticles,setPage ,page}) => {
- const meta = allArticles?.data?.meta;
+const RecentlyPosted = ({ allArticles, setPage, page }) => {
+  const meta = allArticles?.data?.meta;
   console.log("all article---->", allArticles);
 
   // Ensure meta and limit are defined
-  const limit = meta?.limit || 10; 
-  const totalItems = meta?.total || 0; 
+  const limit = meta?.limit || 10;
+  const totalItems = meta?.total || 0;
 
-  
   // Check if there are enough items to slice
-  const currentItems = allArticles?.data?.result
+  const currentItems = allArticles?.data?.result;
 
-console.log("items-------->",currentItems);
+  console.log("items-------->", currentItems);
   const onPageChange = (page: number) => {
     setPage(page);
   };
-
 
   return (
     <div className={`container my-10 mx-auto font-inter`}>
@@ -35,16 +32,16 @@ console.log("items-------->",currentItems);
         ))}
       </div>
 
-          <Pagination
+      <Pagination
         current={page}
-        pageSize={limit} // Use dynamic page size based on 'limit'
-        total={totalItems} // Total number of items
+        pageSize={limit} 
+        total={totalItems} 
         onChange={onPageChange}
         showSizeChanger={false}
         className="flex justify-center"
         // Show the total number of pages (meta.totalPage)
         pageSizeOptions={[limit.toString()]}
-        showTotal={(total) => `Total ${total} items`}
+
       />
     </div>
   );
