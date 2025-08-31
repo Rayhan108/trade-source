@@ -1,32 +1,47 @@
-import { baseApi } from '@/redux/api/baseApi';
+import { baseApi } from "@/redux/api/baseApi";
 
 const referApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // updateSpecefiqUser
     sendReferal: builder.mutation({
-      query: (userInfo ) => ({
+      query: (userInfo) => ({
         url: `/refer/send-referal`,
         method: "POST",
         body: userInfo,
       }),
       invalidatesTags: ["user"],
     }),
-    
+
     getReward: builder.mutation({
-      query: ({userInfo,code}) => ({
+      query: ({ userInfo, code }) => ({
         url: `/refer/referal?code=${code}`,
         method: "POST",
-        body:userInfo,
+        body: userInfo,
       }),
       invalidatesTags: ["user"],
     }),
 
- 
+    referHistory: builder.query({
+      query: () => ({
+        url: `/refer-claim/history`,
+        method: "GET",
+      }),
+    }),
+
+    referClaim: builder.mutation({
+      query: (info) => ({
+        url: `/refer-claim/claim`,
+        method: "POST",
+        body:info
+      }),
+    }),
+
   }),
 });
 
 export const {
   useSendReferalMutation,
-  useGetRewardMutation
-
+  useGetRewardMutation,
+  useReferHistoryQuery,
+  useReferClaimMutation
 } = referApi;

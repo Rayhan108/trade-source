@@ -5,10 +5,11 @@ import refer from "@/assests/Referral.png";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useForm } from "react-hook-form";
-import { useGetRewardMutation } from "@/redux/features/refer/referApi";
+import { useGetRewardMutation} from "@/redux/features/refer/referApi";
 import { message } from "antd";
 
 export default function ReferPage() {
+
   const {
     register,
     handleSubmit,
@@ -20,15 +21,15 @@ export default function ReferPage() {
   const onSubmit = async (data) => {
     console.log("email-->", user?.email);
     console.log("data-->", data);
-   const userInfo = { email: user?.email };
-   const code = data?.code
-// console.log(userInfo);
+    const userInfo = { email: user?.email };
+    const code = data?.code;
+    // console.log(userInfo);
     try {
-      const res = await getReward({userInfo,code}).unwrap();
+      const res = await getReward({ userInfo, code }).unwrap();
       console.log("response--->", res);
       if (res?.success) {
         message.success(res?.message);
-      } 
+      }
     } catch (error) {
       message.error(error?.message);
     }
@@ -87,7 +88,7 @@ export default function ReferPage() {
                       <input
                         type="text"
                         placeholder="Type Refer Code "
-                        {...register("code",{
+                        {...register("code", {
                           required: "Refer Code is required",
                         })}
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-700"

@@ -1,48 +1,65 @@
 "use client";
 
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
-import { useSendReferalMutation } from "@/redux/features/refer/referApi";
+import {
+  useReferClaimMutation,
+  useReferHistoryQuery,
+  useSendReferalMutation,
+} from "@/redux/features/refer/referApi";
 import { useGetSpecefiqUserQuery } from "@/redux/features/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { message } from "antd";
 
 import { useForm } from "react-hook-form";
 import { HiMail } from "react-icons/hi";
-  const referrals = [
-    { name: 'Amy', status: 'Referred', reward: '$10 credit', claimed: false },
-    { name: 'Amy', status: 'Referred', reward: '$10 credit', claimed: true },
-    { name: 'Amy', status: 'Referred', reward: '$10 credit', claimed: true },
-    { name: 'Amy', status: 'Referred', reward: '$10 credit', claimed: true },
-  ];
+// const referrals = [
+//   { name: "Amy", status: "Referred", reward: "$10 credit", claimed: false },
+//   { name: "Amy", status: "Referred", reward: "$10 credit", claimed: true },
+//   { name: "Amy", status: "Referred", reward: "$10 credit", claimed: true },
+//   { name: "Amy", status: "Referred", reward: "$10 credit", claimed: true },
+// ];
 
 export default function ReferalPage() {
-   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [sendMail]=useSendReferalMutation()
-  const user = useAppSelector(selectCurrentUser)
-  const {data:specUser}=useGetSpecefiqUserQuery(user?.user?.userId)
-  console.log("single user--->",specUser?.data);
+  const [claim]=useReferClaimMutation()
+  const { data: referHistory } = useReferHistoryQuery(undefined);
+  console.log("refer history---->", referHistory);
+  const refferedBy = referHistory?.data?.referredItem
+
+  const refferals = referHistory?.data?.referrerItems
+
+console.log("referal------->",refferals);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [sendMail] = useSendReferalMutation();
+  const user = useAppSelector(selectCurrentUser);
+  const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
+  console.log("single user--->", specUser?.data);
 
   // const [copied, setCopied] = useState(false);
   // const referralLink = "Md Rayhan Shorker";
 
-   const onSubmit = async (data) => {
-    console.log("data-->",data);
-    const modifyData={
-      email:data?.email,
-      code:specUser?.data?.refercode
-    }
+  const onSubmit = async (data) => {
+    console.log("data-->", data);
+    const modifyData = {
+      email: data?.email,
+      code: specUser?.data?.refercode,
+    };
     try {
-  const res  = await sendMail(modifyData).unwrap()
-  console.log("response--->",res);
-  if(res?.success){
-    message.success(res?.message)
-  }else{
-     message.error(res?.message)
-  }
+      const res = await sendMail(modifyData).unwrap();
+      console.log("response--->", res);
+      if (res?.success) {
+        message.success(res?.message);
+      } else {
+        message.error(res?.message);
+      }
     } catch (error) {
-      message.error(error?.message)
+      message.error(error?.message);
     }
-   }
+  };
 
   // const handleCopyLink = async () => {
   //   try {
@@ -54,17 +71,37 @@ export default function ReferalPage() {
   //   }
   // };
 
+const handleClaimRefer = async(data)=>{
+  console.log("data--------->",data);
+  const modifiedData={
+  relatedUserId: "689483b27344e0427ac92fdc", 
+  type: "referred" 
+
+  }
+   try {
+      const res = await claim(modifiedData).unwrap();
+      console.log("response--->", res);
+      if (res?.success) {
+        message.success(res?.message);
+      } else {
+        message.error(res?.message);
+      }
+    } catch (error) {
+      message.error(error?.message);
+    }
+}
+
+
   return (
     <div>
       <div className="w-full min-h-screen  py-3 max-w-7xl  mx-auto bg-[#ffffff] rounded-xl  px-4 lg:px-8">
-         {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Referral</h1>
- 
-      </div>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold text-gray-800">Referral</h1>
+        </div>
 
-      {/* Divider */}
-      <div className="border-b border-gray-200 mb-8"></div>
+        {/* Divider */}
+        <div className="border-b border-gray-200 mb-8"></div>
         <div className=" ">
           <div className="  items-center">
             {/* Left Content */}
@@ -98,77 +135,114 @@ export default function ReferalPage() {
               </div>
 
               {/* Email Input Section */}
-               <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-6">
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="flex-1 relative">
-                    <HiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    <input
-                      type="email"
-                      placeholder="Enter email address"
-                      {...register("email", { required: "Email is required", pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email format" } })}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-700"
-                    />
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="mb-6">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex-1 relative">
+                      <HiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <input
+                        type="email"
+                        placeholder="Enter email address"
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value: /^[^@]+@[^@]+\.[^@]+$/,
+                            message: "Invalid email format",
+                          },
+                        })}
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-700"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="px-6 py-3 bg-gray-400 hover:bg-gray-500 text-white font-medium rounded-lg transition-colors duration-200 whitespace-nowrap"
+                    >
+                      Send Invitation
+                    </button>
                   </div>
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-gray-400 hover:bg-gray-500 text-white font-medium rounded-lg transition-colors duration-200 whitespace-nowrap"
-                  >
-                    Send Invitation
-                  </button>
+                  {/* Error message */}
+                  {errors.email && (
+                    <p className="text-red-500 text-xs">
+                      {typeof errors.email.message === "string" &&
+                        errors.email.message}
+                    </p>
+                  )}
                 </div>
-                {/* Error message */}
-                {errors.email &&   <p className="text-red-500 text-xs">
-    {typeof errors.email.message === "string" && errors.email.message}
-  </p>}
-              </div>
-            </form>
-
-      
+              </form>
             </div>
-
-
           </div>
 
+          <div className=" w-full pt-3">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Referral History
+            </h2>
+            <div className="space-y-4">
+              {
+                refferedBy && (
+                      <div
+              
+                  className="flex items-center justify-between text-sm text-gray-700"
+                >
+                  {/* Green Check & Name */}
+                  <div className="flex items-center gap-2 min-w-[100px]">
+                    <span className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">
+                      ✓
+                    </span>
+                    <span className="font-semibold">{refferedBy?.name}</span>
+                  </div>
 
-  <div className=" w-full pt-3">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Referral History</h2>
-      <div className="space-y-4">
-        {referrals.map((ref, idx) => (
-          <div
-            key={idx}
-            className="flex items-center justify-between text-sm text-gray-700"
-          >
-            {/* Green Check & Name */}
-            <div className="flex items-center gap-2 min-w-[100px]">
-              <span className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">
-                ✓
-              </span>
-              <span className="font-semibold">{ref.name}</span>
+                  {/* Status */}
+                  <span className="w-[80px]">{refferedBy?.type}</span>
+
+                  {/* Reward */}
+                  <span className="w-[100px]">{refferedBy?.amount}</span>
+
+                  {/* Button */}
+                  {refferedBy?.status ==='claimed'? (
+                    <button className="bg-gray-200 text-gray-500 px-4 py-1 rounded-md cursor-not-allowed" >
+                      Claimed
+                    </button>
+                  ) : (
+                    <button className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700" onClick={()=>handleClaimRefer(refferedBy)}>
+                      Claim
+                    </button>
+                  )}
+                </div>
+                )
+              }
+              {refferals?.map((ref, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between text-sm text-gray-700"
+                >
+                  {/* Green Check & Name */}
+                  <div className="flex items-center gap-2 min-w-[100px]">
+                    <span className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">
+                      ✓
+                    </span>
+                    <span className="font-semibold">{ref.name}</span>
+                  </div>
+
+                  {/* Status */}
+                  <span className="w-[80px]">{ref.type}</span>
+
+                  {/* Reward */}
+                  <span className="w-[100px]">{ref.amount}</span>
+
+                  {/* Button */}
+                  {ref.status ==='claimed'? (
+                    <button className="bg-gray-200 text-gray-500 px-4 py-1 rounded-md cursor-not-allowed">
+                      Claimed
+                    </button>
+                  ) : (
+                    <button className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700"  onClick={()=>handleClaimRefer(ref)}>
+                      Claim
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
-
-            {/* Status */}
-            <span className="w-[80px]">{ref.status}</span>
-
-            {/* Reward */}
-            <span className="w-[100px]">{ref.reward}</span>
-
-            {/* Button */}
-            {ref.claimed ? (
-              <button className="bg-gray-200 text-gray-500 px-4 py-1 rounded-md cursor-not-allowed">
-                Claimed
-              </button>
-            ) : (
-              <button className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700">
-                Claim
-              </button>
-            )}
           </div>
-        ))}
-      </div>
-    </div>
-
-
         </div>
       </div>
     </div>
