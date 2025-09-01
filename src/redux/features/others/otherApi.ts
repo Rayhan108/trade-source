@@ -26,6 +26,13 @@ const otherApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    // getAllREfer for spec contractor
+    getAllRefer: builder.query({
+      query: () => ({
+        url: `/review/allReview`,
+        method: 'GET',
+      }),
+    }),
 
 
     // bookService
@@ -117,4 +124,5 @@ export const {
   useMarkAllNotificationsAsReadMutation,
   useMarkSingleNotificationAsReadMutation,
   useGetUnseenNotificationCountQuery,
+  useGetAllReferQuery
 } = otherApi;

@@ -5,13 +5,19 @@ import project2 from "@/assests/project2.png";
 import project3 from "@/assests/project3.png";
 import ServiceDetails from "./ServiceDetails";
 import styles from "@/app/styles.module.css";
-import ProjCard from "./ProjCard";
+
 
 import ProjectCard from "../Card/ProjectCard";
 import LicenseCard from "../Card/LicenseCard";
+import { useGetSingleUserServiceQuery } from "@/redux/features/contractor/contractorApi";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
-const tabs = ["Projects", "Services", "Licenses & Insurance"];
 
+// "Services",
+const tabs = ["Projects",  "Licenses & Insurance"];
+
+// eslint-disable-next-line no-unused-vars
 const cardDatas = [
   {
     title: "Pink Dyer",
@@ -63,7 +69,29 @@ const licenses = [
     status: "Verified",
   },
 ];
+
+
+
+
 const Projects = [];
+
+
+
+export default function Tabs() {
+  const user = useAppSelector(selectCurrentUser);
+  const { data: myServices } = useGetSingleUserServiceQuery(user?.user?.userId);
+  console.log("my services --------->", myServices?.data);
+  const [activeTab, setActiveTab] = useState("Projects");
+
+const contractorProfileData = myServices?.data[0]?.contractorId
+
+
+
+
+
+
+
+
 const tabContent = {
   Projects: (
     <div>
@@ -71,20 +99,25 @@ const tabContent = {
         <div className="flex justify-between items-center ">
           <div>
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
-              Project <span className="font-semibold">{cardDatas?.length}</span>
+              Project <span className="font-semibold">{myServices?.data?.length}</span>
             </h1>
           </div>
-          <div>
+          {/* <div>
             <h1 className="text-sm underline text-blue-700">View All</h1>
-          </div>
+          </div> */}
         </div>
-        <div className="grid  grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3 px-3">
-          {cardDatas?.map((cardData, idx) => {
+        {/* <div className="grid  grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3 px-3">
+          {myServices?.data?.map((cardData, idx) => {
             return <ProjCard key={idx} cardData={cardData} />;
+          })}
+        </div> */}
+        <div className="grid  grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3 px-3">
+          {myServices?.data?.map((project, idx) => {
+            return <ProjectCard key={idx} project={project} />;
           })}
         </div>
       </div>
-      <ServiceDetails />
+    <ServiceDetails contractorProfileData={contractorProfileData} />
     </div>
   ),
   Services: (
@@ -93,12 +126,12 @@ const tabContent = {
         <div className=" ">
           <div>
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
-              Service <span className="font-semibold">{Projects?.length}</span>
+              Service <span className="font-semibold">{myServices?.data?.length}</span>
             </h1>
           </div>
         </div>
         <div className="grid  grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3 px-3">
-          {Projects?.map((project, idx) => {
+          {myServices?.data?.map((project, idx) => {
             return <ProjectCard key={idx} project={project} />;
           })}
         </div>
@@ -132,8 +165,13 @@ const tabContent = {
   // ),
 };
 
-export default function Tabs() {
-  const [activeTab, setActiveTab] = useState("Projects");
+
+
+
+
+
+
+
 
   return (
     <div className="container mx-auto my-8">
