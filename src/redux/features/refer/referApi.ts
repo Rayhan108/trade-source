@@ -35,6 +35,13 @@ const referApi = baseApi.injectEndpoints({
         body:info
       }),
     }),
+    getAllreferClaimed: builder.query({
+      query: () => ({
+        url: `/refer-claim/all-claimed`,
+        method: "GET",
+       
+      }),
+    }),
 
   }),
 });
@@ -43,5 +50,6 @@ export const {
   useSendReferalMutation,
   useGetRewardMutation,
   useReferHistoryQuery,
-  useReferClaimMutation
+  useReferClaimMutation,
+  useGetAllreferClaimedQuery
 } = referApi;

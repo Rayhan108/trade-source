@@ -2,6 +2,7 @@
 
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import {
+  useGetAllreferClaimedQuery,
   useReferClaimMutation,
   useReferHistoryQuery,
   useSendReferalMutation,
@@ -21,13 +22,22 @@ import { HiMail } from "react-icons/hi";
 
 export default function ReferalPage() {
   const [claim]=useReferClaimMutation()
-  const { data: referHistory } = useReferHistoryQuery(undefined);
-  console.log("refer history---->", referHistory);
+  const { data: referHistory,refetch } = useReferHistoryQuery(undefined);
+  const { data: allClaimed,refetch:allClaimedRefetch } = useGetAllreferClaimedQuery(undefined);
+
+const totalClaimedCredit = allClaimed?.data?.reduce(
+  (sum: number, item: any) => sum + (item?.amountCents || 0),
+  0
+) || 0;
+
+// Convert to dollars if needed
+const totalCreditsInDollars = totalClaimedCredit / 100;
+  // console.log("refer claimed in dollar---->", totalCreditsInDollars);
   const refferedBy = referHistory?.data?.referredItem
 
   const refferals = referHistory?.data?.referrerItems
 
-console.log("referal------->",refferals);
+// console.log("referal------->",refferals);
 
   const {
     register,
@@ -37,13 +47,13 @@ console.log("referal------->",refferals);
   const [sendMail] = useSendReferalMutation();
   const user = useAppSelector(selectCurrentUser);
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
-  console.log("single user--->", specUser?.data);
+  // console.log("single user--->", specUser?.data);
 
   // const [copied, setCopied] = useState(false);
   // const referralLink = "Md Rayhan Shorker";
 
   const onSubmit = async (data) => {
-    console.log("data-->", data);
+    // console.log("data-->", data);
     const modifyData = {
       email: data?.email,
       code: specUser?.data?.refercode,
@@ -61,28 +71,23 @@ console.log("referal------->",refferals);
     }
   };
 
-  // const handleCopyLink = async () => {
-  //   try {
-  //     await navigator.clipboard.writeText(referralLink);
-  //     setCopied(true);
-  //     setTimeout(() => setCopied(false), 1000);
-  //   } catch (err) {
-  //     console.error("Failed to copy link:", err);
-  //   }
-  // };
+ 
 
 const handleClaimRefer = async(data)=>{
-  console.log("data--------->",data);
+  // console.log("data--------->",data);
   const modifiedData={
-  relatedUserId: "689483b27344e0427ac92fdc", 
-  type: "referred" 
+  relatedUserId:data?.relatedUser, 
+  type:data?.type 
 
   }
    try {
       const res = await claim(modifiedData).unwrap();
-      console.log("response--->", res);
+      // console.log("response--->", res);
+   
       if (res?.success) {
         message.success(res?.message);
+        refetch()
+        allClaimedRefetch()
       } else {
         message.error(res?.message);
       }
@@ -173,6 +178,10 @@ const handleClaimRefer = async(data)=>{
           </div>
 
           <div className=" w-full pt-3">
+            <div className="flex gap-5 justify-end font-inter">
+              <p className="text-md">Your Total Credits :</p>
+              <p>${totalCreditsInDollars}</p>
+            </div>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               Referral History
             </h2>
