@@ -21,23 +21,25 @@ import { HiMail } from "react-icons/hi";
 // ];
 
 export default function ReferalPage() {
-  const [claim]=useReferClaimMutation()
-  const { data: referHistory,refetch } = useReferHistoryQuery(undefined);
-  const { data: allClaimed,refetch:allClaimedRefetch } = useGetAllreferClaimedQuery(undefined);
+  const [claim] = useReferClaimMutation();
+  const { data: referHistory, refetch } = useReferHistoryQuery(undefined);
+  const { data: allClaimed, refetch: allClaimedRefetch } =
+    useGetAllreferClaimedQuery(undefined);
 
-const totalClaimedCredit = allClaimed?.data?.reduce(
-  (sum: number, item: any) => sum + (item?.amountCents || 0),
-  0
-) || 0;
+  const totalClaimedCredit =
+    allClaimed?.data?.reduce(
+      (sum: number, item: any) => sum + (item?.amountCents || 0),
+      0
+    ) || 0;
 
-// Convert to dollars if needed
-const totalCreditsInDollars = totalClaimedCredit / 100;
+  // Convert to dollars if needed
+  const totalCreditsInDollars = totalClaimedCredit / 100;
   // console.log("refer claimed in dollar---->", totalCreditsInDollars);
-  const refferedBy = referHistory?.data?.referredItem
+  const refferedBy = referHistory?.data?.referredItem;
 
-  const refferals = referHistory?.data?.referrerItems
+  const refferals = referHistory?.data?.referrerItems;
 
-// console.log("referal------->",refferals);
+  // console.log("referal------->",refferals);
 
   const {
     register,
@@ -71,31 +73,27 @@ const totalCreditsInDollars = totalClaimedCredit / 100;
     }
   };
 
- 
-
-const handleClaimRefer = async(data)=>{
-  // console.log("data--------->",data);
-  const modifiedData={
-  relatedUserId:data?.relatedUser, 
-  type:data?.type 
-
-  }
-   try {
+  const handleClaimRefer = async (data) => {
+    // console.log("data--------->",data);
+    const modifiedData = {
+      relatedUserId: data?.relatedUser,
+      type: data?.type,
+    };
+    try {
       const res = await claim(modifiedData).unwrap();
       // console.log("response--->", res);
-   
+
       if (res?.success) {
         message.success(res?.message);
-        refetch()
-        allClaimedRefetch()
+        refetch();
+        allClaimedRefetch();
       } else {
         message.error(res?.message);
       }
     } catch (error) {
       message.error(error?.message);
     }
-}
-
+  };
 
   return (
     <div>
@@ -186,12 +184,8 @@ const handleClaimRefer = async(data)=>{
               Referral History
             </h2>
             <div className="space-y-4">
-              {
-                refferedBy && (
-                      <div
-              
-                  className="flex items-center justify-between text-sm text-gray-700"
-                >
+              {refferedBy && (
+                <div className="flex items-center justify-between text-sm text-gray-700">
                   {/* Green Check & Name */}
                   <div className="flex items-center gap-2 min-w-[100px]">
                     <span className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">
@@ -207,18 +201,20 @@ const handleClaimRefer = async(data)=>{
                   <span className="w-[100px]">{refferedBy?.amount}</span>
 
                   {/* Button */}
-                  {refferedBy?.status ==='claimed'? (
-                    <button className="bg-gray-200 text-gray-500 px-4 py-1 rounded-md cursor-not-allowed" >
+                  {refferedBy?.status === "claimed" ? (
+                    <button className="bg-gray-200 text-gray-500 px-4 py-1 rounded-md cursor-not-allowed">
                       Claimed
                     </button>
                   ) : (
-                    <button className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700" onClick={()=>handleClaimRefer(refferedBy)}>
+                    <button
+                      className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700"
+                      onClick={() => handleClaimRefer(refferedBy)}
+                    >
                       Claim
                     </button>
                   )}
                 </div>
-                )
-              }
+              )}
               {refferals?.map((ref, idx) => (
                 <div
                   key={idx}
@@ -239,12 +235,15 @@ const handleClaimRefer = async(data)=>{
                   <span className="w-[100px]">{ref.amount}</span>
 
                   {/* Button */}
-                  {ref.status ==='claimed'? (
+                  {ref.status === "claimed" ? (
                     <button className="bg-gray-200 text-gray-500 px-4 py-1 rounded-md cursor-not-allowed">
                       Claimed
                     </button>
                   ) : (
-                    <button className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700"  onClick={()=>handleClaimRefer(ref)}>
+                    <button
+                      className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700"
+                      onClick={() => handleClaimRefer(ref)}
+                    >
                       Claim
                     </button>
                   )}

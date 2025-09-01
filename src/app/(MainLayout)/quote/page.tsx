@@ -2,12 +2,40 @@
 
 import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Select, DatePicker, TimePicker, Slider } from 'antd';
+import { Select, DatePicker, TimePicker, Slider, message } from 'antd';
 import { TbCurrentLocation } from 'react-icons/tb';
+import { useSendQuotesMutation } from '@/redux/features/quotes/quotesApi';
+import { useGetAllCategoryQuery } from '@/redux/features/others/otherApi';
 
 export default function RequestQuoteForm() {
-  const [isClient, setIsClient] = useState(false);
 
+  const { data: allCategory } = useGetAllCategoryQuery(undefined);
+  // Define the type for category options
+  type CategoryOption = {
+    label: string;
+    value: string;
+    subCategories?: {
+      label: string;
+      value: string;
+      parent: string;
+    }[];
+  };
+
+  // Prepare options for react-select from categories and subcategories
+  const categoryOptions: CategoryOption[] | undefined = allCategory?.data?.map(
+    service => ({
+      label: service?.category,
+      value: service?.category,
+      subCategories: service?.subCategory?.map(sub => ({
+        label: sub,
+        value: `${service?.category}-${sub}`, // Combining category and subcategory for uniqueness
+        parent: service?.category, // Storing parent category to know which category the sub belongs to
+      })),
+    })
+  );
+
+  const [isClient, setIsClient] = useState(false);
+const [sendQuote]=useSendQuotesMutation()
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -16,8 +44,17 @@ export default function RequestQuoteForm() {
     // no defaultValues needed here
   });
 
-  const onSubmit = data => {
+  const onSubmit = async (data) => {
     console.log(data);
+    try {
+          const res = await sendQuote(data).unwrap();
+          console.log("response--->", res);
+          if (res?.success) {
+            message.success(res?.message);
+          }
+        } catch (error) {
+          message.error(error?.message);
+        }
   };
 
   if (!isClient) {
@@ -64,17 +101,14 @@ export default function RequestQuoteForm() {
               className="w-full"
               {...field}
               onChange={val => field.onChange(val)}
-              options={[
-                { label: 'Handyman', value: 'Handyman' },
-                { label: 'Electrician', value: 'Electrician' },
-                { label: 'Plumber', value: 'Plumber' },
-                { label: 'Painter', value: 'Painter' },
-                { label: 'Carpenter', value: 'Carpenter' },
-              ]}
+             options={categoryOptions}
             />
           )}
         />
       </div>
+
+
+
 
       <div>
         <label className="font-semibold mb-1 block">Project Description</label>
@@ -131,7 +165,7 @@ export default function RequestQuoteForm() {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         <label className="font-semibold mb-2 block">Offer a Price</label>
         <Controller
           control={control}
@@ -183,7 +217,72 @@ export default function RequestQuoteForm() {
             </>
           )}
         />
-      </div>
+      </div> */}
+<div>
+  <label className="font-semibold mb-2 block">Offer a Price</label>
+  <Controller
+    control={control}
+    name="priceRange"
+    render={({ field }) => {
+      // Parse stored string into array [min, max]
+      const currentRange = field.value
+        ? field.value.split("-").map((n: string) => Number(n))
+        : [10, 1000];
+
+      const handleChange = (newRange: number[]) => {
+        // Save as string "min-max"
+        field.onChange(`${newRange[0]}-${newRange[1]}`);
+      };
+
+      return (
+        <>
+          <Slider
+            range
+            min={10}
+            max={1000}
+            value={currentRange}
+            onChange={handleChange}
+            tooltipVisible
+          />
+          <div className="flex justify-between text-xs mt-1 px-1 text-gray-500">
+            <div>
+              <label className="block">Minimum</label>
+              <input
+                type="number"
+                min={10}
+                max={currentRange[1]}
+                className="w-16 border border-gray-300 rounded p-1"
+                value={currentRange[0]}
+                onChange={e => {
+                  const val = Number(e.target.value);
+                  if (val <= currentRange[1]) {
+                    handleChange([val, currentRange[1]]);
+                  }
+                }}
+              />
+            </div>
+            <div>
+              <label className="block">Maximum</label>
+              <input
+                type="number"
+                min={currentRange[0]}
+                max={1000}
+                className="w-20 border border-gray-300 rounded p-1"
+                value={currentRange[1]}
+                onChange={e => {
+                  const val = Number(e.target.value);
+                  if (val >= currentRange[0]) {
+                    handleChange([currentRange[0], val]);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </>
+      );
+    }}
+  />
+</div>
 
       <button
         type="submit"

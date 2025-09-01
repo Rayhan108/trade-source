@@ -4,9 +4,9 @@ import Link from "next/link";
 import { IoIosStar } from "react-icons/io";
 
 export default function ConstractorCard({ contractor }) {
-  console.log("contractor---------->", contractor);
   return (
-    <div className="max-w-sm w-full bg-green-200 rounded-lg shadow-md overflow-hidden mx-auto ">
+    <div className="max-w-sm w-full bg-green-200 rounded-lg shadow-md overflow-hidden mx-auto flex flex-col">
+      {/* Image Section */}
       <div className="relative h-64">
         <Image
           src={contractor?.image}
@@ -20,7 +20,7 @@ export default function ConstractorCard({ contractor }) {
           {contractor?.title}
         </h2>
         <Link href={`/profile/${contractor?._id}`}>
-          <button className="flex sm:hidden  absolute bottom-2 sm:bottom-4 right-1 bg-blue-600 text-white text-sm sm:font-semibold py-1 px-1 rounded-md shadow-md hover:bg-blue-700 transition">
+          <button className="flex sm:hidden absolute bottom-2 sm:bottom-4 right-1 bg-blue-600 text-white text-sm sm:font-semibold py-1 px-1 rounded-md shadow-md hover:bg-blue-700 transition">
             View Profile
           </button>
         </Link>
@@ -31,26 +31,16 @@ export default function ConstractorCard({ contractor }) {
         </Link>
       </div>
 
-      <div className="p-5 text-gray-900 flex flex-col gap-4">
+      {/* Content */}
+      <div className="p-5 text-gray-900 flex flex-col gap-4 flex-1">
         <div className="space-y-3 text-sm items-center">
-          {/* <span className="flex items-center gap-1">
-            <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"><Image src={hamIcon} alt='' width={500} height={500} className='w-3'/></span>
-            {data.completedTasks} Completed Task{data.completedTasks > 1 ? 's' : ''}
-          </span> */}
           <span className="flex items-center gap-2">
-            <span className="bg-  rounded-full w-5 h-5 flex items-center justify-center text-blue-700 text-xs">
-              {/* <SlBadge /> */}
+            <span className="rounded-full w-5 h-5 flex items-center justify-center text-blue-700 text-xs">
               <User />
             </span>
             {contractor?.firstName + " " + contractor?.lastName}
           </span>
-          {/* <span className="flex items-center gap-2">
-            <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              <IoIosHammer />
-            </span>
-            {data.completedTasks || 0} Completed Task
-            {data.completedTasks > 1 ? 's' : ''}
-          </span> */}
+
           <span className="flex items-center gap-2">
             <IoIosStar className="text-[#D4AF37] text-xl" />
             {contractor?.review?.length
@@ -76,8 +66,10 @@ export default function ConstractorCard({ contractor }) {
           </ul>
         </div>
       </div>
+
+      {/* Fixed Bottom Button */}
       <Link href={"/quote"}>
-        <button className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition">
+        <button className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition mt-auto">
           Request Quote
         </button>
       </Link>
