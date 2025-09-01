@@ -148,9 +148,7 @@ console.log("curent items----->",currentItems);
             <h1 className={` ${styles.fontDMSans} text-3xl font-bold`}>
          All Reviews : {meta?.total}
             </h1>
-            <h1 className="text-lg md:text-xl font-semibold flex items-center gap-2 mt-1">
-              <span className="font-semibold">4.97</span> · 1694 reviews
-            </h1>
+      
           </div>
           {currentItems?.map((item, index) => (
                  <div
