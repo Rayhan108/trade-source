@@ -41,8 +41,8 @@ const contractorApi = baseApi.injectEndpoints({
     }),
     // getSingleUserService
     getSingleUserService: builder.query({
-      query: (id) => ({
-        url: `/service/allServices/${id}`,
+      query: () => ({
+        url: `/service/spec-user-services`,
         method: "GET",
       }),
     }),

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Modal, Radio, Button, Upload, Input, message } from 'antd';
 import { HiFlag } from 'react-icons/hi2';
 import { LockOutlined, UploadOutlined } from '@ant-design/icons';
-import bannerImg from '@/assests/bannerImg.jpg';
+
 
 import { RcFile } from 'antd/es/upload';
 import { useGiveReportMutation } from '@/redux/features/contractor/contractorApi';
@@ -109,7 +109,7 @@ const ProfDet = ({ contractorId, profileData }) => {
         <div className="flex items-center gap-5">
           <div className="relative w-28 h-28 rounded-full overflow-hidden">
             <Image
-              src={bannerImg}
+              src={profileData?.image}
               alt="Profile"
               fill
               className="object-cover rounded-full"

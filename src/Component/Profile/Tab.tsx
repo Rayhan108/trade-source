@@ -10,8 +10,7 @@ import styles from "@/app/styles.module.css";
 import ProjectCard from "../Card/ProjectCard";
 import LicenseCard from "../Card/LicenseCard";
 import { useGetSingleUserServiceQuery } from "@/redux/features/contractor/contractorApi";
-import { useAppSelector } from "@/redux/hooks";
-import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+
 
 
 // "Services",
@@ -78,8 +77,8 @@ const Projects = [];
 
 
 export default function Tabs() {
-  const user = useAppSelector(selectCurrentUser);
-  const { data: myServices } = useGetSingleUserServiceQuery(user?.user?.userId);
+
+  const { data: myServices } = useGetSingleUserServiceQuery(undefined);
   console.log("my services --------->", myServices?.data);
   const [activeTab, setActiveTab] = useState("Projects");
 
