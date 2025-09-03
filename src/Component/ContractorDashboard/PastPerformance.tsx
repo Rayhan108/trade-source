@@ -2,26 +2,27 @@
 
 import { RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
 
-const data = [
-  {
-    name: 'Quote requested',
-    uv: 30,
-    fill: '#5A6BFF',
-  },
-  {
-    name: 'Project completed',
-    uv: 60,
-    fill: '#A1E3B3',
-  },
-  {
-    name: 'Claimed deals',
-    uv: 90,
-    fill: '#4B5563',
-  },
-];
+
 
 export default function PastPerformance({dashboardStats}) {
   console.log("dashboard stats-------->",dashboardStats);
+  const data = [
+  {
+    name: 'Provided Services',
+    uv: dashboardStats?.data?.totalServices,
+    fill: '#5A6BFF',
+  },
+  {
+    name: 'Project Quotes',
+    uv: dashboardStats?.data?.totalQuotes,
+    fill: '#A1E3B3',
+  },
+  {
+    name: 'Average Ratting',
+    uv:dashboardStats?.data?.averageRating,
+    fill: '#4B5563',
+  },
+];
   return (
     <div className="border  border-gray mt-1 text-black p-8 rounded-xl w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Past Performance</h2>
