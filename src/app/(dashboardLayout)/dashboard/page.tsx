@@ -1,16 +1,25 @@
+'use client'
 import Statics from '@/Component/ContractorDashboard/Statics';
 import PastPerformance from '@/Component/ContractorDashboard/PastPerformance';
+import { useGetDashboardStatsQuery } from '@/redux/features/others/otherApi';
+import { useAppSelector } from '@/redux/hooks';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
 
 
 const DashboardPage = () => {
-  const proContractor = true;
+  const user = useAppSelector(selectCurrentUser)
+  console.log("user------->",user?.user?.role);
+  const role = user?.user?.role
+  const {data:dashboardStats}=useGetDashboardStatsQuery(undefined)
+
+   
   return (
     <>
-      {proContractor ? (
+      {role ==='vipContractor' ? (
         <div className="bg-white w-full  p-4 min-h-screen flex gap-3">
           <div className="w-full">
-            <Statics />
-            <PastPerformance />
+            <Statics dashboardStats={dashboardStats}/>
+            <PastPerformance dashboardStats={dashboardStats}/>
           </div>
           {/* <div className="border border-gray h-[60%] p-6 rounded-lg">
             <div className="grid grid-cols-1  gap-4">
@@ -78,8 +87,8 @@ const DashboardPage = () => {
         </div>
       ) : (
         <div className="bg-white w-full  p-4 min-h-screen">
-          <Statics />
-          <PastPerformance />
+          <Statics dashboardStats={dashboardStats}/>
+          <PastPerformance dashboardStats={dashboardStats}/>
         </div>
       )}
     </>

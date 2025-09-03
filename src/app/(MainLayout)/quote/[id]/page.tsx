@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Select, DatePicker, TimePicker, Slider, message } from 'antd';
-import { TbCurrentLocation } from 'react-icons/tb';
-import { useSendQuotesMutation } from '@/redux/features/quotes/quotesApi';
-import { useGetAllCategoryQuery } from '@/redux/features/others/otherApi';
+import { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { Select, DatePicker, TimePicker, Slider, message } from "antd";
+import { TbCurrentLocation } from "react-icons/tb";
+import { useSendQuotesMutation } from "@/redux/features/quotes/quotesApi";
+import { useGetAllCategoryQuery } from "@/redux/features/others/otherApi";
+import { useParams } from "next/navigation";
 
 export default function RequestQuoteForm() {
-
+    const {id} = useParams()
+    console.log("c id---->",id);
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
   // Define the type for category options
   type CategoryOption = {
@@ -23,10 +25,10 @@ export default function RequestQuoteForm() {
 
   // Prepare options for react-select from categories and subcategories
   const categoryOptions: CategoryOption[] | undefined = allCategory?.data?.map(
-    service => ({
+    (service) => ({
       label: service?.category,
       value: service?.category,
-      subCategories: service?.subCategory?.map(sub => ({
+      subCategories: service?.subCategory?.map((sub) => ({
         label: sub,
         value: `${service?.category}-${sub}`, // Combining category and subcategory for uniqueness
         parent: service?.category, // Storing parent category to know which category the sub belongs to
@@ -35,7 +37,7 @@ export default function RequestQuoteForm() {
   );
 
   const [isClient, setIsClient] = useState(false);
-const [sendQuote]=useSendQuotesMutation()
+  const [sendQuote] = useSendQuotesMutation();
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -46,15 +48,19 @@ const [sendQuote]=useSendQuotesMutation()
 
   const onSubmit = async (data) => {
     console.log(data);
+    const modifiedData={
+        ...data,
+        contractorId:id
+    }
     try {
-          const res = await sendQuote(data).unwrap();
-          console.log("response--->", res);
-          if (res?.success) {
-            message.success(res?.message);
-          }
-        } catch (error) {
-          message.error(error?.message);
-        }
+      const res = await sendQuote(modifiedData).unwrap();
+      console.log("response--->", res);
+      if (res?.success) {
+        message.success(res?.message);
+      }
+    } catch (error) {
+      message.error(error?.message);
+    }
   };
 
   if (!isClient) {
@@ -78,7 +84,7 @@ const [sendQuote]=useSendQuotesMutation()
       <div className="relative">
         <label className="font-semibold mb-1 block">Project Location</label>
         <input
-          {...register('projectLocation')}
+          {...register("projectLocation")}
           className="w-full border border-gray-300 rounded-md p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
           placeholder="Enter project location"
         />
@@ -100,20 +106,17 @@ const [sendQuote]=useSendQuotesMutation()
               placeholder="Select services"
               className="w-full"
               {...field}
-              onChange={val => field.onChange(val)}
-             options={categoryOptions}
+              onChange={(val) => field.onChange(val)}
+              options={categoryOptions}
             />
           )}
         />
       </div>
 
-
-
-
       <div>
         <label className="font-semibold mb-1 block">Project Description</label>
         <textarea
-          {...register('projectDescription')}
+          {...register("projectDescription")}
           rows={4}
           placeholder="Tell us more about your projects"
           className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -134,7 +137,7 @@ const [sendQuote]=useSendQuotesMutation()
             render={({ field }) => (
               <DatePicker
                 className="w-full"
-                onChange={date => field.onChange(date)}
+                onChange={(date) => field.onChange(date)}
                 value={field.value}
                 format="YYYY-MM-DD"
               />
@@ -156,7 +159,7 @@ const [sendQuote]=useSendQuotesMutation()
               <TimePicker
                 className="w-full"
                 format="HH:mm"
-                onChange={time => field.onChange(time)}
+                onChange={(time) => field.onChange(time)}
                 value={field.value}
                 use12Hours={false}
               />
@@ -218,71 +221,71 @@ const [sendQuote]=useSendQuotesMutation()
           )}
         />
       </div> */}
-<div>
-  <label className="font-semibold mb-2 block">Offer a Price</label>
-  <Controller
-    control={control}
-    name="priceRange"
-    render={({ field }) => {
-      // Parse stored string into array [min, max]
-      const currentRange = field.value
-        ? field.value.split("-").map((n: string) => Number(n))
-        : [10, 1000];
+      <div>
+        <label className="font-semibold mb-2 block">Offer a Price</label>
+        <Controller
+          control={control}
+          name="priceRange"
+          render={({ field }) => {
+            // Parse stored string into array [min, max]
+            const currentRange = field.value
+              ? field.value.split("-").map((n: string) => Number(n))
+              : [10, 1000];
 
-      const handleChange = (newRange: number[]) => {
-        // Save as string "min-max"
-        field.onChange(`${newRange[0]}-${newRange[1]}`);
-      };
+            const handleChange = (newRange: number[]) => {
+              // Save as string "min-max"
+              field.onChange(`${newRange[0]}-${newRange[1]}`);
+            };
 
-      return (
-        <>
-          <Slider
-            range
-            min={10}
-            max={1000}
-            value={currentRange}
-            onChange={handleChange}
-            tooltipVisible
-          />
-          <div className="flex justify-between text-xs mt-1 px-1 text-gray-500">
-            <div>
-              <label className="block">Minimum</label>
-              <input
-                type="number"
-                min={10}
-                max={currentRange[1]}
-                className="w-16 border border-gray-300 rounded p-1"
-                value={currentRange[0]}
-                onChange={e => {
-                  const val = Number(e.target.value);
-                  if (val <= currentRange[1]) {
-                    handleChange([val, currentRange[1]]);
-                  }
-                }}
-              />
-            </div>
-            <div>
-              <label className="block">Maximum</label>
-              <input
-                type="number"
-                min={currentRange[0]}
-                max={1000}
-                className="w-20 border border-gray-300 rounded p-1"
-                value={currentRange[1]}
-                onChange={e => {
-                  const val = Number(e.target.value);
-                  if (val >= currentRange[0]) {
-                    handleChange([currentRange[0], val]);
-                  }
-                }}
-              />
-            </div>
-          </div>
-        </>
-      );
-    }}
-  />
-</div>
+            return (
+              <>
+                <Slider
+                  range
+                  min={10}
+                  max={1000}
+                  value={currentRange}
+                  onChange={handleChange}
+                  tooltipVisible
+                />
+                <div className="flex justify-between text-xs mt-1 px-1 text-gray-500">
+                  <div>
+                    <label className="block">Minimum</label>
+                    <input
+                      type="number"
+                      min={10}
+                      max={currentRange[1]}
+                      className="w-16 border border-gray-300 rounded p-1"
+                      value={currentRange[0]}
+                      onChange={(e) => {
+                        const val = Number(e.target.value);
+                        if (val <= currentRange[1]) {
+                          handleChange([val, currentRange[1]]);
+                        }
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block">Maximum</label>
+                    <input
+                      type="number"
+                      min={currentRange[0]}
+                      max={1000}
+                      className="w-20 border border-gray-300 rounded p-1"
+                      value={currentRange[1]}
+                      onChange={(e) => {
+                        const val = Number(e.target.value);
+                        if (val >= currentRange[0]) {
+                          handleChange([currentRange[0], val]);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </>
+            );
+          }}
+        />
+      </div>
 
       <button
         type="submit"

@@ -20,7 +20,8 @@ const data = [
   },
 ];
 
-export default function PastPerformance() {
+export default function PastPerformance({dashboardStats}) {
+  console.log("dashboard stats-------->",dashboardStats);
   return (
     <div className="border  border-gray mt-1 text-black p-8 rounded-xl w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Past Performance</h2>

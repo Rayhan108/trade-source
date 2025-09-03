@@ -68,7 +68,7 @@ export default function ConstractorCard({ contractor }) {
       </div>
 
       {/* Fixed Bottom Button */}
-      <Link href={"/quote"}>
+      <Link href={`/quote/${contractor?._id}`}>
         <button className="w-full bg-blue-600 text-white font-semibold py-3 hover:bg-blue-700 transition mt-auto">
           Request Quote
         </button>

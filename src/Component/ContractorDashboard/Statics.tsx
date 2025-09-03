@@ -1,6 +1,9 @@
 import Link from "next/link";
 
-const Statics = () => {
+const Statics = ({ dashboardStats }) => {
+  console.log("dashboard stats-------->", dashboardStats);
+
+
   return (
     <div>
       <div className="border border-gray p-6 rounded-lg">
@@ -12,12 +15,17 @@ const Statics = () => {
           <div className="bg-gray-100 rounded-md p-4 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <p className="text-lg font-medium text-gray-800">Projects</p>
-              <a href="#" className="text-sm text-blue-600 hover:underline">
+              <Link
+                href="/allServices"
+                className="text-sm text-blue-600 hover:underline"
+              >
                 View All
-              </a>
+              </Link>
             </div>
             <div className="mt-4">
-              <p className="text-2xl font-bold text-gray-900">78</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {dashboardStats?.data?.totalServices}
+              </p>
               <p className="text-sm text-gray-600 mt-1">Successful Projects</p>
             </div>
           </div>
@@ -26,8 +34,10 @@ const Statics = () => {
           <div className="bg-gray-100 rounded-md p-4 flex flex-col justify-between">
             <p className="text-lg font-medium text-gray-800">Quotes</p>
             <div className="mt-4">
-              <p className="text-2xl font-bold text-gray-900">1088</p>
-              <p className="text-sm text-gray-600 mt-1">9 Quote Requests</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {dashboardStats?.data?.totalQuotes}
+              </p>
+              <p className="text-sm text-gray-600 mt-1"> Quote Requests</p>
             </div>
           </div>
 
@@ -35,38 +45,35 @@ const Statics = () => {
           <div className="bg-gray-100 rounded-md p-4 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <p className="text-lg font-medium text-gray-800">Reviews</p>
-              <a href="#" className="text-sm text-blue-600 hover:underline">
-                View All
-              </a>
             </div>
             <div className="mt-4">
               <p className="text-2xl font-bold text-gray-900">
-                4.98{' '}
-                <span className="text-sm font-medium text-gray-700">
+                {dashboardStats?.data?.averageRating}
+        
+                <span className="text-sm font-medium text-gray-700 ml-3">
                   rating
                 </span>
               </p>
-              <p className="text-sm text-gray-600 mt-1">2368 Reviews</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {" "}
+                {dashboardStats?.data?.totalReviews} Reviews
+              </p>
             </div>
           </div>
-             {/* my blogs */}
-                 <div className="bg-gray-100 rounded-md p-4 flex flex-col justify-between">
-                <div className="flex justify-between items-start">
-                  <p className="text-lg font-medium text-gray-800">My Blog</p>
-                  <Link
-                    href="#"
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    View All
-                  </Link>
-                </div>
-                <div className="mt-4">
-                  <p className="text-2xl font-bold text-gray-900">4</p>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Last Posted: 12/04/25
-                  </p>
-                </div>
-              </div>
+          {/* my blogs */}
+          <div className="bg-gray-100 rounded-md p-4 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <p className="text-lg font-medium text-gray-800">My Blog</p>
+              <Link href="/specifiqUserArticle" className="text-sm text-blue-600 hover:underline">
+                View All
+              </Link>
+            </div>
+            <div className="mt-4">
+              <p className="text-2xl font-bold text-gray-900">
+                {dashboardStats?.data?.totalArticles}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

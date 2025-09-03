@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
+
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
@@ -7,45 +7,45 @@ export default function BlogHero({ allArticles}) {
   // const meta = allArticles?.data?.meta
   console.log({ allArticles });
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const scrollContainerRef = useRef(null);
+  // const [scrollPosition, setScrollPosition] = useState(0);
+  // const scrollContainerRef = useRef(null);
 
-  const popularArticles = allArticles?.data?.result.filter(
-    article => article.isPopular === true
-  );
+  // const popularArticles = allArticles?.data?.result.filter(
+  //   article => article.isPopular === true
+  // );
 
   const featuredArticles = allArticles?.data?.result.find(
     article => article.isFeatured === true
   );
 // console.log("featued article--->",featuredArticles);
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } =
-        scrollContainerRef.current;
-      const scrollPercentage =
-        (scrollTop / (scrollHeight - clientHeight)) * 100;
-      setScrollPosition(scrollPercentage);
-    }
-  };
+  // const handleScroll = () => {
+  //   if (scrollContainerRef.current) {
+  //     const { scrollTop, scrollHeight, clientHeight } =
+  //       scrollContainerRef.current;
+  //     const scrollPercentage =
+  //       (scrollTop / (scrollHeight - clientHeight)) * 100;
+  //     setScrollPosition(scrollPercentage);
+  //   }
+  // };
 
-  const scrollToPosition = percentage => {
-    if (scrollContainerRef.current) {
-      const { scrollHeight, clientHeight } = scrollContainerRef.current;
-      const scrollTop = (percentage / 100) * (scrollHeight - clientHeight);
-      scrollContainerRef.current.scrollTo({
-        top: scrollTop,
-        behavior: 'smooth',
-      });
-    }
-  };
+  // const scrollToPosition = percentage => {
+  //   if (scrollContainerRef.current) {
+  //     const { scrollHeight, clientHeight } = scrollContainerRef.current;
+  //     const scrollTop = (percentage / 100) * (scrollHeight - clientHeight);
+  //     scrollContainerRef.current.scrollTo({
+  //       top: scrollTop,
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  // };
 
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll);
-      return () => container.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const container = scrollContainerRef.current;
+  //   if (container) {
+  //     container.addEventListener('scroll', handleScroll);
+  //     return () => container.removeEventListener('scroll', handleScroll);
+  //   }
+  // }, []);
 
   return (
     <div className="w-full bg-white px-4 py-8 sm:px-6 lg:px-8">
@@ -112,7 +112,7 @@ export default function BlogHero({ allArticles}) {
 
       <div className="lg:col-span-1">
   {/* Only render if popularArticles exists and is not empty */}
-  {popularArticles && popularArticles.length > 0 && (
+  {/* {popularArticles && popularArticles.length > 0 && (
     <div>
       <div className="mb-6">
         <span className="inline-flex items-center rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white">
@@ -215,7 +215,7 @@ export default function BlogHero({ allArticles}) {
         ))}
       </div>
     </div>
-  )}
+  )} */}
 </div>
 
         </div>

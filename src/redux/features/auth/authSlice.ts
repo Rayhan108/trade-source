@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 type TEmail = {
   email: string;
   userId: string;
+  role:string
 };
 
 export type TUser = {

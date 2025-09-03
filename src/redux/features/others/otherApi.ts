@@ -1,21 +1,27 @@
-import { baseApi } from '@/redux/api/baseApi';
+import { baseApi } from "@/redux/api/baseApi";
 
 const otherApi = baseApi.injectEndpoints({
-  endpoints: builder => ({
-
+  endpoints: (builder) => ({
     // getAllArticles
     getAllArticles: builder.query({
       query: (page) => ({
         url: `/article/allArticle?page=${page}`,
-        method: 'GET',
+        method: "GET",
       }),
     }),
 
     // getSingleArticle
     getSingleArticle: builder.query({
-      query: id => ({
+      query: (id) => ({
         url: `/article/single-article/${id}`,
-        method: 'GET',
+        method: "GET",
+      }),
+    }),
+    // getSingleUserArticle
+    getSingleUserArticle: builder.query({
+      query: () => ({
+        url: `/article/single-user-article`,
+        method: "GET",
       }),
     }),
 
@@ -23,23 +29,22 @@ const otherApi = baseApi.injectEndpoints({
     getAllCategory: builder.query({
       query: () => ({
         url: `/category/all-category`,
-        method: 'GET',
+        method: "GET",
       }),
     }),
     // getAllREfer for spec contractor
     getAllRefer: builder.query({
       query: () => ({
         url: `/review/allReview`,
-        method: 'GET',
+        method: "GET",
       }),
     }),
 
-
     // bookService
     bookService: builder.mutation({
-      query: body => ({
-        url: '/book/bookServices',
-        method: 'POST',
+      query: (body) => ({
+        url: "/book/bookServices",
+        method: "POST",
         body: body,
       }),
     }),
@@ -47,66 +52,73 @@ const otherApi = baseApi.injectEndpoints({
     // getUsersForSidebar
     getUsersForSidebar: builder.query({
       query: () => ({
-        url: '/message/users',
-        method: 'GET',
+        url: "/message/users",
+        method: "GET",
       }),
-      providesTags: ['messages'],
+      providesTags: ["messages"],
     }),
 
     // getMessages
     getMessages: builder.query({
-      query: userId => ({
+      query: (userId) => ({
         url: `/message/${userId}`,
-        method: 'GET',
+        method: "GET",
       }),
-      providesTags: ['messages'],
+      providesTags: ["messages"],
+    }),
+    // get dashboard stats
+    getDashboardStats: builder.query({
+      query: () => ({
+        url: `/quotes/dashboardStats`,
+        method: "GET",
+      }),
     }),
 
     // sendMessage
     sendMessage: builder.mutation({
       query: ({ receiverId, data }) => ({
         url: `/message/send/${receiverId}`,
-        method: 'POST',
+        method: "POST",
         body: data,
         formData: true,
       }),
-      invalidatesTags: ['messages'],
+      invalidatesTags: ["messages"],
     }),
 
     // getNotifications
     getNotifications: builder.query({
-      query: userId => ({
+      query: (userId) => ({
         url: `/notification/${userId}`,
-        method: 'GET',
+        method: "GET",
       }),
-      providesTags: ['notifications'],
+      providesTags: ["notifications"],
     }),
 
     // markAllNotificationsAsRead
     markAllNotificationsAsRead: builder.mutation({
-      query: userId => ({
+      query: (userId) => ({
         url: `/notification/mark-all/${userId}`,
-        method: 'PATCH',
+        method: "PATCH",
       }),
-      invalidatesTags: ['notifications', 'notificationsCount'],
+      invalidatesTags: ["notifications", "notificationsCount"],
     }),
 
     // markSingleNotificationAsRead
     markSingleNotificationAsRead: builder.mutation({
-      query: noticeId => ({
+      query: (noticeId) => ({
         url: `/notification/mark/${noticeId}`,
-        method: 'PATCH',
+        method: "PATCH",
       }),
-      invalidatesTags: ['notifications', 'notificationsCount'],
+      invalidatesTags: ["notifications", "notificationsCount"],
     }),
 
     // getUnseenNotificationCount
     getUnseenNotificationCount: builder.query<{ data: number }, string>({
-      query: userId => ({
+      query: (userId) => ({
         url: `/notification/unseen/${userId}`,
-        method: 'GET',
+        method: "GET",
       }),
-      providesTags: ['notificationsCount'],
+      providesTags: ["notificationsCount"],
     }),
   }),
 });
@@ -115,7 +127,7 @@ export const {
   useGetAllArticlesQuery,
   useGetSingleArticleQuery,
   useGetAllCategoryQuery,
-
+useGetSingleUserArticleQuery,
   useBookServiceMutation,
   useGetUsersForSidebarQuery,
   useGetMessagesQuery,
@@ -124,5 +136,6 @@ export const {
   useMarkAllNotificationsAsReadMutation,
   useMarkSingleNotificationAsReadMutation,
   useGetUnseenNotificationCountQuery,
-  useGetAllReferQuery
+  useGetAllReferQuery,
+  useGetDashboardStatsQuery,
 } = otherApi;
