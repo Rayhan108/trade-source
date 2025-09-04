@@ -1,50 +1,82 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
-import { FiPlus, FiChevronDown } from 'react-icons/fi';
-import license from '@/assests/Licenses 1.png';
-import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import { useState } from "react";
+import { FiPlus, FiChevronDown } from "react-icons/fi";
+import license from "@/assests/Licenses 1.png";
+import { useRouter } from "next/navigation";
+import { useVerifyDocMutation } from "@/redux/features/contractor/contractorApi";
+import { message } from "antd";
 
 export default function DocumentVerification() {
   const [selectedDocumentType, setSelectedDocumentType] =
-    useState('Plumbing Licenses');
+    useState("Plumbing Licenses");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [frontLicense, setFrontLicense] = useState(null);
   const [backLicense, setBackLicense] = useState(null);
   const router = useRouter();
   const documentTypes = [
-    'Plumbing Licenses',
-    'Electrical Licenses',
-    'HVAC Licenses',
-    'General Contractor License',
-    'Insurance Certificate',
+    "Plumbing Licenses",
+    "Electrical Licenses",
+    "HVAC Licenses",
+    "General Contractor License",
+    "Insurance Certificate",
   ];
+  const [verifyDoc] = useVerifyDocMutation();
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      documentType: selectedDocumentType,
-      frontLicense: frontLicense,
-      backLicense: backLicense,
-    };
-    console.log('License Verification Data:', formData);
-    router.push('/doneVerification');
-  };
 
-  const handleFrontUpload = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFrontLicense(file);
-      console.log('Front license uploaded:', file.name);
+    // Prepare the FormData object for the request
+    const formData = new FormData();
+
+   const documentData = { documentType: selectedDocumentType };
+    formData.append('data', JSON.stringify(documentData));  // Append object as string
+
+    // Append the front and back licenses
+    if (frontLicense) {
+      formData.append("frontLicense", frontLicense);
+    }
+
+    if (backLicense) {
+      formData.append("backLicense", backLicense);
+    }
+  // Log the FormData contents
+    // console.log('Form Data Contents:');
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // });
+    try {
+      // Send the FormData to the backend API using the mutation
+      const res = await verifyDoc(formData).unwrap();
+    console.log('response------->:',res);
+      if (res.success) {
+        message.success(res?.message);
+        // Redirect or further actions (optional)
+        router.push('/doneVerification');
+      } else {
+        message.error(res?.message);
+      }
+    } catch (error) {
+      message.error(
+        error.message 
+      );
     }
   };
 
-  const handleBackUpload = e => {
+  const handleFrontUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFrontLicense(file);
+      console.log("Front license uploaded:", file.name);
+    }
+  };
+
+  const handleBackUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setBackLicense(file);
-      console.log('Back license uploaded:', file.name);
+      console.log("Back license uploaded:", file.name);
     }
   };
 
@@ -79,14 +111,14 @@ export default function DocumentVerification() {
                   <span className="text-gray-900">{selectedDocumentType}</span>
                   <FiChevronDown
                     className={`w-5 h-5 text-gray-400 transition-transform ${
-                      isDropdownOpen ? 'rotate-180' : ''
+                      isDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isDropdownOpen && (
                   <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
-                    {documentTypes.map(type => (
+                    {documentTypes.map((type) => (
                       <button
                         key={type}
                         type="button"
@@ -106,7 +138,7 @@ export default function DocumentVerification() {
                   <label className="block text-sm font-medium text-gray-900 mt-5">
                     Front of your license
                   </label>
-                  <div className="border-2 w-[200%] mt-5 border-dashed border-gray-300 rounded-lg p-12 sm:p-16 text-center hover:border-gray-400 transition-colors cursor-pointer">
+                  <div className="border-2 w-[100%] mt-5 border-dashed border-gray-300 rounded-lg p-12 sm:p-16 text-center hover:border-gray-400 transition-colors cursor-pointer">
                     <input
                       type="file"
                       accept="image/*,.pdf"
@@ -118,7 +150,7 @@ export default function DocumentVerification() {
                       <div className="flex w-full flex-col items-center">
                         <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
                         <span className="text-lg font-medium text-gray-600">
-                          {frontLicense ? frontLicense.name : 'Upload'}
+                          {frontLicense ? frontLicense.name : "Upload"}
                         </span>
                       </div>
                     </label>
@@ -157,7 +189,7 @@ export default function DocumentVerification() {
                   <div className="flex flex-col items-center">
                     <FiPlus className="w-8 h-8 text-gray-400 mb-3" />
                     <span className="text-lg font-medium text-gray-600">
-                      {backLicense ? backLicense.name : 'Upload'}
+                      {backLicense ? backLicense.name : "Upload"}
                     </span>
                   </div>
                 </label>
@@ -166,14 +198,14 @@ export default function DocumentVerification() {
 
             {/* Terms and Conditions */}
             <div className="text-sm text-gray-600 leading-relaxed">
-              By clicking "Submit for Review," you agree to the{' '}
+              By clicking "Submit for Review," you agree to the{" "}
               <a
                 href="#"
                 className="text-blue-600 hover:text-blue-700 underline"
               >
                 Terms of Service
-              </a>{' '}
-              and{' '}
+              </a>{" "}
+              and{" "}
               <a
                 href="#"
                 className="text-blue-600 hover:text-blue-700 underline"

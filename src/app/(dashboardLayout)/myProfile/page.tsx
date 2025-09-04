@@ -1,35 +1,36 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import Image from 'next/image';
-import { Modal, message } from 'antd';
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import 'react-phone-input-2/lib/style.css';
-import { IoCameraOutline } from 'react-icons/io5';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { logout, selectCurrentUser } from '@/redux/features/auth/authSlice';
-import { usePathname, useRouter } from 'next/navigation';
-import { setCookie } from 'nookies';
-import { protectedRoutes } from '@/constants';
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import Image from "next/image";
+import { Modal, message } from "antd";
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import "react-phone-input-2/lib/style.css";
+import { IoCameraOutline } from "react-icons/io5";
+import { useAppSelector } from "@/redux/hooks";
+// import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
+// import { usePathname, useRouter } from "next/navigation";
+// import { setCookie } from "nookies";
+// import { protectedRoutes } from "@/constants";
 import {
   useGetSpecefiqUserQuery,
   useUpdateSpecefiqUserMutation,
-} from '@/redux/features/user/userApi';
-import { resetContractorData } from '@/redux/features/contractor/contractorSlice';
-import Link from 'next/link';
+} from "@/redux/features/user/userApi";
+// import { resetContractorData } from "@/redux/features/contractor/contractorSlice";
+import Link from "next/link";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 export default function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const showModal = () => {
     setIsModalOpen(true);
   };
   const user = useAppSelector(selectCurrentUser);
-  const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
+  const { data: specUser,refetch } = useGetSpecefiqUserQuery(user?.user?.userId);
   // console.log("spec user-->",specUser);
-  const router = useRouter();
-  const pathname = usePathname();
+  // const router = useRouter();
+  // const pathname = usePathname();
 
   const [updateUser] = useUpdateSpecefiqUserMutation();
   const role = specUser?.data?.role;
@@ -38,24 +39,24 @@ export default function ProfilePage() {
   };
 
   // logout
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(resetContractorData());
-    // Delete cookie manually
-    router.push('/');
-    setCookie(null, 'user', '', { path: '/', maxAge: -1 });
-    message.success('Logout Success');
-    if (protectedRoutes.some(route => pathname.match(route))) {
-      router.push('/');
-    }
-  };
+  // const handleLogout = () => {
+  //   dispatch(logout());
+  //   dispatch(resetContractorData());
+  //   // Delete cookie manually
+  //   router.push("/");
+  //   setCookie(null, "user", "", { path: "/", maxAge: -1 });
+  //   message.success("Logout Success");
+  //   if (protectedRoutes.some((route) => pathname.match(route))) {
+  //     router.push("/");
+  //   }
+  // };
 
   const { handleSubmit, control } = useForm();
 
   const [previewImage, setPreviewImage] = useState(specUser?.data?.image);
   const [imageFile, setImageFile] = useState(null);
 
-  const handleImageChange = e => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setImageFile(file);
@@ -66,33 +67,40 @@ export default function ProfilePage() {
     reader.readAsDataURL(file);
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     try {
       if (!user?.user?.userId) {
         // message.error("User ID is missing");
-        console.error('User ID is missing');
+        console.error("User ID is missing");
         return;
       }
 
       // Build FormData
       const form = new FormData();
-      form.append('data', JSON.stringify(data)); // matches server middleware that parses req.body.data
-      if (imageFile) form.append('image', imageFile); // Multer will pick this up
+      form.append("data", JSON.stringify(data)); 
 
-      // If updateUser is an RTK Query mutation, pass the raw FormData
+         // Only append image if it's a new image file
+    if (imageFile) {
+      form.append("image", imageFile);
+    }
+      
+
+      
       const res = await updateUser({
         id: user.user.userId,
-        userInfo: form, // your baseQuery must send this as body
+        userInfo: form, 
       });
       if (res.error) {
         // console.error("Failed to update user:", res.error);
-        message.error('Failed to update user');
+        message.error("Failed to update user");
       } else {
         // console.log("User updated successfully:", res.data);
         message.success(res?.data?.message);
+        refetch()
+        setIsModalOpen(false)
       }
     } catch (err) {
-      console.error('Update error:', err);
+      console.error("Update error:", err);
       // message.error("Server error");
     }
   };
@@ -109,8 +117,8 @@ export default function ProfilePage() {
           >
             Edit
           </button>
-          <Link href={'/contractorHome'}>
-            {role === 'user' && (
+          <Link href={"/contractorHome"}>
+            {role === "user" && (
               <button className="bg-blue-600 text-white px-4 py-2 ml-1 rounded hover:bg-blue-700">
                 Become a Pro
               </button>
@@ -129,7 +137,7 @@ export default function ProfilePage() {
           <Image
             src={
               specUser?.data?.image ||
-              'https://tse3.mm.bing.net/th/id/OIP.kUFzwD5-mfBV0PfqgI5GrAHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3'
+              "https://tse3.mm.bing.net/th/id/OIP.kUFzwD5-mfBV0PfqgI5GrAHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3"
             }
             alt="Profile"
             fill
@@ -168,12 +176,12 @@ export default function ProfilePage() {
           </div>
 
           {/* Logout Button */}
-          <button
+          {/* <button
             onClick={() => handleLogout()}
             className="w-[30%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4"
           >
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -195,11 +203,11 @@ export default function ProfilePage() {
               <div className="relative w-44 h-44 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                 {/* Image preview */}
                 <Image
-                  src={previewImage || specUser?.data?.image || ''}
+                  src={previewImage || specUser?.data?.image || ""}
                   alt="Profile"
                   fill
                   className={`object-cover rounded-full ${
-                    previewImage || specUser?.data?.image ? '' : 'opacity-0'
+                    previewImage || specUser?.data?.image ? "" : "opacity-0"
                   }`}
                 />
                 {/* If no image is available, show placeholder text */}
@@ -233,7 +241,7 @@ export default function ProfilePage() {
                 <Controller
                   name="firstName"
                   control={control}
-                  defaultValue={specUser?.data?.firstName || ''}
+                  defaultValue={specUser?.data?.firstName || ""}
                   render={({ field }) => (
                     <input
                       {...field}
@@ -249,7 +257,7 @@ export default function ProfilePage() {
                 <Controller
                   name="lastName"
                   control={control}
-                  defaultValue={specUser?.data?.lastName || ''}
+                  defaultValue={specUser?.data?.lastName || ""}
                   render={({ field }) => (
                     <input
                       {...field}
@@ -265,7 +273,7 @@ export default function ProfilePage() {
               <Controller
                 name="bio"
                 control={control}
-                defaultValue={specUser?.data?.bio || ''}
+                defaultValue={specUser?.data?.bio || ""}
                 render={({ field }) => (
                   <textarea
                     {...field}

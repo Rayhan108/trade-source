@@ -64,6 +64,24 @@ const contractorApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["payments"],
     }),
+    // doc verification
+    verifyDoc: builder.mutation({
+      query: (data) => ({
+        url: "/verify/document",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["document"],
+    }),
+    //my doc 
+    myDoc: builder.query({
+      query: () => ({
+        url: "/verify/single-user-doc",
+        method: "GET",
+   
+      }),
+   
+    }),
   }),
 });
 
@@ -75,4 +93,6 @@ export const {
   useMakePaymentMutation,
   useGiveReportMutation,
   useGetSingleUserServiceQuery,
+  useVerifyDocMutation,
+  useMyDocQuery
 } = contractorApi;

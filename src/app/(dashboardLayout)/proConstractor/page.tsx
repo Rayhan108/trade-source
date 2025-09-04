@@ -36,7 +36,7 @@ const contractors = [
 
 const ProConstractorPage = () => {
   return (
-    <div className="md:w-[50%] p-7 mx-auto my-8">
+    <div className="md:w-[100%] p-7 mx-auto my-8">
       <h1 className="text-xl font-bold">Select A Pro</h1>
       <p className="text-lg my-3">
         Choose the person you are looking for a guidance from!
