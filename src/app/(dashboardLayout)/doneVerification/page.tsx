@@ -1,7 +1,11 @@
+'use client'
 import Image from 'next/image';
 import suspense from '@/assests/Suspension.png';
+import { useMyDocQuery } from '@/redux/features/contractor/contractorApi';
 
 const DoneVerification = () => {
+  const {data:mydoc}=useMyDocQuery(undefined)
+  console.log("my doc ----->",mydoc);
   return (
     <div className="bg-white min-h-screen">
       <div className="mb-8 border-b border-black p-5">

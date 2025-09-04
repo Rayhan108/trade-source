@@ -16,6 +16,7 @@ export default function DocumentVerification() {
   const [backLicense, setBackLicense] = useState(null);
   const router = useRouter();
   const documentTypes = [
+     
     "Plumbing Licenses",
     "Electrical Licenses",
     "HVAC Licenses",
