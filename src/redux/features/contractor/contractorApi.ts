@@ -82,6 +82,25 @@ const contractorApi = baseApi.injectEndpoints({
       }),
    
     }),
+    //my quotes
+    myQuotes: builder.query({
+      query: () => ({
+        url: "/quotes/myQuotes",
+        method: "GET",
+   
+      }),
+   
+    }),
+    //update quotes status
+    updateQuoteStatus: builder.mutation({
+      query: ({id,data}) => ({
+        url:`/quotes/update-status/${id}`,
+        method: "PATCH",
+        body:data
+   
+      }),
+   
+    }),
   }),
 });
 
@@ -94,5 +113,8 @@ export const {
   useGiveReportMutation,
   useGetSingleUserServiceQuery,
   useVerifyDocMutation,
-  useMyDocQuery
+  useMyDocQuery,
+  useMyQuotesQuery,
+  useUpdateQuoteStatusMutation
+
 } = contractorApi;

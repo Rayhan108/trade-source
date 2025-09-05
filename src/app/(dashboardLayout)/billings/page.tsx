@@ -12,7 +12,7 @@ import {
 export default function TransactionHistory() {
   const [activeTab, setActiveTab] = useState('Transactions');
 
-  const tabs = ['Transactions', 'Balances', 'Payment Methods'];
+  const tabs = ['Transactions'];
 
   const transactions = [
     {
