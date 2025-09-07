@@ -1,13 +1,17 @@
 "use client";
 import { useState } from "react";
-import { FiMapPin, FiCalendar } from "react-icons/fi";
-import { HiMiniHomeModern } from "react-icons/hi2";
+import { FiMapPin, FiClock } from "react-icons/fi";
+
 import Image from "next/image";
 import userImg from "@/assests/user.png";
 import { IoCallSharp } from "react-icons/io5";
 import { MdOutlineMessage } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import { useMyQuotesQuery, useUpdateQuoteStatusMutation } from "@/redux/features/contractor/contractorApi";
+import {
+  useBookedOrderforContractorQuery,
+  useMyQuotesQuery,
+  useUpdateQuoteStatusMutation,
+} from "@/redux/features/contractor/contractorApi";
 import { message } from "antd";
 
 const projectData = [
@@ -59,12 +63,14 @@ const projectData = [
     date: "2/4/25",
     status: "Accepted",
   },
-];
+]
 
 export default function ProjectManagement() {
-const [updateQuoteStatus]=useUpdateQuoteStatusMutation()
-const {data:myQuotes,refetch}=useMyQuotesQuery(undefined)
-console.log("myQuotes----->",myQuotes);
+  const [updateQuoteStatus] = useUpdateQuoteStatusMutation();
+  const { data: myQuotes, refetch } = useMyQuotesQuery(undefined);
+  const { data: myOrder, refetch:refetchMyOrder } = useBookedOrderforContractorQuery(undefined);
+  console.log("myQuotes----->", myQuotes);
+  console.log("myOrder----->", myOrder);
   const [activeTab, setActiveTab] = useState("Project Requests");
   const tabs = ["Project Requests", "Quote Management"];
   const router = useRouter();
@@ -72,50 +78,43 @@ console.log("myQuotes----->",myQuotes);
     console.log("View details", id);
     router.push(`/projectManagement/${id}`);
   };
-  const handleReject = async(id) => {
-    console.log("Reject", id)
+  const handleReject = async (id) => {
+    console.log("Reject", id);
     const data = {
-  status: "rejected"
- 
-}
+      status: "rejected",
+    };
     try {
-      const res = await updateQuoteStatus({id,data}).unwrap();
-      console.log('res===>>>>', { res });
+      const res = await updateQuoteStatus({ id, data }).unwrap();
+      console.log("res===>>>>", { res });
       if (res.success) {
         message.success(res?.message);
-        refetch()
+        refetch();
       } else {
-   
-      
         message.error(res?.message);
       }
     } catch (error) {
       message.error(error);
     }
   };
-  const handleAccept = async(id) => {
-       console.log("Accept", id)
+  const handleAccept = async (id) => {
+    console.log("Accept", id);
     const data = {
-  status: "accepted"
- 
-}
+      status: "accepted",
+    };
     try {
-      const res = await updateQuoteStatus({id,data}).unwrap();
-      console.log('res===>>>>', { res });
+      const res = await updateQuoteStatus({ id, data }).unwrap();
+      console.log("res===>>>>", { res });
       if (res.success) {
         message.success(res?.message);
-        refetch()
+        refetch();
       } else {
-   
-      
         message.error(res?.message);
       }
     } catch (error) {
       message.error(error);
     }
-  }
+  };
 
- 
   const handleMessageClient = (id) => console.log("Message client", id);
 
   return (
@@ -152,57 +151,57 @@ console.log("myQuotes----->",myQuotes);
               </tr>
             </thead>
             <tbody className="divide-y">
-              {projectData.map((project) => (
+              {myOrder?.data?.map((project) => (
                 <tr key={project.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-start gap-4">
                       <div className="w-[25%] flex flex-col justify-center items-center">
                         <Image
-                          src={project.avatar}
-                          alt={project.client}
+                          src={project.user?.image}
+                          alt={project?.firstName}
+                          width={500}
+                          height={500}
                           className="w-12 h-12 rounded-full"
                         />
                         <div className="font-semibold mt-1 text-gray-900">
-                          {project.client}
+                          {project.firstName}
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm">{project.service}</div>
+                        <div className="text-sm">{project.serviceType}</div>
+                     
                         <div className="flex gap-2 items-center text-sm text-gray-500">
-                          <FiCalendar className="text-gray-400" />
+                          <FiClock className="text-gray-400" />
                           {project.time}
                         </div>
                         <div className="flex gap-2 items-center text-sm text-gray-500">
                           <FiMapPin className="text-gray-400" />
-                          {project.address}
+                          {project.location}
                         </div>
-                        <div className="flex gap-2 items-center text-sm text-gray-500">
-                          <HiMiniHomeModern className="text-gray-400" />
-                          {project.propertyType}
-                        </div>
+                    
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-lg font-semibold">
-                    {project.price}
+                  <td className="px-6 py-4 text-lg font-xs">
+                    {project.serviceId?.price}
                   </td>
-                  <td className="px-6 py-4 text-lg">{project.date}</td>
+                  <td className="px-6 py-4 text-sm">{project.date}</td>
                   <td className="px-6 py-4 space-y-2">
                     <button
-                      onClick={() => handleViewDetails(project.id)}
+                      onClick={() => handleViewDetails(project._id)}
                       className="w-full border px-4 py-2 rounded-md text-sm hover:bg-gray-100"
                     >
                       View Job Details
                     </button>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleReject(project.id)}
+                        onClick={() => handleReject(project._id)}
                         className="flex-1 bg-red-500 text-white px-4 py-2 rounded-md text-sm"
                       >
                         Reject
                       </button>
                       <button
-                        onClick={() => handleAccept(project.id)}
+                        onClick={() => handleAccept(project._id)}
                         className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md text-sm"
                       >
                         Accept
@@ -234,17 +233,18 @@ console.log("myQuotes----->",myQuotes);
                     <div className="w-[50%] flex flex-col justify-center items-center">
                       <Image
                         src={project?.user?.image}
-                        alt={''}
+                        alt={""}
                         className="w-12 h-12 rounded-full"
                         height={500}
                         width={500}
                       />
-            
                     </div>
 
                     <div>
                       <div className="font-semibold text-gray-900">
-                       {project?.user?.firstName + ' ' +project?.user?.lastName}
+                        {project?.user?.firstName +
+                          " " +
+                          project?.user?.lastName}
                       </div>
                       <div className="text-sm">{project.service}</div>
                       <div className="text-sm text-gray-500">
@@ -268,7 +268,9 @@ console.log("myQuotes----->",myQuotes);
                       {project.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm">{project.date.split('T')[0]}</td>
+                  <td className="px-6 py-4 text-sm">
+                    {project.date.split("T")[0]}
+                  </td>
                   <td className="px-6 py-4 space-y-2">
                     <button
                       onClick={() => handleViewDetails(project?._id)}
@@ -300,7 +302,6 @@ console.log("myQuotes----->",myQuotes);
                         Message Client
                       </button>
                     )}
-          
                   </td>
                 </tr>
               ))}

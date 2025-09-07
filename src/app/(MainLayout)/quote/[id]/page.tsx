@@ -24,7 +24,7 @@ export default function RequestQuoteForm() {
   };
 
   // Prepare options for react-select from categories and subcategories
-  const categoryOptions: CategoryOption[] | undefined = allCategory?.data?.map(
+  const categoryOptions: CategoryOption[] = allCategory?.data?.map(
     (service) => ({
       label: service?.category,
       value: service?.category,

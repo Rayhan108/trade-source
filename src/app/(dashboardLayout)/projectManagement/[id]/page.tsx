@@ -1,20 +1,32 @@
 'use client';
 import Image from 'next/image';
-import userImg from '@/assests/user.png';
 import {
   Calendar,
   MapPin,
-  Building,
+
   FileText,
   MoreHorizontal,
   Upload,
   X,
+  Clock,
 } from 'lucide-react';
 import { useState } from 'react';
 import { jsPDF } from 'jspdf'; // Import jsPDF
 import Link from 'next/link';
+// import { useSingleQuoteQuery } from '@/redux/features/contractor/contractorApi';
+import { useParams } from 'next/navigation';
+import { useSingleOrderQuery } from '@/redux/features/contractor/contractorApi';
 
 export default function ProjectDetails() {
+  const {id}=useParams()
+  // const {data:singleQuote}=useSingleQuoteQuery(id)
+  const {data:singleOrder}=useSingleOrderQuery(id)
+console.log("project manange dynamic page single quote--->",singleOrder);
+
+  const user = singleOrder?.data?.user
+  const project = singleOrder?.data
+
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -30,27 +42,91 @@ export default function ProjectDetails() {
   };
 
   // Generate PDF for detailed quote
-  const handleDownloadQuote = () => {
-    const doc = new jsPDF();
-    doc.setFont('helvetica');
-    doc.setFontSize(12);
+const handleDownloadQuote = () => {
+  // Dynamic Content for the PDF
+  // const projectDetails = project?.projectDescription || "No description available";
+  const projectLocation = project?.location || "No location provided";
+  const servicesOffered = project?.serviceType || "No services selected";
+  const priceOffered = project?.serviceId?.price ? `${project?.serviceId?.price}` : "$0";
+  const timeDetails = project?.date
+  const paymentStatus = project?.paymentStatus
+  const projectStatus = project?.projectStatus
 
-    // Adding content for the PDF
-    doc.text('Project Details', 10, 10);
-    doc.text('====================================', 10, 15);
-    doc.text('Cleaning Details:', 10, 20);
-    doc.text('Date: Apr 28, 12:00 PM', 10, 25);
-    doc.text('Address: 123 Main Street, New York, NY 10001', 10, 30);
-    doc.text('Type: Apartment', 10, 35);
-    doc.text('', 10, 40); // Empty line
-    doc.text('Price Details:', 10, 45);
-    doc.text('Price Client Offered: $65/hr', 10, 50);
-    doc.text('Trust & Support Fee: $5/hr', 10, 55);
-    doc.text('Total Rate: $60/hr', 10, 60);
+  // Create PDF
+  const doc = new jsPDF();
+  doc.setFont('helvetica');
+  doc.setFontSize(12);
 
-    // Save the PDF
-    doc.save('detailed-quote.pdf');
-  };
+  // Adding Header
+  doc.setTextColor(0, 0, 0); // Black color for text
+  doc.setFontSize(16);
+  doc.text('Project Details', 10, 20);
+
+  doc.setTextColor(0, 102, 204); // Blue color for subheading
+
+
+  // Table Headers and Data
+  const tableColumn = ["Field", "Details"];
+  const tableRows = [
+    // ["Project Description", projectDetails],
+    ["Date & Time", timeDetails],
+    ["Address", projectLocation],
+    ["Services Offered", servicesOffered],
+    ["Trust & Support Fee", "$5/hr"],
+    ["Total Rate", priceOffered],
+    ["Payment Status", paymentStatus],
+    ["Project Status", projectStatus],
+  ];
+
+  // Define Table Layout
+  const tableStartX = 10;
+  const tableStartY = 30;
+  const tableWidth = 180;
+  const columnWidth = [tableWidth * 0.3, tableWidth * 0.7];
+  const rowHeight = 12; // Adjusted for better spacing
+  
+  // Draw table header
+  doc.setFillColor(0, 102, 204); // Blue header background
+  doc.rect(tableStartX, tableStartY, tableWidth, rowHeight, 'F'); // Header background color
+  
+  // Write headers
+  doc.setTextColor(255, 255, 255); // White text for header
+  doc.text(tableColumn[0], tableStartX + 5, tableStartY + 7);
+  doc.text(tableColumn[1], tableStartX + columnWidth[0] + 5, tableStartY + 7);
+
+  // Draw table rows with alternating colors
+  doc.setTextColor(0, 0, 0); // Black text for content
+  let yOffset = tableStartY + rowHeight;
+
+  tableRows.forEach((row, index) => {
+    // Set alternating row colors
+    if (index % 2 === 0) {
+      doc.setFillColor(240, 240, 240); // Light grey for even rows
+    } else {
+      doc.setFillColor(255, 255, 255); // White for odd rows
+    }
+    
+    // Draw row background
+    doc.rect(tableStartX, yOffset, tableWidth, rowHeight, 'F');
+    
+    // Write the row data
+    doc.setTextColor(0, 0, 0); // Black text for content
+    doc.text(row[0], tableStartX + 5, yOffset + 8);  // Position text in the center of the row
+    doc.text(row[1], tableStartX + columnWidth[0] + 5, yOffset + 8); // Position text in the center
+    
+    // Increment yOffset for the next row
+    yOffset += rowHeight;
+  });
+
+  // Adding borders for the table
+  doc.setDrawColor(0, 0, 0); // Black color for border
+  doc.rect(tableStartX, tableStartY, tableWidth, yOffset - tableStartY); // Outer border of the table
+  
+  // Saving the PDF
+  doc.save('detailed-quote.pdf');
+};
+
+
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white min-h-screen">
@@ -63,7 +139,7 @@ export default function ProjectDetails() {
       <div className="flex items-start justify-between mb-8 pb-6 border-b border-gray-200">
         <div className="flex items-start space-x-4">
           <Image
-            src={userImg}
+            src={user?.image}
             alt="Ellie Smith"
             className="w-16 h-16 rounded-full object-cover"
             width={500}
@@ -71,15 +147,14 @@ export default function ProjectDetails() {
           />
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Ellie Smith Has Booked You
+              {user?.firstName}
             </h2>
             <p className="text-gray-600 max-w-md">
-              Giovanni C. is currently offline and will reach out once available
-              in the app. You will be notified as soon as they respond.
+            <span className='font-semibold mr-1'>Project Details: </span>{project?.projectDescription}
             </p>
           </div>
         </div>
-        <Link href={'/sendQuote'}>
+        <Link href={'/inbox'}>
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
             Message
           </button>
@@ -90,19 +165,27 @@ export default function ProjectDetails() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Cleaning Details */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Cleaning</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{project?.serviceType}</h3>
           <div className="space-y-3">
             <div className="flex items-center space-x-3 text-gray-700">
               <Calendar className="w-5 h-5" />
-              <span>Apr 28, 12:00 PM</span>
+              <span>{project?.date}</span>
+            </div>
+            <div className="flex items-center space-x-3 text-gray-700">
+              <Clock className="w-5 h-5" />
+              <span>{project?.time}</span>
             </div>
             <div className="flex items-center space-x-3 text-gray-700">
               <MapPin className="w-5 h-5" />
-              <span>123 Main Street, New York, NY 10001</span>
+              <span>{project?.location}</span>
             </div>
             <div className="flex items-center space-x-3 text-gray-700">
-              <Building className="w-5 h-5" />
-              <span>Apartment</span>
+          
+              <span>Payment Status:{project?.status}</span>
+            </div>
+            <div className="flex items-center space-x-3 text-gray-700">
+          
+              <span>Project Status:{project?.projectStatus}</span>
             </div>
           </div>
           <div className="border-b border-black mt-3"></div>
@@ -134,17 +217,17 @@ export default function ProjectDetails() {
           <div className="space-y-3 mb-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-700">Price Client offered</span>
-              <span className="font-medium">$65/hr</span>
+              <span className="font-medium">{project?.serviceId?.price}/hr</span>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center ">
               <span className="text-gray-700">Trust & Support fee</span>
-              <span className="font-medium">$5/hr</span>
+              <span className="font-medium ">$5/hr</span>
             </div>
             <div className="flex justify-between items-center font-semibold">
               <span className="text-gray-900">Total Rate</span>
-              <span>$60/hr</span>
+           <span>${(Number(project?.serviceId?.price) || 0) + 5}</span>
             </div>
-            <div className="border-b border-black"></div>
+            {/* <div className="border-b  border-black mt-[70px]"></div> */}
           </div>
 
           {/* Dropdown for Upload and Remove Buttons */}

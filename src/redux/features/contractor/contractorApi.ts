@@ -82,10 +82,37 @@ const contractorApi = baseApi.injectEndpoints({
       }),
    
     }),
+    //my doc 
+    singleQuote: builder.query({
+      query: (id) => ({
+        url: `/quotes/quote/${id}`,
+        method: "GET",
+   
+      }),
+   
+    }),
+    //my order
+    bookedOrderforContractor: builder.query({
+      query: () => ({
+        url: `/book/myOrder`,
+        method: "GET",
+   
+      }),
+   
+    }),
     //my quotes
     myQuotes: builder.query({
       query: () => ({
         url: "/quotes/myQuotes",
+        method: "GET",
+   
+      }),
+   
+    }),
+    //single book order
+    singleOrder: builder.query({
+      query: (id) => ({
+        url: `/book/booked/${id}`,
         method: "GET",
    
       }),
@@ -115,6 +142,9 @@ export const {
   useVerifyDocMutation,
   useMyDocQuery,
   useMyQuotesQuery,
-  useUpdateQuoteStatusMutation
+  useUpdateQuoteStatusMutation,
+  useSingleQuoteQuery,
+  useBookedOrderforContractorQuery,
+  useSingleOrderQuery
 
 } = contractorApi;
