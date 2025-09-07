@@ -30,7 +30,10 @@ export default function DocumentVerification() {
 
     // Prepare the FormData object for the request
     const formData = new FormData();
-
+if(!selectedDocumentType){
+message.warning('please Select a Document type')
+return
+}
    const documentData = { documentType: selectedDocumentType };
     formData.append('data', JSON.stringify(documentData));  // Append object as string
 
@@ -50,7 +53,8 @@ export default function DocumentVerification() {
     try {
       // Send the FormData to the backend API using the mutation
       const res = await verifyDoc(formData).unwrap();
-    console.log('response------->:',res);
+    // console.log('response------->:',res);
+
       if (res.success) {
         message.success(res?.message);
         // Redirect or further actions (optional)
@@ -59,9 +63,15 @@ export default function DocumentVerification() {
         message.error(res?.message);
       }
     } catch (error) {
+       console.error('Error:', error); 
       message.error(
-        error.message 
+        error?.data?.message
       );
+       if (error?.data?.message === 'Document verification already exists for this contractor') {
+
+
+    router.push('/doneVerification'); 
+  }
     }
   };
 
