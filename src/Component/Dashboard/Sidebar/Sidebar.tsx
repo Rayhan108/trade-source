@@ -21,7 +21,7 @@ const userItems = [
   { label: "Project Status", href: "/status" },
   { label: "Account Balance", href: "/accountBalance" },
   { label: "Transactions", href: "/transactions" },
-  { label: "Ask a Pro", href: "/askAPro" },
+  { label: "Ask a Pro", href: "/proConstractor" },
   { label: "VIP Member", href: "/pricing" },
   { label: "Delete Account", href: "/delete" },
 ];

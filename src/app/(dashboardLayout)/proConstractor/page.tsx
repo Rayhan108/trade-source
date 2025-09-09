@@ -1,40 +1,29 @@
-import cons1 from '@/assests/cons1.png';
+'use client'
+import { useGetAllUserQuery } from '@/redux/features/user/userApi';
+import { Pagination } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FaCheckCircle, FaStar } from 'react-icons/fa';
 import { PiQuestionFill } from 'react-icons/pi';
 
-const contractors = [
-  {
-    id: 1,
-    name: 'Ellie Smith',
-    rate: '$65/Hr',
-    completedTasks: 2949,
-    rating: 4.8,
-    reviews: 1694,
-    image: cons1,
-  },
-  {
-    id: 2,
-    name: 'John Doe',
-    rate: '$55/Hr',
-    completedTasks: 2100,
-    rating: 4.6,
-    reviews: 1300,
-    image: cons1,
-  },
-  {
-    id: 3,
-    name: 'Sarah Lee',
-    rate: '$75/Hr',
-    completedTasks: 3200,
-    rating: 4.9,
-    reviews: 2000,
-    image: cons1,
-  },
-];
+
 
 const ProConstractorPage = () => {
+  const [page, setPage] = useState(1);
+const role = 'vipContractor'
+const {data:contractors}=useGetAllUserQuery({page,role})
+  const meta = contractors?.data?.meta;
+const limit = meta?.limit;
+  const totalItems = meta?.total;
+
+  // Calculate current items to show based on page and limit
+
+  const currentItems = contractors?.data?.result
+
+  const onPageChange = (page: number) => {
+    setPage(page);
+  };
   return (
     <div className="md:w-[100%] p-7 mx-auto my-8">
       <h1 className="text-xl font-bold">Select A Pro</h1>
@@ -43,7 +32,7 @@ const ProConstractorPage = () => {
       </p>
 
       <div className=" bg-white rounded-xl p-7 space-y-6">
-        {contractors.map(contractor => (
+        {currentItems?.map(contractor => (
           <div
             key={contractor.id}
             className="flex flex-col lg:flex-row bg-white rounded-lg overflow-hidden shadow-md"
@@ -60,6 +49,8 @@ const ProConstractorPage = () => {
               <div className="absolute bottom-4 left-4 text-white text-xl font-semibold">
                 {contractor.name}
               </div>
+              <Link href={``}>
+              </Link>
               <button className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1 rounded">
                 View Profile
               </button>
@@ -104,6 +95,19 @@ const ProConstractorPage = () => {
             </div>
           </div>
         ))}
+             <div className="mb-3">
+        <Pagination
+          current={page}
+          pageSize={limit} 
+          total={totalItems} 
+          onChange={onPageChange}
+          showSizeChanger={false}
+          className="flex justify-center"
+
+          pageSizeOptions={[limit?.toString()]}
+
+        />
+      </div>
       </div>
     </div>
   );
