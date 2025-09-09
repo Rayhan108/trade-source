@@ -6,8 +6,7 @@ import {
 
   FileText,
   MoreHorizontal,
-  Upload,
-  X,
+
   Clock,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -15,31 +14,32 @@ import { jsPDF } from 'jspdf'; // Import jsPDF
 import Link from 'next/link';
 // import { useSingleQuoteQuery } from '@/redux/features/contractor/contractorApi';
 import { useParams } from 'next/navigation';
-import { useSingleOrderQuery } from '@/redux/features/contractor/contractorApi';
+import { useSingleOrderQuery, useUpdateProjectStatusMutation } from '@/redux/features/contractor/contractorApi';
+import { message } from 'antd';
 
 export default function ProjectDetails() {
   const {id}=useParams()
   // const {data:singleQuote}=useSingleQuoteQuery(id)
-  const {data:singleOrder}=useSingleOrderQuery(id)
+  const {data:singleOrder,refetch}=useSingleOrderQuery(id)
 console.log("project manange dynamic page single quote--->",singleOrder);
-
+const [updateProjectStatus]=useUpdateProjectStatusMutation()
   const user = singleOrder?.data?.user
   const project = singleOrder?.data
 
 
   const [showDropdown, setShowDropdown] = useState(false);
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
 
-  const handleFileUpload = event => {
-    const selectedFile = event.target.files ? event.target.files[0] : null;
-    setFile(selectedFile);
-    setShowDropdown(false); // Hide the dropdown after file selection (optional)
-  };
+  // const handleFileUpload = event => {
+  //   const selectedFile = event.target.files ? event.target.files[0] : null;
+  //   setFile(selectedFile);
+  //   setShowDropdown(false); 
+  // };
 
-  const handleFileRemove = () => {
-    setFile(null);
-    setShowDropdown(false); // Hide the dropdown after file removal (optional)
-  };
+  // const handleFileRemove = () => {
+  //   setFile(null);
+  //   setShowDropdown(false);
+  // };
 
   // Generate PDF for detailed quote
 const handleDownloadQuote = () => {
@@ -126,7 +126,23 @@ const handleDownloadQuote = () => {
   doc.save('detailed-quote.pdf');
 };
 
+  const handleStatusChange = async (status) => {
+    console.log("status--->",status);
 
+    try {
+     const res = await updateProjectStatus({ id, status }).unwrap(); // Assuming API is set up for status update
+  console.log("res===>>>>", { res });
+      if (res.success) {
+        message.success(res?.message);
+        refetch();
+        setShowDropdown(false)
+      } else {
+        message.error(res?.message);
+      }
+    } catch (error) {
+     message.error(error?.data?.message)
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white min-h-screen">
@@ -231,9 +247,9 @@ const handleDownloadQuote = () => {
           </div>
 
           {/* Dropdown for Upload and Remove Buttons */}
-          {showDropdown && (
+          {/* {showDropdowns && (
             <div className="flex flex-col space-y-2 mb-4">
-              {/* Upload Document */}
+     
               <label className="flex items-center justify-center space-x-2 text-blue-600 hover:text-blue-700 py-2 px-4 border border-blue-200 rounded-md hover:bg-blue-50 transition-colors">
                 <Upload className="w-4 h-4" />
                 <input
@@ -244,7 +260,6 @@ const handleDownloadQuote = () => {
                 <span>Upload doc</span>
               </label>
 
-              {/* Remove Document */}
               {file && (
                 <button
                   onClick={handleFileRemove}
@@ -255,7 +270,7 @@ const handleDownloadQuote = () => {
                 </button>
               )}
             </div>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -264,9 +279,45 @@ const handleDownloadQuote = () => {
         <button className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-medium transition-colors">
           Cancel
         </button>
-        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition-colors">
-          Update Offer
-        </button>
+     <div className="relative flex-1">
+    <div>
+            <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition-colors w-full"
+          >
+            Update Offer
+          </button>
+    </div>
+
+          {showDropdown && (
+            <div className="absolute top-full left-0 bg-white border border-gray-200 mt-2 shadow-lg rounded-md w-full">
+              <button
+                onClick={() => handleStatusChange('booked')}
+                className="block w-full text-left py-2 px-4 hover:bg-gray-100"
+              >
+                Booked
+              </button>
+              <button
+                onClick={() => handleStatusChange('onTheWay')}
+                className="block w-full text-left py-2 px-4 hover:bg-gray-100"
+              >
+                On the Way
+              </button>
+              <button
+                onClick={() => handleStatusChange('started')}
+                className="block w-full text-left py-2 px-4 hover:bg-gray-100"
+              >
+                Started
+              </button>
+              <button
+                onClick={() => handleStatusChange('done')}
+                className="block w-full text-left py-2 px-4 hover:bg-gray-100"
+              >
+                Done
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

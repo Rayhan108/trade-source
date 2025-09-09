@@ -128,6 +128,26 @@ const contractorApi = baseApi.injectEndpoints({
       }),
    
     }),
+    //update project status
+    updateProjectStatus: builder.mutation({
+      query: ({id,status}) => ({
+        url:`/book/booked/${id}`,
+        method: "PATCH",
+        params:{status}
+   
+      }),
+   
+    }),
+    //update accept or reject
+    updateAcceptOrReject: builder.mutation({
+      query: ({id,status}) => ({
+        url:`/book/update-status/${id}`,
+        method: "PATCH",
+        params:{status}
+   
+      }),
+   
+    }),
   }),
 });
 
@@ -145,6 +165,8 @@ export const {
   useUpdateQuoteStatusMutation,
   useSingleQuoteQuery,
   useBookedOrderforContractorQuery,
-  useSingleOrderQuery
+  useSingleOrderQuery,
+  useUpdateProjectStatusMutation,
+  useUpdateAcceptOrRejectMutation
 
 } = contractorApi;

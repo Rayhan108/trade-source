@@ -44,7 +44,9 @@ export default function Navbar() {
     { label: 'Articles', href: '/article' },
   ];
 
-  const profileLink = role === 'contractor' ? '/dashboard' : '/myProfile';
+  // const profileLink = role === 'contractor' ||'vipContractor' ? '/dashboard' : '/myProfile';
+  const profileLink = (role === 'contractor' || role === 'vipContractor') ? '/dashboard' : '/myProfile';
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 

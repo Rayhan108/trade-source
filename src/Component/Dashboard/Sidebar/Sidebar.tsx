@@ -49,7 +49,9 @@ const Sidebar = () => {
   const role = specUser?.data?.role;
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const items = role === "contractor" ? contractorItems : userItems;
+  // const items = role === "contractor" ? contractorItems : userItems;
+  const items = (role === "contractor" || role === "vipContractor") ? contractorItems : userItems;
+
 
   // logout
   const handleLogout = () => {
