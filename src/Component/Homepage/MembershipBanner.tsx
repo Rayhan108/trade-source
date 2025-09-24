@@ -5,6 +5,7 @@ import ar2 from '@/assests/ar2.png';
 import fe1 from '@/assests/fe1.jpg';
 import fe2 from '@/assests/fe2.jpg';
 import male from '@/assests/male.png';
+import Link from 'next/link';
 
 const MembershipBanner = () => {
   return (
@@ -24,9 +25,11 @@ const MembershipBanner = () => {
               </p>
             </div>
             <div>
+              <Link  href={'/pricing'}>
               <button className="rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                 Become a Member
               </button>
+              </Link>
             </div>
           </div>
 

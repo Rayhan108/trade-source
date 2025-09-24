@@ -36,7 +36,7 @@ const ExpertConstructor = ({ debouncedSearchTerm }) => {
 
         <div className="px-3 mb-3">
           {currentItems && currentItems.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
               {currentItems?.map((contractor, idx) => {
                 return <ConstractorCard key={idx} contractor={contractor} />;
               })}

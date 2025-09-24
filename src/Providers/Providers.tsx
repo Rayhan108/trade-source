@@ -1,4 +1,4 @@
-import StoreProvider from './StoreProvider';
+import StoreProvider from "./StoreProvider";
 
 const Providers = ({ children }) => {
   return <StoreProvider>{children}</StoreProvider>;

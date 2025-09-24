@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 export default function Service() {
   return (
-    <div className={`bg-green-300 py-6 px-4 sm:px-8 ${styles.fontDmSans}`}>
+    <div className={`shadow-2xl py-6 px-4 sm:px-8 ${styles.fontDmSans}`}>
       <div className="flex flex-wrap justify-center items-center  gap-x-2 md:gap-x-7 lg:gap-x-8 xl:gap-x-16 4xl:gap-x-12 gap-y-6 ">
         {/* Handyman */}
         <div className="flex flex-col items-center text-blue-700 min-w-[80px]">

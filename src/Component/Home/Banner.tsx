@@ -82,7 +82,7 @@ export default function Banner({setSearch}) {
       </div>
 
       {/* Service component full width at the bottom of the banner */}
-      <div className="w-full -top-16 sm:-top-20 md:-top-28 lg:-top-36 2xl:-top-40 relative">
+      <div className="w-full -top-8 sm:-top-8 md:-top-2 lg:-top-3 2xl:-top-3 relative">
         <Service />
       </div>
     </>

@@ -14,7 +14,7 @@
     "jsx": "preserve",
     "plugins": [
       {
-        "name": "next"
+        "name": "next" 
       }
     ],
     "paths": {

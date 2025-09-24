@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function ArticleCard({ cardData }) {
   return (
-    <div className="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white mb-8 rounded-lg shadow-md overflow-hidden mx-auto relative">
+    <div className="  bg-white mb-8 rounded-lg shadow-md relative">
       <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 w-full">
         <Image
           src={cardData?.image}

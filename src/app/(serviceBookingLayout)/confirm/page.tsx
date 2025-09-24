@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { SlBadge } from 'react-icons/sl';
-import { useRouter } from 'next/navigation';
-import { FaCalendarAlt, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
+import Image from "next/image";
+import { SlBadge } from "react-icons/sl";
+import { useRouter } from "next/navigation";
+import { FaCalendarAlt, FaMapMarkerAlt, FaBuilding } from "react-icons/fa";
 import {
   selectLocation,
   selectService,
   selectTime,
-} from '@/redux/features/project/projectSlice';
-import { useAppSelector } from '@/redux/hooks';
-import Link from 'next/link';
+} from "@/redux/features/project/projectSlice";
+import { useAppSelector } from "@/redux/hooks";
+import Link from "next/link";
 import {
   useGetSingleServiceQuery,
   useMakePaymentMutation,
-} from '@/redux/features/contractor/contractorApi';
-import { message } from 'antd';
-import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+} from "@/redux/features/contractor/contractorApi";
+import { message } from "antd";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 export default function PaymentBookingInterface() {
   const storedService = useAppSelector(selectService);
@@ -45,19 +45,19 @@ export default function PaymentBookingInterface() {
         router.push(res?.data?.url);
       }
     } catch (error) {
-      message.error(error?.data?.message || 'Something went wrong');
-      console.error('Error:', error);
+      message.error(error?.data?.message || "Something went wrong");
+      console.error("Error:", error);
     }
   };
 
   function calculateHour(timeSlot: string): number {
     let hours = 0;
 
-    if (timeSlot === 'Morning (8 AM - 12 PM)') {
+    if (timeSlot === "Morning (8 AM - 12 PM)") {
       hours = 4; // 8 to 12 = 4 hours
-    } else if (timeSlot === 'Afternoon (12 PM - 5 PM)') {
+    } else if (timeSlot === "Afternoon (12 PM - 5 PM)") {
       hours = 5; // 12 to 5 = 5 hours
-    } else if (timeSlot === 'Evening (5 PM - 9 PM)') {
+    } else if (timeSlot === "Evening (5 PM - 9 PM)") {
       hours = 4; // 5 to 9 = 4 hours
     }
 
@@ -68,11 +68,11 @@ export default function PaymentBookingInterface() {
     const price = Number(priceStr);
     let hours = 0;
 
-    if (timeSlot === 'Morning (8 AM - 12 PM)') {
+    if (timeSlot === "Morning (8 AM - 12 PM)") {
       hours = 4; // 8 to 12 = 4 hours
-    } else if (timeSlot === 'Afternoon (12 PM - 5 PM)') {
+    } else if (timeSlot === "Afternoon (12 PM - 5 PM)") {
       hours = 5; // 12 to 5 = 5 hours
-    } else if (timeSlot === 'Evening (5 PM - 9 PM)') {
+    } else if (timeSlot === "Evening (5 PM - 9 PM)") {
       hours = 4; // 5 to 9 = 4 hours
     }
 
