@@ -11,10 +11,14 @@ import FeaturedMedia from '@/Component/ContractorProfile/FeaturedMedia';
 import { FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
 import { cardDatas, licenses } from '@/constants';
+import { useGetSingleUserServiceQuery } from '@/redux/features/contractor/contractorApi';
 
 const ContractorProfilePage = () => {
   const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
   const [activeTab, setActiveTab] = useState('Projects');
+    const { data: myServices } = useGetSingleUserServiceQuery(undefined);
+  console.log("my services --------->", myServices?.data);
+  const contractorProfileData = myServices?.data[0]?.contractorId
 const Projects=[]
   const tabContent = {
     Projects: (
@@ -52,7 +56,7 @@ const Projects=[]
             })}
           </div>
         </div>
-        <ServiceDetails />
+        <ServiceDetails contractorProfileData={contractorProfileData}/>
       </div>
     ),
     Services: (
