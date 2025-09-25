@@ -57,8 +57,8 @@ const contractorApi = baseApi.injectEndpoints({
 
     // makePayment
     makePayment: builder.mutation({
-      query: (data) => ({
-        url: "/service/checkout",
+      query: ({data,id}) => ({
+        url: `/service/checkout/${id}`,
         method: "POST",
         body: data,
       }),

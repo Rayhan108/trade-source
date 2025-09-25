@@ -9,6 +9,7 @@ interface LocationState {
 interface ServiceState {
   serviceId: string | null;
   serviceType: string;
+
   projectDescription: string;
   contractorId: string | null;
   contractorName: string;
@@ -22,15 +23,15 @@ interface TimeState {
   projectDescription: string;
 }
 
-// interface ContractorState {
-//   contractorId: string | null;
-// }
+interface ContractorState {
+  contractorId: string | null;
+}
 
 export interface ProjectState {
   location: LocationState;
   service: ServiceState;
   time: TimeState;
-  // contractor: ContractorState;
+  contractor: ContractorState;
 }
 
 const initialState: ProjectState = {
@@ -52,9 +53,9 @@ const initialState: ProjectState = {
     preferredTime: '',
     projectDescription: '',
   },
-  // contractor: {
-  //   contractorId: null,
-  // },
+  contractor: {
+    contractorId: null,
+  },
 };
 
 const projectSlice = createSlice({
@@ -70,9 +71,9 @@ const projectSlice = createSlice({
     setTime: (state, action: PayloadAction<Partial<TimeState>>) => {
       state.time = { ...state.time, ...action.payload };
     },
-    // setContractor: (state, action: PayloadAction<Partial<ContractorState>>) => {
-    //   state.contractor = { ...state.contractor, ...action.payload };
-    // },
+    setContractor: (state, action: PayloadAction<Partial<ContractorState>>) => {
+      state.contractor = { ...state.contractor, ...action.payload };
+    },
     resetProject: () => initialState,
   },
 });
@@ -83,6 +84,6 @@ export const { setLocation, setService, setTime, resetProject } =
 export const selectLocation = (state: RootState) => state.project.location;
 export const selectService = (state: RootState) => state.project.service;
 export const selectTime = (state: RootState) => state.project.time;
-// export const selectContractor = (state: RootState) => state.project.contractor;
+export const selectContractor = (state: RootState) => state.project.contractor;
 
 export default projectSlice.reducer;

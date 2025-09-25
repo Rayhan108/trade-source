@@ -22,8 +22,8 @@ const ChooseServicePage = () => {
   const storedService = useAppSelector(selectService);
 
   const { data: allCategory } = useGetAllCategoryQuery(undefined);
-
-  const categoryOptions = allCategory?.data?.map(service => ({
+console.log("all category--------->",allCategory);
+  const categoryOptions = allCategory?.data?.result?.map(service => ({
     label: service?.category,
     value: service?.category,
   }));
@@ -124,7 +124,7 @@ const ChooseServicePage = () => {
                 </p>
               )}
             </div>
-
+<h1 className='text-xl font-bold my-3'>Todo List</h1>
             {/* Project Description */}
             <div className="space-y-4">
               <textarea

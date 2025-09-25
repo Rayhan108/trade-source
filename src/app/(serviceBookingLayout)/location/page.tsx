@@ -55,7 +55,7 @@ const LocationPage = () => {
           value={apt}
           onChange={e => setApt(e.target.value)}
           className="w-full border border-gray-300 rounded-md p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          placeholder="Apt 23"
+          placeholder="zip code"
         />
 
         <Link href="/chooseService" onClick={handleContinue}>
