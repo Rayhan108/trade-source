@@ -1,13 +1,13 @@
 "use client";
 
-import { useSubPurchaseMutation } from "@/redux/features/user/userApi";
+import { useContractorSubPurchaseMutation} from "@/redux/features/user/userApi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SiTicktick } from "react-icons/si";
 import { message } from "antd";
 
-const PaymentMethodPage = () => {
-  const [subPurchase] = useSubPurchaseMutation();
+const ContractorCheckoutPage = () => {
+  const [subPurchase] = useContractorSubPurchaseMutation();
   const searchParams = useSearchParams();
 const router=useRouter()
   const pricingId = searchParams.get("pricingId");
@@ -119,4 +119,4 @@ const router=useRouter()
   );
 };
 
-export default PaymentMethodPage;
+export default ContractorCheckoutPage;

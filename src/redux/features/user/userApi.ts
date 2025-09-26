@@ -11,6 +11,24 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    // client subscription purchase api
+    subPurchase: builder.mutation({
+      query: (payload) => ({
+        url: `/vipMember/checkout`,
+        method: "POST",
+        body:payload,
+      }),
+      invalidatesTags: ["user"],
+    }),
+    // contractor subscription purchase api
+    contractorSubPurchase: builder.mutation({
+      query: (payload) => ({
+        url: `/vipContractor/checkout`,
+        method: "POST",
+        body:payload,
+      }),
+      invalidatesTags: ["user"],
+    }),
 
     // getSpecefiqUser
     getSpecefiqUser: builder.query({
@@ -27,6 +45,7 @@ const userApi = baseApi.injectEndpoints({
         params: { page, role,search },
       }),
     }),
+    
   }),
 });
 
@@ -34,4 +53,6 @@ export const {
   useUpdateSpecefiqUserMutation,
   useGetSpecefiqUserQuery,
   useGetAllUserQuery,
+  useSubPurchaseMutation,
+  useContractorSubPurchaseMutation
 } = userApi;

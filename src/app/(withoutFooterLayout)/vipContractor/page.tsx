@@ -1,56 +1,62 @@
-import Link from 'next/link';
-import { FaToolbox, FaSearch } from 'react-icons/fa';
-import { FaArrowUpLong } from 'react-icons/fa6';
-import { ImParagraphLeft } from 'react-icons/im';
-export default function VipContractor() {
-  const features = [
+"use client"
+import { FiCheck } from "react-icons/fi";
+import { HiSparkles } from "react-icons/hi2";
+import Link from "next/link";
+import { useGetAllFeesQuery } from "@/redux/features/others/otherApi";
+export default function VipContractorPricing() {
+  const { data: allFees } = useGetAllFeesQuery(undefined);
+  console.log("all fees------->", allFees);
+  const pricingTiers = [
     {
-      title: 'Priority Job Requests',
-      icon: (
-        <div className="relative">
-          <div className="flex flex-col space-y-1">
-            <ImParagraphLeft className="text-green-500 text-lg" />
-          </div>
-          <FaArrowUpLong className="text-orange-500 text-xl absolute -right-2 -bottom-1" />
-        </div>
-      ),
-      benefits: [
-        'Get access to jobs before non-VIP contractors.',
-        'Filter through high-priority and urgent job requests.',
-        'Respond quickly and gain more opportunities.',
+      id: "free",
+      title: "20% Off Pre-Priced Projects",
+      icon: "🏷️",
+      iconBg: "bg-green-100",
+      features: [
+        "Create a professional profile to showcase skills",
+        "Respond to a limited number of client job requests monthly",
+        "Access basic DIY tutorials and tips",
+        "Join the YTS community for networking and group discussions"
       ],
+      buttonText: "Start Free",
+      buttonPath: "/homePage",
+      buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
     {
-      title: 'Exclusive Tools',
-      icon: (
-        <div className="relative bg-blue-100 p-3 rounded-lg">
-          <FaToolbox className="text-blue-600 text-2xl" />
-          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></div>
-        </div>
-      ),
-      benefits: [
-        'Use advanced tools for project management.',
-        'Access analytics to improve job efficiency.',
-        'Gain insights for better decision-making.',
+      id: "premium",
+      title: "Premium",
+      price: `$${allFees?.data[1]?.monthlyValue}/month or $${allFees?.data[1]?.yearlyValue}/year`,
+      icon: "🏆",
+      iconBg: "bg-green-100",
+      features: [
+        "Unlimited access to client job requests",
+        "Priority listing in client searches",
+        "Advanced analytics on profile and proposal views",
+        " Exclusive discounts on tools and services",
+        "Access to YTS webinars with industry leaders and tool demos",
+        "Showcase client reviews on profile"
       ],
+      buttonText: "Get Premium",
+      buttonPath: "/contractorCheckout",
+      buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
     {
-      title: 'Enhanced Visibility',
-      icon: (
-        <div className="relative">
-          <div className="w-12 h-12 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center">
-            <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-            </div>
-          </div>
-          <FaSearch className="text-gray-600 text-lg absolute -bottom-1 -right-1" />
-        </div>
-      ),
-      benefits: [
-        'Stand out with a VIP badge on your profile.',
-        'Attract more clients through improved exposure.',
-        'Increase trust and credibility with clients.',
+      id: "vip",
+      title: "VIP",
+      price: `$${allFees?.data[3]?.monthlyValue}/month or $${allFees?.data[3]?.yearlyValue}/year`,
+      icon: "👑",
+      iconBg: "bg-green-100",
+      features: [
+        "All Professional features included",
+        "Featured tradesperson status in client searches",
+        "Direct matching with high-value clients",
+        "nvitations to exclusive YTS events and networking with manufacturers",
+        "Premium analytics including competitor insights by region",
+        "Early access to tools via product testing and feedback programs"
       ],
+      buttonText: "Become a VIP Member",
+      buttonPath: "/contractorCheckout",
+      buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
   ];
 
@@ -75,47 +81,96 @@ export default function VipContractor() {
         </svg>
         <span className="text-black cursor-default text-xl">VIP Member</span>
       </nav>
-      <div className="max-w-7xl mx-auto p-8  ">
-        {/* Header */}
-        <div className="text-start mb-12">
-          <h1 className=" text-xl md:text-3xl font-bold text-gray-900 leading-tight">
-            Unlock Your Full Potential, Become A VIP Contractor Today
+      <div className="min-h-screen bg-gray-50 py-12 px-4">
+        <div className="container mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-5 md:mb-12">
+            💼 Choose Your Membership. Power Up Your Projects.
           </h1>
-        </div>
+          {/* Header Section */}
+          <div className="bg-white px-3 py-8 mb-12">
+            <h1 className="text-xl md:text-2xl text-gray-900 mb-6 leading-tight max-w-6xl mx-auto">
+              Whether you're hiring a trusted tradesperson or getting hands-on
+              with your own DIY repairs, YTS gives you the tools, knowledge, and
+              professionals you need – all in one place.
+            </h1>
 
-        {/* Features */}
-        <div className="space-y-12 mb-12 bg-white p-4 ">
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-start space-x-6">
-              {/* Icon */}
-              <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center">
-                {feature.icon}
-              </div>
-
-              {/* Content */}
-              <div className="flex-1">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  {feature.title}
-                </h2>
-                <ul className="space-y-2">
-                  {feature.benefits.map((benefit, benefitIndex) => (
-                    <li key={benefitIndex} className="flex items-start">
-                      <span className="text-gray-700 text-lg leading-relaxed">
-                        • {benefit}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="flex items-center max-w-6xl mx-auto mb-5 gap-2 text-xl md:text-2xl font-semibold text-gray-900">
+              <HiSparkles className="text-yellow-500 w-6 h-6" />
+              <span>Start Free, or upgrade for more:</span>
             </div>
-          ))}
-          {/* CTA Button */}
-          <div className="text-center">
-            <Link href={'/memberRegister'}>
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-4 px-8 rounded-lg transition-colors duration-200">
-                Apply for VIP Status
-              </button>
-            </Link>
+
+            {/* Pricing Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {pricingTiers.map((tier) => (
+                <div
+                  key={tier.id}
+                  className="bg-gray-100 rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col h-full relative"
+                >
+                  <div className="flex flex-col md:flex-row gap-3">
+                    {/* Icon */}
+                    <div
+                      className={`w-16 h-16 ${tier.iconBg} rounded-2xl flex items-center justify-center mb-6 text-2xl`}
+                    >
+                      {tier.icon}
+                    </div>
+
+                    <div>
+                      {/* Title and Price */}
+                      <div className="mb-8">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                          {tier.title}
+                        </h3>
+                        {tier.price && (
+                          <p className="text-lg text-gray-600">{tier.price}</p>
+                        )}
+                      </div>
+
+                      {/* Features */}
+                      <div className="flex-1 mb-8">
+                        <ul className="space-y-4 md:mb-16 lg:mb-20 xl:mb-16">
+                          {tier.features.map((feature, index) => (
+                            <li key={index} className="flex items-start gap-3">
+                              <FiCheck className="text-gray-600 w-5 h-5 mt-0.5 flex-shrink-0" />
+                              <span className="text-gray-700 text-base leading-relaxed">
+                                {feature}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA Button */}
+
+                  <Link
+                    href={{
+                      pathname: tier.buttonPath,
+                    query:
+      tier.id === 'premium'
+        ? {
+          pricingId: allFees?.data[0]?._id,
+            monthlyValue: allFees?.data[0]?.monthlyValue,
+            yearlyValue: allFees?.data[0]?.yearlyValue,
+          }
+        : tier.id === 'vip'
+        ? {
+            pricingId: allFees?.data[2]?._id,
+            monthlyValue: allFees?.data[2]?.monthlyValue,
+            yearlyValue: allFees?.data[2]?.yearlyValue,
+          }
+        : {},
+                    }}
+                  >
+                    <button
+                      className={`w-full md:w-[65%] md:right-14 md:absolute md:mb-5 md:bottom-1 py-4 px-6 rounded-xl font-semibold text-base transition-colors duration-200 ${tier.buttonStyle}`}
+                    >
+                      {tier.buttonText}
+                    </button>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
