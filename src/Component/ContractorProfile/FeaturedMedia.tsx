@@ -1,85 +1,111 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import Image from 'next/image';
-import { FaStar, FaTimes, FaPlus } from 'react-icons/fa';
-import Link from 'next/link';
+import React, { useState, useRef } from "react";
+import Image from "next/image";
+import { FaStar, FaTimes, FaPlus } from "react-icons/fa";
+import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useUpdateContractorMutation } from "@/redux/features/contractor/contractorApi";
+import { message } from "antd";
 
 export default function FeaturedMedia() {
-  const [mediaItems, setMediaItems] = useState([
-    {
-      id: 1,
-      type: 'video',
-      src: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      alt: 'Person painting fence',
-      isFeatured: true,
-      name: 'painting-video.mp4',
-    },
-    {
-      id: 2,
-      type: 'photo',
-      src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/First%20name-NH8WIJsksKVi3qjHBAzgku8NENsbCd.png',
-      alt: 'Hand painting white fence',
-      isFeatured: false,
-      name: 'fence-painting.jpg',
-    },
-  ]);
+  const user = useAppSelector(selectCurrentUser);
+  const userId = user?.user?.userId
+  const [updateContractor]=useUpdateContractorMutation()
+  const [mediaItems, setMediaItems] = useState<any[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const fileInputRef = useRef(null);
-
-  const toggleFeatured = id => {
-    setMediaItems(items =>
-      items.map(item =>
+  const toggleFeatured = (id: number) => {
+    setMediaItems((items) =>
+      items.map((item) =>
         item.id === id ? { ...item, isFeatured: !item.isFeatured } : item
       )
     );
   };
 
-  const removeItem = id => {
-    setMediaItems(items => items.filter(item => item.id !== id));
+  const removeItem = (id: number) => {
+    setMediaItems((items) => items.filter((item) => item.id !== id));
   };
 
   const handleAddMedia = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileUpload = event => {
-    const files = Array.from(event.target.files);
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
 
-    files.forEach((file: File) => {
+    files.forEach((file) => {
       const reader = new FileReader();
 
-      reader.onload = e => {
+      reader.onload = (e) => {
         const result = e.target?.result;
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
           const newItem = {
             id: Date.now() + Math.random(),
-            type: file.type.startsWith('video/') ? 'video' : 'photo',
-            src: result,
+            type: file.type.startsWith("video/") ? "video" : "photo",
+            src: result, // preview URL
             alt: file.name,
             isFeatured: false,
             name: file.name,
+            file, 
+            title: file.name.split(".")[0], // default title
           };
 
-          setMediaItems(prevItems => [newItem, ...prevItems]);
+          setMediaItems((prevItems) => [newItem, ...prevItems]);
         }
       };
 
       reader.readAsDataURL(file);
     });
 
-    event.target.value = '';
+    event.target.value = "";
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+
+    const videoTitles: string[] = [];
+
+    mediaItems.forEach((item) => {
+      if (item.type === "video") {
+        formData.append("video", item.file); // video files
+   videoTitles.push(
+  item.title 
+    ? item.title.split("-").slice(0, 3).join(" ")
+    : "Untitled Video"
+);
+      }
+      if (item.type === "photo") {
+        formData.append("thumbnailImage", item.file); // thumbnail image files
+      }
+    });
+
+
+    formData.append("data", JSON.stringify({ videoTitles }));
+
+
+ try {
+  const res= await updateContractor({id:userId,data:formData}).unwrap()
+  console.log("resposne------>",res);
+  if(res.success){
+    message.success(res?.message)
+  }
+ } catch (error) {
+  message.error(error.message)
+ }
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto ">
+    <div className="w-full max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
           Add Featured Video Or Photos
         </h1>
         <div>
-          <Link href={'/profile'}>
+          <Link href={`/profile/${userId}`}>
             <button className="px-6 py-2 border-2 border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-medium self-start sm:self-auto">
               View Public Profile
             </button>
@@ -89,10 +115,10 @@ export default function FeaturedMedia() {
 
       {/* Media Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {mediaItems.map(item => (
+        {mediaItems.map((item) => (
           <div key={item.id} className="relative group">
             <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              {item.type === 'photo' ? (
+              {item.type === "photo" ? (
                 <Image
                   src={item.src}
                   alt={item.alt}
@@ -113,8 +139,8 @@ export default function FeaturedMedia() {
                   onClick={() => toggleFeatured(item.id)}
                   className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:scale-105 ${
                     item.isFeatured
-                      ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                      : 'bg-white hover:bg-gray-100 text-gray-600'
+                      ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+                      : "bg-white hover:bg-gray-100 text-gray-600"
                   }`}
                 >
                   <FaStar className="text-sm" />
@@ -131,10 +157,10 @@ export default function FeaturedMedia() {
               <div className="absolute bottom-3 left-3">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium text-white ${
-                    item.type === 'video' ? 'bg-blue-600' : 'bg-green-600'
+                    item.type === "video" ? "bg-blue-600" : "bg-green-600"
                   }`}
                 >
-                  {item.type === 'video' ? 'Video' : 'Photo'}
+                  {item.type === "video" ? "Video" : "Photo"}
                 </span>
               </div>
             </div>
@@ -167,9 +193,16 @@ export default function FeaturedMedia() {
         onChange={handleFileUpload}
         className="hidden"
       />
-      <h1 className="text-xl sm:text-2xl lg:text-2xl font-bold text-gray-900 mt-5">
-        Dream Ireland Painting
-      </h1>
+
+      {/* Submit Button */}
+      <div className="mt-6">
+        <button
+          onClick={handleSubmit}
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Submit Media
+        </button>
+      </div>
     </div>
   );
 }

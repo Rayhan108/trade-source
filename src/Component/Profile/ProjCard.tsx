@@ -8,9 +8,11 @@ const ProjCard = ({ cardData }) => {
         <Image
           src={cardData?.image}
           alt={cardData?.title}
+          height={500}
+          width={500}
           className="w-full h-48 object-cover"
         />
-        <div className="absolute top-3 right-3 flex flex-col space-y-2">
+        {/* <div className="absolute top-3 right-3 flex flex-col space-y-2">
           {cardData?.tags.includes('Featured') && (
             <span className="bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
               Featured
@@ -26,7 +28,7 @@ const ProjCard = ({ cardData }) => {
               Remove
             </span>
           )}
-        </div>
+        </div> */}
       </div>
       <div className="px-3 py-4">
         <div className="flex items-center gap-3">

@@ -4,8 +4,9 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import Image from 'next/image';
+
 const AddProject = () => {
-  const { register, handleSubmit, setValue, watch } = useForm({
+  const { register, handleSubmit, } = useForm({
     defaultValues: {
       title: '',
       projectName: '',
@@ -13,46 +14,14 @@ const AddProject = () => {
       projectPrices: '',
       projectDetails: '',
       searchServices: '',
+      projectType: 'outdoor', // Default type set to outdoor
+      projectLocation: 'usa', // Default location set to usa
     },
   });
 
-  const searchServices = watch('searchServices');
-
-  const [serviceTypes, setServiceTypes] = useState([
-    { id: 1, name: 'Handyman' },
-    { id: 2, name: 'Painter' },
-  ]);
-
-  const [uploadedPhotos, setUploadedPhotos] = useState([]);
+  const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
-
-  const addServiceType = serviceName => {
-    if (
-      serviceName.trim() &&
-      !serviceTypes.find(
-        s => s.name.toLowerCase() === serviceName.toLowerCase()
-      )
-    ) {
-      const newService = {
-        id: Date.now(),
-        name: serviceName.trim(),
-      };
-      setServiceTypes(prev => [...prev, newService]);
-      setValue('searchServices', '');
-    }
-  };
-
-  const removeServiceType = id => {
-    setServiceTypes(prev => prev.filter(service => service.id !== id));
-  };
-
-  const handleServiceSearch = e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      addServiceType(searchServices);
-    }
-  };
 
   const handleDragOver = e => {
     e.preventDefault();
@@ -71,14 +40,10 @@ const AddProject = () => {
     handleFiles(files);
   };
 
-  const handleFileSelect = e => {
-    const files = Array.from(e.target.files);
-    handleFiles(files);
-  };
-
   const handleFiles = files => {
     const imageFiles = files.filter(file => file.type.startsWith('image/'));
-    imageFiles.forEach(file => {
+    if (imageFiles.length > 0) {
+      const file = imageFiles[0];
       const reader = new FileReader();
       reader.onload = e => {
         const newPhoto = {
@@ -87,14 +52,14 @@ const AddProject = () => {
           preview: e.target.result,
           name: file.name,
         };
-        setUploadedPhotos(prev => [...prev, newPhoto]);
+        setUploadedPhoto(newPhoto);
       };
       reader.readAsDataURL(file);
-    });
+    }
   };
 
-  const removePhoto = id => {
-    setUploadedPhotos(prev => prev.filter(photo => photo.id !== id));
+  const removePhoto = () => {
+    setUploadedPhoto(null);
   };
 
   const handleUploadClick = () => {
@@ -102,11 +67,22 @@ const AddProject = () => {
   };
 
   const onSubmit = data => {
-    console.log('Form Data:', data);
-    console.log('Service Types:', serviceTypes);
-    console.log('Uploaded Photos:', uploadedPhotos);
-    // Handle form submission
+    const formattedData = {
+      contractorId: "689dc0db9c34d0e36b8923cf",  // Static contractor ID
+      title: data.title,
+      details: data.projectDetails,
+      categoryName: [data.searchServices],  // Assuming the service is the category
+      price: parseFloat(data.projectPrices),  // Price should be a number
+      type: data.projectType,  // Project type (indoor/outdoor)
+      location: data.projectLocation,  // Location (static or dynamic)
+    };
+
+    console.log('Formatted Form Data:', formattedData);
+    console.log('Uploaded Photo:', uploadedPhoto);
+
+    // Handle form submission, e.g., sending data to an API
   };
+
   return (
     <div>
       <nav
@@ -144,77 +120,6 @@ const AddProject = () => {
             />
           </div>
 
-          {/* Project Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Project Name
-            </label>
-            <input
-              type="text"
-              {...register('projectName')}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-              placeholder="Enter project name"
-            />
-          </div>
-
-          {/* Project Address and Prices */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Project Address
-              </label>
-              <input
-                type="text"
-                {...register('projectAddress')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-                placeholder="Enter project address"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Project Prices
-              </label>
-              <input
-                type="text"
-                {...register('projectPrices')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-                placeholder="Enter project prices"
-              />
-            </div>
-          </div>
-
-          {/* Service Types */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Service type
-            </label>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {serviceTypes.map(service => (
-                <span
-                  key={service.id}
-                  className="inline-flex items-center gap-2 px-3 py-2 bg-gray-700 text-white text-sm rounded-full"
-                >
-                  {service.name}
-                  <button
-                    type="button"
-                    onClick={() => removeServiceType(service.id)}
-                    className="hover:bg-gray-600 rounded-full p-1 transition-colors duration-200"
-                  >
-                    <FaTimes className="w-3 h-3" />
-                  </button>
-                </span>
-              ))}
-            </div>
-
-            <input
-              type="text"
-              {...register('searchServices')}
-              onKeyPress={handleServiceSearch}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-              placeholder="Search for more services..."
-            />
-          </div>
-
           {/* Project Details */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -228,33 +133,84 @@ const AddProject = () => {
             />
           </div>
 
+          {/* Category Name (Service) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category Name (Service)
+            </label>
+            <input
+              type="text"
+              {...register('searchServices')}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
+              placeholder="Enter category (e.g., Cleaning)"
+            />
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Price
+            </label>
+            <input
+              type="number"
+              {...register('projectPrices')}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
+              placeholder="Enter project price"
+            />
+          </div>
+
+          {/* Type (Indoor/Outdoor) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Project Type
+            </label>
+            <select
+              {...register('projectType')}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
+            >
+              <option value="outdoor">Outdoor</option>
+              <option value="indoor">Indoor</option>
+            </select>
+          </div>
+
+          {/* Location */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Location
+            </label>
+            <select
+              {...register('projectLocation')}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
+            >
+              <option value="usa">USA</option>
+              <option value="india">India</option>
+              <option value="uk">UK</option>
+              {/* Add other location options as needed */}
+            </select>
+          </div>
+
           {/* Upload Project Photo */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Upload Project Photo
             </label>
 
-            {uploadedPhotos.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
-                {uploadedPhotos.map(photo => (
-                  <div key={photo.id} className="relative group">
-                    <Image
-                      src={photo.preview || '/placeholder.svg'}
-                      alt={photo.name}
-                      width={300}
-                      height={96}
-                      className="w-full h-24 object-cover rounded-lg border border-gray-300"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() => removePhoto(photo.id)}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    >
-                      <FaTimes className="w-3 h-3" />
-                    </button>
-                  </div>
-                ))}
+            {uploadedPhoto && (
+              <div className="relative group mb-4">
+                <Image
+                  src={uploadedPhoto.preview || '/placeholder.svg'}
+                  alt={uploadedPhoto.name}
+                  width={300}
+                  height={96}
+                  className="w-full h-24 object-cover rounded-lg border border-gray-300"
+                />
+                <button
+                  type="button"
+                  onClick={removePhoto}
+                  className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                >
+                  <FaTimes className="w-3 h-3" />
+                </button>
               </div>
             )}
 
@@ -274,7 +230,7 @@ const AddProject = () => {
                   <FaPlus className="text-white text-xl" />
                 </div>
                 <p className="text-gray-600 text-base">
-                  Drop photos here or click to upload
+                  Drop photo here or click to upload
                 </p>
               </div>
             </div>
@@ -283,8 +239,6 @@ const AddProject = () => {
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              multiple
-              onChange={handleFileSelect}
               className="hidden"
             />
           </div>

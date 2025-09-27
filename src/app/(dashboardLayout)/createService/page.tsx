@@ -22,6 +22,7 @@ export default function CreateServiceForm() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -62,7 +63,7 @@ export default function CreateServiceForm() {
   };
 
   // Prepare options for react-select from categories and subcategories
-  const categoryOptions: CategoryOption[] | undefined = allCategory?.data?.map(
+  const categoryOptions: CategoryOption[] | undefined = allCategory?.data?.result?.map(
     service => ({
       label: service?.category,
       value: service?.category,
@@ -124,6 +125,7 @@ export default function CreateServiceForm() {
       console.log('res===>>>>', { res });
       if (res.data) {
         message.success(res?.data?.message);
+        reset()
       } else {
         // Check if error is FetchBaseQueryError and has data
         const errorMessage =
