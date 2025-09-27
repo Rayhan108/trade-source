@@ -5,8 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SiTicktick } from "react-icons/si";
 import { message } from "antd";
-import { useAppSelector } from "@/redux/hooks";
-import {selectTotalCredit } from "@/redux/features/refer/referSlice";
+
 
 
 const ContractorCheckoutPage = () => {
@@ -14,7 +13,6 @@ const ContractorCheckoutPage = () => {
 
 
   
-  const totalCredits=useAppSelector(selectTotalCredit)
   
   const searchParams = useSearchParams();
 const router=useRouter()
@@ -81,9 +79,7 @@ const router=useRouter()
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
           Choose Your Plan
         </h2>
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
-        Total credit :{totalCredits}
-        </h2>
+   
 
         {/* Plan Selection */}
         <div className="flex justify-center gap-6 mb-10">
