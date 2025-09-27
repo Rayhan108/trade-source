@@ -10,14 +10,15 @@ import ProfDet from '@/Component/Profile/ProfDet';
 import FeaturedMedia from '@/Component/ContractorProfile/FeaturedMedia';
 import { FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
-import { cardDatas, licenses } from '@/constants';
+import { licenses } from '@/constants';
 import { useGetSingleUserServiceQuery } from '@/redux/features/contractor/contractorApi';
 
 const ContractorProfilePage = () => {
   const tabs = ['Projects', 'Services', 'Licenses & Insurance'];
   const [activeTab, setActiveTab] = useState('Projects');
     const { data: myServices } = useGetSingleUserServiceQuery(undefined);
-  console.log("my services --------->", myServices?.data);
+  // console.log("my services --------->", myServices?.data);
+  const project = myServices?.data
   const contractorProfileData = myServices?.data[0]?.contractorId
 const Projects=[]
   const tabContent = {
@@ -28,7 +29,7 @@ const Projects=[]
             <div>
               <h1 className={`text-4xl  mb-5   font-dm`}>
                 Project
-                <span className="font-semibold">{cardDatas?.length}</span>
+                <span className="font-semibold">{project?.length}</span>
               </h1>
             </div>
             <div>
@@ -51,7 +52,7 @@ const Projects=[]
                 </button>
               </Link>
             </div>
-            {cardDatas?.map((cardData, idx) => {
+            {project?.map((cardData, idx) => {
               return <ProjCard key={idx} cardData={cardData} />;
             })}
           </div>

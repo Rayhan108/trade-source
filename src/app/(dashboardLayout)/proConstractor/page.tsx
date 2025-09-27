@@ -49,11 +49,12 @@ const limit = meta?.limit;
               <div className="absolute bottom-4 left-4 text-white text-xl font-semibold">
                 {contractor.name}
               </div>
-              <Link href={``}>
-              </Link>
+              <Link href={`/profile/${contractor?._id}`}>
+
               <button className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1 rounded">
                 View Profile
               </button>
+              </Link>
             </div>
 
             {/* Right - Info */}

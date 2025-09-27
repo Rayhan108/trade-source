@@ -150,7 +150,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-4">
             <FaUser className="text-gray-600 w-5 h-5" />
             <span className="text-lg text-gray-900">
-              {specUser?.data?.firstName}
+              {(specUser?.data?.firstName)+' '+(specUser?.data?.lastName)}
             </span>
           </div>
 

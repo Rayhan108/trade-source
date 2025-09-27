@@ -57,8 +57,8 @@ const contractorApi = baseApi.injectEndpoints({
 
     // makePayment
     makePayment: builder.mutation({
-      query: (data) => ({
-        url: "/service/checkout",
+      query: ({data,id}) => ({
+        url: `/service/checkout/${id}`,
         method: "POST",
         body: data,
       }),
@@ -148,6 +148,17 @@ const contractorApi = baseApi.injectEndpoints({
       }),
    
     }),
+    //update contractor
+    updateContractor: builder.mutation({
+      query: ({id,data}) => ({
+        url:`/user/edit-contractor-profile/${id}`,
+        method: "PATCH",
+        body:data
+      
+   
+      }),
+   
+    }),
   }),
 });
 
@@ -167,6 +178,7 @@ export const {
   useBookedOrderforContractorQuery,
   useSingleOrderQuery,
   useUpdateProjectStatusMutation,
-  useUpdateAcceptOrRejectMutation
+  useUpdateAcceptOrRejectMutation,
+  useUpdateContractorMutation
 
 } = contractorApi;

@@ -22,7 +22,8 @@ export default function PaymentBookingInterface() {
   const storedService = useAppSelector(selectService);
   const storedTime = useAppSelector(selectTime);
   const storedLocation = useAppSelector(selectLocation);
-  const { data: service } = useGetSingleServiceQuery(storedService.serviceId);
+  const { data: service } = useGetSingleServiceQuery(storedService?.serviceId);
+  console.log("service data------->",service);
   const user = useAppSelector(selectCurrentUser);
 
   const [makePayment] = useMakePaymentMutation();
@@ -31,13 +32,20 @@ export default function PaymentBookingInterface() {
   const finalHour = calculateHour(storedTime?.preferredTime);
 
   const handleConfirm = async () => {
-    try {
-      const res = await makePayment({
+    const id =storedService?.serviceId
+    const data = {
+      
         customerEmail: user?.email,
         item: {
           serviceId: storedService?.serviceId,
           hour: finalHour,
         },
+       
+      
+    }
+    try {
+      const res = await makePayment({
+       data,id
       }).unwrap();
 
       if (res.success) {
@@ -195,11 +203,7 @@ export default function PaymentBookingInterface() {
                 Task Details
               </h3>
               <div className="bg-gray-50 p-4 rounded-lg">
-                {/* <p className="text-gray-700 leading-relaxed mb-3">
-                  2-hour minimum per booking. I have 5+ years of experience and
-                  come fully equipped with my own tools. I'm reliable,
-                  detail-oriented, and get the job done right.
-                </p> */}
+        
                 <p className="text-gray-700 mb-2">Services include:</p>
                 <ul className="text-gray-700">
                   {service?.data?.contractorId?.servicesYouProvide?.map(

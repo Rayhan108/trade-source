@@ -19,7 +19,7 @@ import { useGetAllServicesQuery } from '@/redux/features/contractor/contractorAp
 import { useRouter } from 'next/navigation';
 import { dateOptions, timeOptions } from '@/constants';
 import { useBookServiceMutation } from '@/redux/features/others/otherApi';
-import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+// import { selectCurrentUser } from '@/redux/features/auth/authSlice';
 
 export default function ContractorSearch() {
   const sortOptions = [
@@ -29,19 +29,25 @@ export default function ContractorSearch() {
   const storedLocation = useAppSelector(selectLocation);
   const storedService = useAppSelector(selectService);
   const storedTime = useAppSelector(selectTime);
-  const [priceRange, setPriceRange] = useState(150);
+  console.log("stored service--->",storedService);
+  console.log("stored location--->",storedLocation);
+  console.log("stored time--->",storedTime);
+  // const [priceRange, setPriceRange] = useState(150);
   const [sortBy, setSortBy] = useState('Recommended');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempDate, setTempDate] = useState<Date | null>(null);
-  const user = useAppSelector(selectCurrentUser);
+  // const user = useAppSelector(selectCurrentUser);
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [bookService] = useBookServiceMutation();
 
+
+const categoryName= storedService?.serviceType
+const firstWord = categoryName.split(' ')[0];
   const { data: services } = useGetAllServicesQuery({
-    categoryName: storedService.serviceType,
+    categoryName:firstWord,
     page,
   });
 
@@ -64,6 +70,7 @@ export default function ContractorSearch() {
       return message.warning('Please input an address');
     if (!storedLocation.apt)
       return message.warning('Please input an apartment');
+  console.log(storedService);
     if (!storedService.serviceId)
       return message.warning('Please select a service');
     if (!storedService.serviceType)
@@ -89,7 +96,7 @@ export default function ContractorSearch() {
 
     try {
       const data = {
-        user: user?.user?.userId,
+        serviceId: storedService?.serviceId,
         serviceType: storedService.serviceType,
         location: storedLocation.address,
         zip: storedLocation.apt,
@@ -101,7 +108,7 @@ export default function ContractorSearch() {
           storedTime.projectDescription,
         ],
       };
-
+console.log("data---------->",data);
       const res = await bookService(data).unwrap();
 
       if (res.success) {
@@ -190,7 +197,7 @@ export default function ContractorSearch() {
               </div>
             </div>
             {/* Price Filter */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            {/* <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="font-semibold text-gray-900 mb-4">Price</h3>
               <div className="space-y-4">
                 <div className="text-right text-sm font-medium text-gray-600">
@@ -225,7 +232,7 @@ export default function ContractorSearch() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right Side Content */}

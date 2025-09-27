@@ -120,6 +120,13 @@ const otherApi = baseApi.injectEndpoints({
       }),
       providesTags: ["notificationsCount"],
     }),
+        getAllFees: builder.query({
+      query: () => ({
+        url: `/membership/getFees`,
+        method: "GET",
+        // params: { page, role,search },
+      }),
+    }),
   }),
 });
 
@@ -138,4 +145,5 @@ useGetSingleUserArticleQuery,
   useGetUnseenNotificationCountQuery,
   useGetAllReferQuery,
   useGetDashboardStatsQuery,
+  useGetAllFeesQuery
 } = otherApi;

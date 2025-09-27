@@ -1,53 +1,57 @@
-import { FiCheck } from 'react-icons/fi';
-import { HiSparkles } from 'react-icons/hi2';
-import Link from 'next/link';
+"use client"
+import { FiCheck } from "react-icons/fi";
+import { HiSparkles } from "react-icons/hi2";
+import Link from "next/link";
+import { useGetAllFeesQuery } from "@/redux/features/others/otherApi";
 export default function PricingSection() {
+  const { data: allFees } = useGetAllFeesQuery(undefined);
+  console.log("all fees------->", allFees);
   const pricingTiers = [
     {
-      id: 'free',
-      title: '20% Off Pre-Priced Projects',
-      icon: '🏷️',
-      iconBg: 'bg-green-100',
+      id: "free",
+      title: "20% Off Pre-Priced Projects",
+      icon: "🏷️",
+      iconBg: "bg-green-100",
       features: [
-        'Access to contractor listings',
-        'Post job requests',
-        'Basic DIY tips',
+        "Access to contractor listings",
+        "Post job requests",
+        "Basic DIY tips",
       ],
-      buttonText: 'Start Free',
-      buttonPath: '/',
-      buttonStyle: 'bg-blue-600 hover:bg-blue-700 text-white',
+      buttonText: "Start Free",
+      buttonPath: "/homePage",
+      buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
     {
-      id: 'premium',
-      title: 'Premium',
-      price: '$9.99/month or $99.99/year',
-      icon: '🏆',
-      iconBg: 'bg-green-100',
+      id: "premium",
+      title: "Premium",
+      price: `$${allFees?.data[0]?.monthlyValue}/month or $${allFees?.data[0]?.yearlyValue}/year`,
+      icon: "🏆",
+      iconBg: "bg-green-100",
       features: [
-        'Priority contractor matching',
-        'Advanced tutorials & webinars',
-        'Discounts on tools & products',
-        'Dedicated support',
+        "Priority contractor matching",
+        "Advanced tutorials & webinars",
+        "Discounts on tools & products",
+        "Dedicated support",
       ],
-      buttonText: 'Get Premium',
-      buttonPath: '/memberRegister',
-      buttonStyle: 'bg-blue-600 hover:bg-blue-700 text-white',
+      buttonText: "Get Premium",
+      buttonPath: "/paymentMethod",
+      buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
     {
-      id: 'vip',
-      title: 'VIP',
-      price: '$19.99/month or $199.99/year',
-      icon: '👑',
-      iconBg: 'bg-green-100',
+      id: "vip",
+      title: "VIP",
+      price: `$${allFees?.data[2]?.monthlyValue}/month or $${allFees?.data[2]?.yearlyValue}/year`,
+      icon: "👑",
+      iconBg: "bg-green-100",
       features: [
-        'All Premium benefits',
-        'Access to VIP-only contractors',
-        'Free annual home consultation',
-        'Early access + VIP event invites',
+        "All Premium benefits",
+        "Access to VIP-only contractors",
+        "Free annual home consultation",
+        "Early access + VIP event invites",
       ],
-      buttonText: 'Become a VIP Member',
-      buttonPath: '/memberRegister',
-      buttonStyle: 'bg-blue-600 hover:bg-blue-700 text-white',
+      buttonText: "Become a VIP Member",
+      buttonPath: "/paymentMethod",
+      buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
   ];
 
@@ -92,7 +96,7 @@ export default function PricingSection() {
 
             {/* Pricing Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {pricingTiers.map(tier => (
+              {pricingTiers.map((tier) => (
                 <div
                   key={tier.id}
                   className="bg-gray-100 rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col h-full relative"
@@ -134,7 +138,25 @@ export default function PricingSection() {
 
                   {/* CTA Button */}
 
-                  <Link href={`${tier?.buttonPath}`}>
+                  <Link
+                    href={{
+                      pathname: tier.buttonPath,
+                    query:
+      tier.id === 'premium'
+        ? {
+          pricingId: allFees?.data[0]?._id,
+            monthlyValue: allFees?.data[0]?.monthlyValue,
+            yearlyValue: allFees?.data[0]?.yearlyValue,
+          }
+        : tier.id === 'vip'
+        ? {
+            pricingId: allFees?.data[2]?._id,
+            monthlyValue: allFees?.data[2]?.monthlyValue,
+            yearlyValue: allFees?.data[2]?.yearlyValue,
+          }
+        : {},
+                    }}
+                  >
                     <button
                       className={`w-full md:w-[65%] md:right-14 md:absolute md:mb-5 md:bottom-1 py-4 px-6 rounded-xl font-semibold text-base transition-colors duration-200 ${tier.buttonStyle}`}
                     >

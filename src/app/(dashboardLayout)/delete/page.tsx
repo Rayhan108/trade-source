@@ -1,18 +1,36 @@
 'use client';
 
-import { Modal } from 'antd';
+import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { useDeletProfileMutation } from '@/redux/features/user/userApi';
+import { useAppSelector } from '@/redux/hooks';
+import { message, Modal } from 'antd';
 import { useState } from 'react';
 
 const DeletePage = () => {
+  const user = useAppSelector(selectCurrentUser)
+  const userId=user?.user?.userId
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
+const [deleteProfile]=useDeletProfileMutation()
+  const handleConfirmDelete = async(userId) => {
+  try {
+      const res = await deleteProfile(userId).unwrap();
+      console.log('res===>>>>', { res });
+      if (res.data) {
+        message.success(res?.data?.message);
+         setIsModalOpen(false);
+      } else {
+   
+        message.error(res.message);
+            setIsModalOpen(false);
+      }
+    } catch (error) {
+      message.error(error);
+          setIsModalOpen(false);
+    }
 
-  // const handleConfirmDelete = () => {
-  //   // Call delete API or logic here
-  //   console.log('Account deleted.');
-  //   setIsModalOpen(false);
-  // };
+  };
   return (
     <div>
       <div className="max-w-7xl min-h-screen mx-auto border rounded-md p-6 shadow-sm bg-white">
@@ -51,14 +69,9 @@ const DeletePage = () => {
             Are you sure you want to delete your account?
           </p>
           <div className="mb-2 max-w-xl mx-auto flex gap-4">
+  
             <button
-              onClick={showModal}
-              className="w-[50%] mt-3 border-[#1D69E1] border  text-[#1D69E1] text-xl py-1 rounded-md  transition  font-semibold"
-            >
-              Never Mind
-            </button>
-            <button
-              onClick={showModal}
+              onClick={()=>handleConfirmDelete(userId)}
               className="w-[50%] mt-3 bg-[#F44848] border  text-[#ffffff] text-xl py-1 rounded-md  transition  font-semibold"
             >
               Yes,Delete
