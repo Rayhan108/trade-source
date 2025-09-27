@@ -7,9 +7,11 @@ import {
   useReferHistoryQuery,
   useSendReferalMutation,
 } from "@/redux/features/refer/referApi";
+import { addCredit, selectTotalCredit } from "@/redux/features/refer/referSlice";
 import { useGetSpecefiqUserQuery } from "@/redux/features/user/userApi";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { message } from "antd";
+
 
 import { useForm } from "react-hook-form";
 import { HiMail } from "react-icons/hi";
@@ -22,6 +24,7 @@ import { HiMail } from "react-icons/hi";
 
 export default function ReferalPage() {
   const [claim] = useReferClaimMutation();
+  const dispatch = useAppDispatch();
   const { data: referHistory, refetch } = useReferHistoryQuery(undefined);
   const { data: allClaimed, refetch: allClaimedRefetch } =
     useGetAllreferClaimedQuery(undefined);
@@ -32,8 +35,13 @@ export default function ReferalPage() {
       0
     ) || 0;
 
-  // Convert to dollars if needed
-  const totalCreditsInDollars = totalClaimedCredit / 100;
+
+const totalCredits = totalClaimedCredit / 100;
+
+const creditfromrdux=useAppSelector(selectTotalCredit)
+
+  console.log("credit from rdux---->", creditfromrdux)
+  console.log("refer credits---->", totalCredits);
   // console.log("refer claimed in dollar---->", totalCreditsInDollars);
   const refferedBy = referHistory?.data?.referredItem;
 
@@ -87,6 +95,13 @@ export default function ReferalPage() {
         message.success(res?.message);
         refetch();
         allClaimedRefetch();
+           if (data?.amount) {
+  
+             console.log("amount data----->",data?.amount);
+           const amount = parseFloat(data?.amount?.replace(/[^0-9.-]+/g,""));
+              console.log("replace dollar sign----->",amount);
+      dispatch(addCredit(amount));
+      }
       } else {
         message.error(res?.message);
       }
@@ -124,14 +139,13 @@ export default function ReferalPage() {
                   <li className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                     <span>
-                      Your friend gets $10 off their first completed service.
+                      Your friend also gets $10 you can use this credit for  buy subscription
                     </span>
                   </li>
                   <li className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                     <span>
-                      You get a $10 credit toward your next service once they
-                      complete their first task.
+                      You also get a $10 credit which you can use this credit  for buy subscription
                     </span>
                   </li>
                 </ul>
@@ -177,8 +191,14 @@ export default function ReferalPage() {
 
           <div className=" w-full pt-3">
             <div className="flex gap-5 justify-end font-inter">
-              <p className="text-md">Your Total Credits :</p>
-              <p>${totalCreditsInDollars}</p>
+              <p className="text-md">Your Total Earn Credits :</p>
+              {/* <p>${creditfromrdux.toFixed(2)}</p> */}
+              <p>${totalCredits.toFixed(2)}</p>
+            </div>
+            <div className="flex gap-5 justify-end font-inter">
+              <p className="text-md">Credit Remains :</p>
+              <p>${creditfromrdux?.toFixed(2)}</p>
+       
             </div>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               Referral History

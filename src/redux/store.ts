@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import contractorReducer from './features/contractor/contractorSlice';
 import projectReducer from './features/project/projectSlice';
+import referReducer from './features/refer/referSlice';
 import { baseApi } from './api/baseApi';
 import storage from 'redux-persist/lib/storage';
 import { persistStore } from 'redux-persist';
@@ -24,6 +25,10 @@ const persistConfigContractor = {
   key: 'contractor',
   storage,
 };
+const persistConfigRefer = {
+  key: 'refer',
+  storage,
+};
 
 const persistConfigProject = {
   key: 'project',
@@ -39,7 +44,15 @@ const persistedContractorReducer = persistReducer(
 
 const persistedProjectReducer = persistReducer(
   persistConfigProject,
-  projectReducer
+  projectReducer,
+
+  
+);
+const persistedReferReducer = persistReducer(
+  persistConfigRefer,
+  referReducer,
+
+  
 );
 
 export const makeStore = () => {
@@ -49,6 +62,7 @@ export const makeStore = () => {
       auth: persistedAuthReducer,
       contractor: persistedContractorReducer,
       project: persistedProjectReducer,
+      refer:persistedReferReducer
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({

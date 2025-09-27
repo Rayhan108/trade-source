@@ -5,9 +5,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SiTicktick } from "react-icons/si";
 import { message } from "antd";
+import { useAppSelector } from "@/redux/hooks";
+import {selectTotalCredit } from "@/redux/features/refer/referSlice";
+
 
 const ContractorCheckoutPage = () => {
   const [subPurchase] = useContractorSubPurchaseMutation();
+
+
+  
+  const totalCredits=useAppSelector(selectTotalCredit)
+  
   const searchParams = useSearchParams();
 const router=useRouter()
   const pricingId = searchParams.get("pricingId");
@@ -17,6 +25,34 @@ const router=useRouter()
   const [selectedPlan, setSelectedPlan] = useState("monthly");
 
   const handlePurchase = async () => {
+//     const price = selectedPlan === "monthly" ? monthlyValue : yearlyValue;
+//     console.log("price--->",price);
+//      // apply credits before purchase
+//   if (totalCredits > 0) {
+//     const appliedCredit = Math.min(price,totalCredits);
+//     // subscription fee theke subtract
+//     const finalPrice = price-appliedCredit;
+// console.log("applied credit------>",appliedCredit);
+// console.log("applied credit------>",appliedCredit);
+//     // redux theke credit redeem kore felbo
+//     dispatch(redeemCredit(appliedCredit));
+
+//     console.log(`Applied credit: $${appliedCredit}, Final price: $${finalPrice}`);
+    
+   
+//     const payload = {
+//       item: {
+//         pricingId,
+//         price: finalPrice,
+//         plan: selectedPlan,
+
+//       },
+//     };
+//   }
+
+
+
+
     const payload = {
       item: {
         pricingId,
@@ -44,6 +80,9 @@ const router=useRouter()
         {/* Header */}
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
           Choose Your Plan
+        </h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
+        Total credit :{totalCredits}
         </h2>
 
         {/* Plan Selection */}
@@ -119,4 +158,4 @@ const router=useRouter()
   );
 };
 
-export default ContractorCheckoutPage;
+export default ContractorCheckoutPage
