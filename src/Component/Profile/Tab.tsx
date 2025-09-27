@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-import project1 from "@/assests/project1.png";
-import project2 from "@/assests/project2.png";
-import project3 from "@/assests/project3.png";
+
 import ServiceDetails from "./ServiceDetails";
 import styles from "@/app/styles.module.css";
 
@@ -10,6 +8,7 @@ import styles from "@/app/styles.module.css";
 import ProjectCard from "../Card/ProjectCard";
 import LicenseCard from "../Card/LicenseCard";
 import { useGetSingleUserServiceQuery } from "@/redux/features/contractor/contractorApi";
+import { useGetLicenseQuery } from "@/redux/features/user/userApi";
 
 
 
@@ -17,69 +16,71 @@ import { useGetSingleUserServiceQuery } from "@/redux/features/contractor/contra
 const tabs = ["Projects",  "Licenses & Insurance"];
 
 // eslint-disable-next-line no-unused-vars
-const cardDatas = [
-  {
-    title: "Pink Dyer",
-    location: "Huston TX",
-    rating: 5,
-    budget: 350,
-    tags: ["Featured", "Edit", "Remove"],
-    image: project1,
-  },
-  {
-    title: "Blue Sky",
-    location: "Austin TX",
-    rating: 4,
-    budget: 420,
-    tags: ["Featured", "Edit"],
-    image: project2,
-  },
-  {
-    title: "Green Haven",
-    location: "Dallas TX",
-    rating: 3,
-    budget: 280,
-    tags: ["Edit"],
-    image: project3,
-  },
-  {
-    title: "Green Haven",
-    location: "Dallas TX",
-    rating: 3,
-    budget: 280,
-    tags: ["Edit"],
-    image: project3,
-  },
-];
+// const cardDatas = [
+//   {
+//     title: "Pink Dyer",
+//     location: "Huston TX",
+//     rating: 5,
+//     budget: 350,
+//     tags: ["Featured", "Edit", "Remove"],
+//     image: project1,
+//   },
+//   {
+//     title: "Blue Sky",
+//     location: "Austin TX",
+//     rating: 4,
+//     budget: 420,
+//     tags: ["Featured", "Edit"],
+//     image: project2,
+//   },
+//   {
+//     title: "Green Haven",
+//     location: "Dallas TX",
+//     rating: 3,
+//     budget: 280,
+//     tags: ["Edit"],
+//     image: project3,
+//   },
+//   {
+//     title: "Green Haven",
+//     location: "Dallas TX",
+//     rating: 3,
+//     budget: 280,
+//     tags: ["Edit"],
+//     image: project3,
+//   },
+// ];
 
-const licenses = [
-  {
-    title: "Licensed",
-    number: "90180938",
-    date: "May 25, 2025",
-    state: "State of California",
-    status: "Verified",
-  },
-  {
-    title: "Licensed",
-    number: "12345678",
-    date: "June 15, 2024",
-    state: "State of New York",
-    status: "Verified",
-  },
-];
-
-
+// const licenses = [
+//   {
+//     title: "Licensed",
+//     number: "90180938",
+//     date: "May 25, 2025",
+//     state: "State of California",
+//     status: "Verified",
+//   },
+//   {
+//     title: "Licensed",
+//     number: "12345678",
+//     date: "June 15, 2024",
+//     state: "State of New York",
+//     status: "Verified",
+//   },
+// ];
 
 
-const Projects = [];
+
+
+
 
 
 
 export default function Tabs() {
 
   const { data: myServices } = useGetSingleUserServiceQuery(undefined);
+  const { data: myLicense } = useGetLicenseQuery(undefined);
   console.log("my services --------->", myServices?.data);
+  console.log("my License --------->", myLicense?.data);
   const contractorProfileData = myServices?.data[0]?.contractorId
   const [activeTab, setActiveTab] = useState("Projects");
 
@@ -144,12 +145,12 @@ const tabContent = {
           <div>
             <h1 className={`text-4xl  mb-5   ${styles.fontDmSans}`}>
               Licenses & Insurance{" "}
-              <span className="font-semibold">{Projects?.length}</span>
+              <span className="font-semibold">{myLicense?.length}</span>
             </h1>
           </div>
         </div>
         <div className="grid  grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3 px-3">
-          {licenses?.map((license, idx) => {
+          {myLicense?.data?.map((license, idx) => {
             return <LicenseCard key={idx} license={license} />;
           })}
         </div>

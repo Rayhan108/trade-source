@@ -45,7 +45,22 @@ const userApi = baseApi.injectEndpoints({
         params: { page, role,search },
       }),
     }),
-    
+    // license
+    getLicense: builder.query({
+      query: () => ({
+        url: `/verify/single-user-doc`,
+        method: "GET",
+      }),
+    }),
+        // delete profile
+    deletProfile: builder.mutation({
+      query: (userId) => ({
+        url: `/user/deleteUser/${userId}`,
+        method: "DELETE",
+       
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
@@ -54,5 +69,7 @@ export const {
   useGetSpecefiqUserQuery,
   useGetAllUserQuery,
   useSubPurchaseMutation,
-  useContractorSubPurchaseMutation
+  useContractorSubPurchaseMutation,
+  useDeletProfileMutation,
+  useGetLicenseQuery
 } = userApi;
