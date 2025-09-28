@@ -33,7 +33,7 @@ export default function MaxLead() {
   };
 
   // Prepare options for react-select from categories and subcategories
-  const categoryOptions = allCategory?.data?.map(service => ({
+  const categoryOptions = allCategory?.data?.result?.map(service => ({
     label: service?.category,
     value: service?.category,
     subCategories: service?.subCategory?.map(sub => ({
@@ -71,7 +71,7 @@ export default function MaxLead() {
     }
 
     const subCategories: string[] | undefined = (
-      allCategory?.data as Category[]
+      allCategory?.data?.result as Category[]
     )?.find(
       (service: Category) => service.category === category.value
     )?.subCategory;
@@ -210,12 +210,12 @@ export default function MaxLead() {
         </div>
 
         {/* Current available leads section */}
-        <div className="bg-blue-100 rounded-lg p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="bg-blue-100 rounded-lg p-6 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4">
           <div>
-            <div className="text-2xl font-bold text-gray-900 mb-1">14</div>
+            {/* <div className="text-2xl font-bold text-gray-900 mb-1">14</div>
             <div className="text-sm font-medium text-gray-700">
               Current available leads
-            </div>
+            </div> */}
           </div>
           <button
             onClick={prepareDataToSend}

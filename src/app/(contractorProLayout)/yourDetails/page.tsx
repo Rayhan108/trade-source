@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const YourDetailsPage = () => {
-  const { user } = useAppSelector(selectCurrentUser);
+  const  user  = useAppSelector(selectCurrentUser);
   console.log('user-->', user);
 
   const contractorData = useAppSelector(selectCurrentContractor);
