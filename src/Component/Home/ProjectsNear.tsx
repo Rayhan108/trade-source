@@ -9,11 +9,12 @@ import { Pagination } from 'antd';
 
 
 
-const ProjectsNear = ({debouncedSearchTerm}) => {
+const ProjectsNear = ({debouncedSearchTerm,filter}) => {
   const [page, setPage] = useState(1);
   const { data: services } = useGetAllServicesQuery({
     page,
-    search:debouncedSearchTerm
+    search:debouncedSearchTerm,
+    categoryName:filter
   });
 
   const meta = services?.data?.meta

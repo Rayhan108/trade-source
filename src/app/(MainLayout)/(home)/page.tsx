@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 
 const LandingPage = () => {
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
+  console.log("filter------->",filter);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(search);
   // console.log("search---->",search);
   // Handle the debounce for search term input
@@ -21,8 +23,8 @@ const LandingPage = () => {
   }, [search]);
   return (
     <div>
-      <Banner setSearch={setSearch} />
-      <ProjectsNear debouncedSearchTerm={debouncedSearchTerm} />
+      <Banner setSearch={setSearch} setFilter={setFilter} />
+      <ProjectsNear debouncedSearchTerm={debouncedSearchTerm} filter={filter}/>
 
       {/* <HomeProject /> */}
       <ConstractorNear />

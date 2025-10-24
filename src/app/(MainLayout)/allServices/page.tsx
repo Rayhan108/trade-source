@@ -8,6 +8,7 @@ import { Pagination } from 'antd';
 
 const AllServicesPage = () => {
   const [search, setSearch] = useState("");
+   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(search);
   // console.log("search---->",search);
@@ -25,6 +26,7 @@ const AllServicesPage = () => {
   const { data: allService } = useGetAllServicesQuery({
     page,
     search: debouncedSearchTerm,
+    categoryName: filter,
   });
 
   const meta = allService?.data?.meta;
@@ -47,7 +49,7 @@ const AllServicesPage = () => {
         <AllServicesBanner setSearch={setSearch} />
       </div>
       <div className="container mx-auto">
-        <Service />
+        <Service setFilter={setFilter} />
       </div>
       {/* <IntNearServices />
       <ExtNearServices />

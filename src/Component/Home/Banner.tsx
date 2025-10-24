@@ -5,7 +5,7 @@ import banerImg from '@/assests/bannerImg.jpg';
 import styles from '@/app/styles.module.css';
 import Service from './Service';
 
-export default function Banner({setSearch}) {
+export default function Banner({setSearch,setFilter}) {
     const handleSearchChange=(e)=>{
     setSearch(e.target.value)
   }
@@ -83,7 +83,7 @@ export default function Banner({setSearch}) {
 
       {/* Service component full width at the bottom of the banner */}
       <div className="w-full -top-8 sm:-top-8 md:-top-2 lg:-top-3 2xl:-top-3 relative">
-        <Service />
+        <Service setFilter={setFilter} />
       </div>
     </>
   );
