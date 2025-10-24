@@ -6,13 +6,14 @@ import { useState } from 'react';
 import { useGetAllUserQuery } from '@/redux/features/user/userApi';
 import { Pagination } from 'antd';
 
-const ExpertConstructor = ({ debouncedSearchTerm }) => {
+const ExpertConstructor = ({ debouncedSearchTerm ,filter}) => {
   const [page, setPage] = useState(1);
   const role = "contractor";
   const { data: contractors } = useGetAllUserQuery({
     page,
     role,
     search: debouncedSearchTerm,
+    categotyName:filter
   });
   // console.log("all contractors >>>>>>>>>>>>>>",contractors);
   const meta = contractors?.data?.meta;

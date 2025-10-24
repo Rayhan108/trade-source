@@ -8,7 +8,7 @@ import electrical from '@/assests/electrical.png'
 import remodeling from '@/assests/remodeling.png'
 import styles from '@/app/styles.module.css'
 
-export default function Service({ setFilter }) {
+export default function Service({ setFilter }:{ setFilter: any; }) {
   const services = [
     { name: 'Handyman', img: handyman, value: 'handyman' },
     { name: 'Landscaping', img: landscaping, value: 'garden' },
