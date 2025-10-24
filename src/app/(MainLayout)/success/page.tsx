@@ -26,7 +26,7 @@ export default async function SuccessPage({
           Payment Successful!
         </h1>
         <p className="text-gray-600 text-center mb-6">
-          Thank you for your purchase. Your order has been confirmed.
+          Thank you for your purchase. Your order has been confirmed. 
         </p>
 
         {/* Next Steps */}
