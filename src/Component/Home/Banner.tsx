@@ -5,7 +5,7 @@ import banerImg from '@/assests/bannerImg.jpg';
 import styles from '@/app/styles.module.css';
 import Service from './Service';
 
-export default function Banner({setSearch,setFilter}) {
+export default function Banner({setSearch,setFilter}:{setSearch:any, setFilter: any; }) {
     const handleSearchChange=(e)=>{
     setSearch(e.target.value)
   }

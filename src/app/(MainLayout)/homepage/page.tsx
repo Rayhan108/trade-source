@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(search);
   // console.log("search---->",search);
   // Handle the debounce for search term input
@@ -25,9 +26,9 @@ const HomePage = () => {
     <div>
       <WelBan setSearch={setSearch} />
       <div className="my-8 container mx-auto">
-        <Service />
+        <Service setFilter={setFilter} />
       </div>
-      <ExpertConstructor debouncedSearchTerm={debouncedSearchTerm} />
+      <ExpertConstructor debouncedSearchTerm={debouncedSearchTerm}  filter={filter}/>
       <MembershipBanner />
       <RecentArticle />
     </div>
