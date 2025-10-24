@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logo from '@/assests/footerLogo.png';
+import logo from '@/assests/navLogo.png';
 import styles from '@/app/styles.module.css';
 import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 import { FaSquareInstagram, FaXTwitter } from 'react-icons/fa6';
@@ -38,7 +38,7 @@ const Footer = () => {
             </div>
 
             {/* Second address */}
-            <div className="mt-8 md:mt-0 w-full">
+            {/* <div className="mt-8 md:mt-0 w-full">
               <h3 className="text-[#ABE7B4] font-semibold text-2xl mb-2">
                 Address
               </h3>
@@ -50,7 +50,7 @@ const Footer = () => {
                 MK12 5AB, <br />
                 United Kingdom
               </address>
-            </div>
+            </div> */}
           </div>
         </div>
 
