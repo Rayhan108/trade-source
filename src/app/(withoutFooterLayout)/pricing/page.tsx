@@ -18,7 +18,7 @@ export default function PricingSection() {
         "Basic DIY tips",
       ],
       buttonText: "Start Free",
-      buttonPath: "/homePage",
+      buttonPath: "/",
       buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     },
     {

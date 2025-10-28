@@ -1,16 +1,53 @@
+/* eslint-disable no-unused-vars */
 'use client';
 
 import Image from 'next/image';
 import {
   FaCalendarAlt,
   FaMapMarkerAlt,
-  FaClock,
-  FaPlus,
+
   FaCheck,
 } from 'react-icons/fa';
-import cons1 from '@/assests/cons1.png';
+
+import { useAppSelector } from '@/redux/hooks';
+import { selectLocation, selectService, selectTime } from '@/redux/features/project/projectSlice';
+import Link from 'next/link';
+import { useCancelServiceMutation } from '@/redux/features/others/otherApi';
+import { message } from 'antd';
+import { useUpdateProjectStatusMutation } from '@/redux/features/contractor/contractorApi';
 
 export default function BookingConfirmation() {
+  const [cancelBooking]=useCancelServiceMutation()
+  const [donebooking]=useUpdateProjectStatusMutation()
+    const storedService = useAppSelector(selectService);
+      const storedLocation = useAppSelector(selectLocation);
+      const storedTime = useAppSelector(selectTime);
+  console.log("stored service----->",storedService);
+  console.log("stored location--->",storedLocation);
+  console.log("stored time--->",storedTime);
+  const handleCancleBooking=async(id)=>{
+try {
+  const res = await cancelBooking(id).unwrap()
+  console.log("response------------->",res);
+  if(res?.success){
+    message.success(res?.message)
+  }
+} catch (error) {
+  message.error(error.message)
+}
+  }
+  const handleDoneBooking=async(id)=>{
+    const status = "booked"
+try {
+  const res = await donebooking({id,status}).unwrap()
+  console.log("response------------->",res);
+  if(res?.success){
+    message.success(res?.message)
+  }
+} catch (error) {
+  message.error(error.message)
+}
+  }
   return (
     <div className="max-w-7xl mx-auto bg-gray-50 p-6 rounded-lg my-5 ">
       {/* Header Section */}
@@ -18,15 +55,17 @@ export default function BookingConfirmation() {
         {/* Image + View Profile */}
         <div className="flex flex-col items-center md:w-[15%] w-full">
           <Image
-            src={cons1}
+            src={storedService?.contractorImage}
             alt="Ellie Smith"
             width={100}
             height={100}
             className="rounded-full object-cover w-20 h-20 border-2 border-black"
           />
+          <Link href={`/profile/${storedService?.contractorId}`}>
           <button className="px-3 mt-3 py-1 border border-black  rounded-lg text-black hover:bg-gray-100 transition text-sm">
             View Profile
           </button>
+          </Link>
         </div>
 
         {/* Text + Chat Button */}
@@ -34,20 +73,23 @@ export default function BookingConfirmation() {
           {/* Text */}
           <div className="w-full md:w-[70%]">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-              You've Booked Ellie Smith
+              You've Booked {storedService?.contractorName}
             </h1>
-            <p className="text-gray-600 mt-2 text-sm md:text-base">
+            {/* <p className="text-gray-600 mt-2 text-sm md:text-base">
               Giovanni C. is currently offline and will reach out once available
               in the app. You will be notified as soon as they respond.
-            </p>
+            </p> */}
           </div>
 
           {/* Chat Button */}
+          <Link href={'/inbox'}>
+          
           <div className="w-full md:w-auto">
             <button className="w-full md:w-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm">
               Chat Contractor
             </button>
           </div>
+          </Link>
         </div>
       </div>
 
@@ -59,16 +101,13 @@ export default function BookingConfirmation() {
         <div className="space-y-3">
           <div className="flex items-center gap-3 text-gray-700">
             <FaCalendarAlt className="text-gray-500" />
-            <span>Apr 28, 12:00 PM</span>
+            <span>{storedTime?.preferredDate}, {storedTime?.preferredTime}</span>
           </div>
           <div className="flex items-center gap-3 text-gray-700">
             <FaMapMarkerAlt className="text-gray-500" />
-            <span>123 Main Street, New York, NY 10001</span>
+            <span>{storedLocation?.address},zip-{storedLocation?.apt}</span>
           </div>
-          <div className="flex items-center gap-3 text-gray-700">
-            <FaClock className="text-gray-500" />
-            <span>Apr 28, 12:00 PM</span>
-          </div>
+        
         </div>
       </div>
 
@@ -80,23 +119,23 @@ export default function BookingConfirmation() {
         <div className="space-y-3">
           <div className="flex justify-between">
             <span className="text-gray-700">Hourly Rate</span>
-            <span className="font-medium">$65/hr</span>
+            <span className="font-medium">${storedService?.hourlyRate}/hr</span>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span className="text-gray-700">Trust & Support fee</span>
             <span className="font-medium">$10/hr</span>
-          </div>
-          <div className="flex justify-between pt-2  border-gray-200">
+          </div> */}
+          {/* <div className="flex justify-between pt-2  border-gray-200">
             <span className="text-lg font-bold text-gray-900">Total Rate</span>
             <span className="text-lg font-bold text-gray-900">$75/Hr</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
       <hr className="border-gray-200 my-6" />
 
       {/* Project Details */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900">Project Details</h2>
           <button className="text-blue-600 hover:underline text-sm">
@@ -141,26 +180,26 @@ export default function BookingConfirmation() {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
 
       {/* Add Note Section */}
-      <button className="w-full border border-gray-300 rounded py-3 px-4 text-gray-600 flex items-center justify-center gap-2 hover:bg-gray-100 transition mb-6">
+      {/* <button className="w-full border border-gray-300 rounded py-3 px-4 text-gray-600 flex items-center justify-center gap-2 hover:bg-gray-100 transition mb-6">
         <FaPlus className="text-black" size={14} />
         <span className="text-black">
           Add Note or Photos for the Contractor
         </span>
-      </button>
+      </button> */}
 
       {/* Progress Section */}
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <h2 className="text-xl font-bold text-black mb-6">Progress</h2>
         <div className="relative">
-          {/* Progress Bar */}
+
           <div className="h-1 bg-gray-200 absolute top-4 left-2 right-0 z-0">
             <div className="h-full bg-blue-600 w-[35%]"></div>
           </div>
 
-          {/* Progress Steps */}
+     
           <div className="flex justify-between relative z-10">
             <div className="flex flex-col items-center">
               <div className="w-8 h-8 rounded-full bg-green-100 border-2 border-green-500 flex items-center justify-center mb-2">
@@ -191,17 +230,17 @@ export default function BookingConfirmation() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button className="w-full py-3 bg-red-500 text-white rounded hover:bg-red-600 transition">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <button className="w-full py-3 bg-red-500 text-white rounded hover:bg-red-600 transition" onClick={()=>handleCancleBooking(storedService?.serviceId)}>
           Cancel Project
         </button>
-        <button className="w-full py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        <button className="w-full py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={()=>handleDoneBooking(storedService?.serviceId)}>
           Mark as done
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

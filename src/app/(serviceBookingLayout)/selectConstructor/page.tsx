@@ -70,9 +70,9 @@ const firstWord = categoryName.split(' ')[0];
       return message.warning('Please input an address');
     if (!storedLocation.apt)
       return message.warning('Please input an apartment');
-  console.log(storedService);
-    if (!storedService.serviceId)
-      return message.warning('Please select a service');
+  console.log("debug",storedService);
+    // if (!storedService.serviceId)
+    //   return message.warning('Please select a service');
     if (!storedService.serviceType)
       return message.warning('Please select a service type');
     if (!storedService.projectDescription)

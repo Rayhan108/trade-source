@@ -50,6 +50,7 @@ console.log("all category--------->",allCategory);
   }, [storedService, setValue]);
 
   const onSubmit = async (data: FormValues) => {
+    console.log("data----->",data);
     setIsSubmitting(true);
 
     // Save to Redux

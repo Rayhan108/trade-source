@@ -48,6 +48,14 @@ const otherApi = baseApi.injectEndpoints({
         body: body,
       }),
     }),
+    // cancel Service
+    cancelService: builder.mutation({
+      query: (id) => ({
+        url: `/book/cancelService/${id}`,
+        method: "POST",
+     
+      }),
+    }),
 
     // getUsersForSidebar
     getUsersForSidebar: builder.query({
@@ -127,6 +135,13 @@ const otherApi = baseApi.injectEndpoints({
         // params: { page, role,search },
       }),
     }),
+        updateSubStatus: builder.mutation({
+      query: (status) => ({
+        url: `/user/updateSubscriptionStatus`,
+        method: "PATCH",
+        body:status
+      }),
+    }),
   }),
 });
 
@@ -145,5 +160,7 @@ useGetSingleUserArticleQuery,
   useGetUnseenNotificationCountQuery,
   useGetAllReferQuery,
   useGetDashboardStatsQuery,
-  useGetAllFeesQuery
+  useGetAllFeesQuery,
+  useCancelServiceMutation,
+  useUpdateSubStatusMutation
 } = otherApi;
