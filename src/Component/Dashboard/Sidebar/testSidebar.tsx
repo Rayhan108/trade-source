@@ -10,14 +10,17 @@ import { resetContractorData } from "@/redux/features/contractor/contractorSlice
 import { setCookie } from "nookies";
 import { message } from "antd";
 import { protectedRoutes } from "@/constants";
-import { FaLock } from "react-icons/fa"; // Lock Icon
 
 // Define user and contractor routes
 const userItems = [
   { label: "Profile", href: "/myProfile" },
   { label: "Password", href: "/password" },
-  { label: "Referral", href: "/referal" },
+  // { label: "Notification", href: "/notification" },
+  { label: "Referal", href: "/referal" },
+  // { label: "Billing Info", href: "/billing" },
+  // { label: "Project Status", href: "/status" },
   { label: "Account Balance", href: "/accountBalance" },
+  // { label: "Transactions", href: "/transactions" },
   { label: "Ask a Pro", href: "/proConstractor" },
   { label: "VIP Member", href: "/pricing" },
   { label: "Delete Account", href: "/delete" },
@@ -26,12 +29,15 @@ const userItems = [
 const contractorItems = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Your Service", href: "/yourServices" },
+  // { label: 'Profile', href: '/constractorProfile' },
   { label: "Profile", href: "/myProfile" },
-  { label: "Referral", href: "/referal" },
+  // { label: "Notification", href: "/notification" },
+  { label: "Refferal", href: "/referal" },
   { label: "Document Verification", href: "/documentVerification" },
   { label: "Project Management", href: "/projectManagement" },
   { label: "Billings", href: "/billings" },
   { label: "VIP Contractor", href: "/vipContractor" },
+  // { label: "Ask a Pro", href: "/askAPro" },
   { label: "Ask a Pro", href: "/proConstractor" },
   { label: "Delete Account", href: "/delete" },
 ];
@@ -41,17 +47,19 @@ const Sidebar = () => {
   const user = useAppSelector(selectCurrentUser);
   const { data: specUser } = useGetSpecefiqUserQuery(user?.user?.userId);
   const role = specUser?.data?.role;
-  const isPremiumUser = specUser?.data?.subscription?.status === "active";
+  const isPremiumUser = specUser?.data?.subscription?.status ==='active';  
+  console.log("pre user------->",isPremiumUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
-
-  // Determine which items to show based on role
+  // const items = role === "contractor" ? contractorItems : userItems;
   const items = (role === "contractor" || role === "vipContractor") ? contractorItems : userItems;
 
-  // Handle logout
+
+  // logout
   const handleLogout = () => {
     dispatch(logout());
     dispatch(resetContractorData());
+    // Delete cookie manually
     router.push("/");
     setCookie(null, "user", "", { path: "/", maxAge: -1 });
     message.success("Logout Success");
@@ -60,19 +68,9 @@ const Sidebar = () => {
     }
   };
 
-  // Handle lock icon click based on the user role
-  const handleLockClick = (e) => {
-    e.preventDefault(); // Prevent navigation if the user is not premium
-    if (role === "contractor" || role === "vipContractor") {
-      router.push("/vipContractor"); // Redirect contractors to vipContractor page
-    } else {
-      router.push("/pricing"); // Redirect other users to pricing page
-    }
-  };
-
   return (
     <aside className="w-full pb-4 rounded-md">
-      <nav className="flex flex-col space-y-3">
+      <nav className="flex flex-col space-y-1">
         {items.map((item) => {
           const isYourServiceActive =
             item.href === "/yourServices" &&
@@ -100,49 +98,31 @@ const Sidebar = () => {
             pathname === item.href;
 
           return (
-            <div key={item.href} className="flex items-center space-x-2">
-              {/* Only show the lock icon for non-premium users */}
-              {item.label === "Ask a Pro" && !isPremiumUser ? (
-                <div
-                  className="flex items-center cursor-pointer text-gray-400"
-                  onClick={(e) => handleLockClick(e)}
-                >
-                  <FaLock className="mr-2 ml-4 text-gray-600" />
-                  <span
-                    className={clsx(
-                      isActive ? "text-blue-600" : "text-gray-800"
-                    )}
-                  >
-                    {item.label}
-                  </span>
-                </div>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={clsx(
-                    "text-sm font-bold px-4 py-3 w-full rounded-md transition-colors",
-                    isActive
-                      ? "bg-blue-100 text-blue-600 border-l-2 border-blue-600"
-                      : "text-gray-800 hover:bg-gray-100"
-                  )}
-                >
-                  {item.label}
-                </Link>
+            <Link
+              key={item.href}
+              href={item.href}
+              className={clsx(
+                "text-sm font-bold px-3 py-3 rounded-md transition-colors",
+                isActive
+                  ? "bg-blue-100 text-blue-600 border-l-2 border-blue-600"
+                  : "text-gray-800 hover:bg-gray-100"
               )}
-            </div>
+            >
+              {item.label}
+            </Link>
           );
         })}
-
-        {/* Logout Button */}
-        <div className="ml-3 mt-4">
+        {/* {role === 'contractor' && ( */}
+        <div className="ml-3">
+          {/* Logout Button */}
           <button
             onClick={() => handleLogout()}
-            className="w-[50%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition"
+            className="w-[50%] bg-red-500 text-white py-3 rounded hover:bg-red-600 transition mt-4"
           >
             Logout
           </button>
         </div>
+        {/* )} */}
       </nav>
     </aside>
   );
