@@ -1,8 +1,34 @@
-import React from "react";
+'use client'
+import React, { useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import Link from "next/link";
+import { useUpdateSubStatusMutation } from "@/redux/features/others/otherApi";
+import { useRouter, useSearchParams } from "next/navigation";
+import { message } from "antd";
 
 const SubscriptionSuccessPage = () => {
+const router = useRouter()
+  const [updateSubStatus]= useUpdateSubStatusMutation()
+    const searchParams = useSearchParams();
+    const sessionId = searchParams.get("session_id");
+    useEffect(()=>{
+      if(!sessionId){
+        return
+      }
+      const status = 'active'
+    updateSubStatus({status})
+      .unwrap()
+      .then((response) => {
+        console.log("order res", response);
+        message.success(response?.message);
+        
+        router.push("/");
+      })
+      .catch((err) => {
+ 
+        message.error(err?.data?.error || "Failed to create order");
+      });
+    },[sessionId])
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="bg-white max-w-lg w-full rounded-2xl shadow-xl p-8 text-center">
@@ -37,7 +63,7 @@ const SubscriptionSuccessPage = () => {
               All Services
             </button>
           </Link>
-          <Link href="/homepage">
+          <Link href="/">
             <button className="w-full sm:w-auto px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 transition">
               Back to Home
             </button>

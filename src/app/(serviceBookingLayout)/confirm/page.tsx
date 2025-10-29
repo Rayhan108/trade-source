@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 "use client";
 
 import Image from "next/image";
@@ -32,30 +33,31 @@ export default function PaymentBookingInterface() {
   const finalHour = calculateHour(storedTime?.preferredTime);
 
   const handleConfirm = async () => {
-    const id =storedService?.serviceId
-    const data = {
+    router.push("/done")
+    // const id =storedService?.serviceId
+    // const data = {
       
-        customerEmail: user?.email,
-        item: {
-          serviceId: storedService?.serviceId,
-          hour: finalHour,
-        },
+    //     customerEmail: user?.email,
+    //     item: {
+    //       serviceId: storedService?.serviceId,
+    //       hour: finalHour,
+    //     },
        
       
-    }
-    try {
-      const res = await makePayment({
-       data,id
-      }).unwrap();
+    // }
+    // try {
+    //   const res = await makePayment({
+    //    data,id
+    //   }).unwrap();
 
-      if (res.success) {
-        message.success(`${res.message}. Pay now...`);
-        router.push(res?.data?.url);
-      }
-    } catch (error) {
-      message.error(error?.data?.message || "Something went wrong");
-      console.error("Error:", error);
-    }
+    //   if (res.success) {
+    //     message.success(`${res.message}. Pay now...`);
+    //     router.push(res?.data?.url);
+    //   }
+    // } catch (error) {
+    //   message.error(error?.data?.message || "Something went wrong");
+    //   console.error("Error:", error);
+    // }
   };
 
   function calculateHour(timeSlot: string): number {

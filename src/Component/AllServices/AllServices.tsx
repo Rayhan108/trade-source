@@ -18,7 +18,7 @@ const AllServices = ({allServices,setPage,page}) => {
       </div>
       <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-3">
         {allServices?.map((project, idx) => (
-          <Link key={idx} href={'/faq'}>
+          <Link key={idx} href={'/location'}>
             <IntCard project={project} />
           </Link>
         ))}
