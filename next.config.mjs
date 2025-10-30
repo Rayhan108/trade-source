@@ -61,7 +61,7 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: '10.10.20.41',
+        hostname: '10.10.20.13',
         pathname: '/**',
       },
       {
