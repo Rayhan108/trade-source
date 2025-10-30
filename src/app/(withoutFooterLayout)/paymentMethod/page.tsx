@@ -5,8 +5,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SiTicktick } from "react-icons/si";
 import { message } from "antd";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {reduceAndUpdateCredit, selectTotalCredit } from "@/redux/features/refer/referSlice";
 
 const PaymentMethodPage = () => {
+  const creditfromrdux=useAppSelector(selectTotalCredit)
+    const dispatch = useAppDispatch();
+    //  dispatch(addCredit(amount));
+ 
+console.log("Updated Credit: ", creditfromrdux);
+ 
   const [subPurchase] = useSubPurchaseMutation();
   const searchParams = useSearchParams();
 const router=useRouter()
@@ -17,14 +25,59 @@ const router=useRouter()
   const [selectedPlan, setSelectedPlan] = useState("monthly");
 
   const handlePurchase = async () => {
+    const itemPrice = {
+   
+        price: selectedPlan === "monthly" ? monthlyValue : yearlyValue,
+  
+    };
+const price =itemPrice?.price
+ console.log("credit for redux---->",creditfromrdux);
+console.log("pricing------>>>>>",price);
+
+
+  const remainingCredit =creditfromrdux -price;
+
+  console.log("remains price------>>>>>",remainingCredit);
+
+  let remainingPrice =0;
+
+  if (remainingCredit >= 0) { //remaining credit positive hole
+
+    console.log("Remaining credit is positive, setting price to 0");
+    remainingPrice = 0; 
+    dispatch(reduceAndUpdateCredit(price));
+  } else {
+
+    console.log("Remaining credit is negative, user needs to pay the absolute value of:", Math.abs(remainingCredit));
+    remainingPrice = Number(Math.abs(remainingCredit).toFixed(2));  // Set it to the absolute value
+       dispatch(reduceAndUpdateCredit(creditfromrdux));
+  }
+
+
+  
+
+  // if (remainingCredit >= 0) {
+  //   dispatch(reduceAndUpdateCredit(remainingCredit));
+  // } else {
+  //   dispatch(reduceAndUpdateCredit(0));  
+  // }
+
+  // if (remainingPrice === 0) {
+
+  //   dispatch(reduceAndUpdateCredit(creditfromrdux));
+  // } else {
+  
+  //   dispatch(reduceAndUpdateCredit(remainingCredit));
+  // }
     const payload = {
       item: {
         pricingId,
-        price: selectedPlan === "monthly" ? monthlyValue : yearlyValue,
+        price:remainingPrice,
         plan: selectedPlan,
       },
     };
-
+  console.log("Updated payload: ", payload);
+return
     try {
       const res = await subPurchase(payload).unwrap();
 
