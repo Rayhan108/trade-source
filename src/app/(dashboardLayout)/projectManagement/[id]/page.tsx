@@ -170,6 +170,11 @@ const handleDownloadQuote = () => {
             </p>
           </div>
         </div>
+    
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-1 py-2 rounded-md font-medium transition-colors">
+            Review
+          </button>
+   
         <Link href={'/inbox'}>
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
             Message
