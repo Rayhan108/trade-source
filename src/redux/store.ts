@@ -76,6 +76,6 @@ export const makeStore = () => {
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore['getState']>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState},
 export type AppDispatch = AppStore['dispatch'];
 export const persistor = persistStore(makeStore());
