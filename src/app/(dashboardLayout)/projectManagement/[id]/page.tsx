@@ -14,8 +14,8 @@ import { jsPDF } from 'jspdf'; // Import jsPDF
 import Link from 'next/link';
 // import { useSingleQuoteQuery } from '@/redux/features/contractor/contractorApi';
 import { useParams } from 'next/navigation';
-import { useSingleOrderQuery, useUpdateProjectStatusMutation } from '@/redux/features/contractor/contractorApi';
-import { message } from 'antd';
+import { useGiveReviewMutation, useSingleOrderQuery, useUpdateProjectStatusMutation } from '@/redux/features/contractor/contractorApi';
+import {  message, Modal, Form, Input, Rate, Button } from 'antd';
 
 export default function ProjectDetails() {
   const {id}=useParams()
@@ -23,9 +23,18 @@ export default function ProjectDetails() {
   const {data:singleOrder,refetch}=useSingleOrderQuery(id)
 console.log("project manange dynamic page single quote--->",singleOrder);
 const [updateProjectStatus]=useUpdateProjectStatusMutation()
+const [giveReview] = useGiveReviewMutation()
   const user = singleOrder?.data?.user
   const project = singleOrder?.data
-
+  console.log("project ordered-------------->",project);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [form] = Form.useForm();
+  const openReviewModal = () => {
+    form.resetFields();
+    setIsReviewOpen(true);
+  };
+  const closeReviewModal = () => setIsReviewOpen(false);
 
   const [showDropdown, setShowDropdown] = useState(false);
   // const [file, setFile] = useState(null);
@@ -78,6 +87,7 @@ const handleDownloadQuote = () => {
     ["Project Status", projectStatus],
   ];
 
+
   // Define Table Layout
   const tableStartX = 10;
   const tableStartY = 30;
@@ -125,7 +135,40 @@ const handleDownloadQuote = () => {
   // Saving the PDF
   doc.save('detailed-quote.pdf');
 };
+  // Submit review
+  const onSubmitReview = async () => {
 
+
+
+    try {
+      const values = await form.validateFields(); // { rating, comment }
+            console.log("values---->",values);
+      setSubmitting(true);
+
+   
+      const payload = {
+        userId: user?._id,         
+        rating: values.rating,
+        comment: values.comment?.trim() || '',
+      };
+
+      // Replace with your RTK mutation if you have one:
+      // await addReview(payload).unwrap();
+      const res = await giveReview(payload).unwrap()
+
+if(res?.success){
+    message.success(res?.message);
+         setIsReviewOpen(false);
+      refetch();
+}
+    
+ 
+    } catch (err: any) {
+    message.error(err?.data?.message)
+    } finally {
+      setSubmitting(false);
+    }
+  };
   const handleStatusChange = async (status) => {
     console.log("status--->",status);
 
@@ -171,7 +214,7 @@ const handleDownloadQuote = () => {
           </div>
         </div>
     
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-1 py-2 rounded-md font-medium transition-colors">
+          <button  onClick={openReviewModal} className="bg-blue-600 hover:bg-blue-700 text-white px-1 py-2 rounded-md font-medium transition-colors">
             Review
           </button>
    
@@ -279,6 +322,49 @@ const handleDownloadQuote = () => {
         </div>
       </div>
 
+      {/* === Review Modal === */}
+
+      <Modal
+        title="Leave a Review"
+        open={isReviewOpen}
+        onCancel={closeReviewModal}
+        footer={null}
+        destroyOnClose
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onSubmitReview}
+          initialValues={{ rating: 5, comment: '' }}
+        >
+          <Form.Item
+            label="Rating"
+            name="rating"
+            rules={[{ required: true, message: 'Please select a rating' }]}
+          >
+            <Rate allowHalf />
+          </Form.Item>
+
+          <Form.Item
+            label="Comment"
+            name="comment"
+            rules={[{ max: 500, message: 'Max 500 characters' }]}
+          >
+            <Input.TextArea rows={4} placeholder="Share your experience…" />
+          </Form.Item>
+
+          <div className="flex justify-end space-x-2">
+            <Button onClick={closeReviewModal}>Cancel</Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitting}
+            >
+              Submit
+            </Button>
+          </div>
+        </Form>
+      </Modal>
       {/* Action Buttons */}
       <div className="flex space-x-4">
         <button className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-medium transition-colors">

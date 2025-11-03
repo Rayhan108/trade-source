@@ -159,6 +159,25 @@ const contractorApi = baseApi.injectEndpoints({
       }),
    
     }),
+
+    //give review
+    giveReview: builder.mutation({
+      query: (payload) => ({
+        url:`/user/addReview`,
+        method: "POST",
+        body:payload
+      }),
+   
+    }),
+    //give review
+    allReview: builder.query({
+      query: (userId) => ({
+        url:`/user/allReview/${userId}`,
+        method: "GET",
+    
+      }),
+   
+    }),
   }),
 });
 
@@ -179,6 +198,8 @@ export const {
   useSingleOrderQuery,
   useUpdateProjectStatusMutation,
   useUpdateAcceptOrRejectMutation,
-  useUpdateContractorMutation
+  useUpdateContractorMutation,
+  useGiveReviewMutation,
+  useAllReviewQuery
 
 } = contractorApi;
