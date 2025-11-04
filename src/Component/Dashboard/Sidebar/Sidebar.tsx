@@ -30,7 +30,7 @@ const contractorItems = [
   { label: "Referral", href: "/referal" },
   { label: "Document Verification", href: "/documentVerification" },
   { label: "Project Management", href: "/projectManagement" },
-  { label: "Billings", href: "/billings" },
+  // { label: "Billings", href: "/billings" },
   { label: "VIP Contractor", href: "/vipContractor" },
   { label: "Ask a Pro", href: "/proConstractor" },
   { label: "Delete Account", href: "/delete" },
