@@ -88,7 +88,7 @@ const limit = meta?.limit;
                   {contractor.rate}
                 </div>
               </div>
-              <Link href={'/messagePro'}>
+              <Link href={'/inbox'}>
                 <button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-semibold">
                   Select & Continue
                 </button>

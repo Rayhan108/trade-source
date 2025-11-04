@@ -13,7 +13,6 @@ import Image from "next/image";
 import { Socket } from "socket.io-client";
 import { message as antdMessage } from "antd";
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import {
   useGetMessagesQuery,
@@ -22,6 +21,7 @@ import {
 } from "@/redux/features/others/otherApi";
 import { useAppSelector } from "@/redux/hooks";
 import { getSocket } from "@/lib/socket";
+import { useRouter } from "next/navigation";
 import { useGetSpecefiqUserQuery } from "@/redux/features/user/userApi";
 
 interface Message {
@@ -52,20 +52,20 @@ export default function MessagingApp() {
 
   const { data: allUsers, isLoading: usersLoading } =
     useGetUsersForSidebarQuery(undefined);
-    console.log("all user----->",allUsers);
   const { data: OldMessages } = useGetMessagesQuery(selectedUserId, {
     skip: !selectedUserId,
   });
+  console.log("sidebar all user----------->", allUsers);
   const myUserId = user?.userId;
   const { data: specUser } = useGetSpecefiqUserQuery(myUserId);
+  console.log("spec user from navbar--->", specUser);
   const role = specUser?.data?.role;
-
   // Load previous messages
   useEffect(() => {
     if (OldMessages?.data) setMessages(OldMessages.data);
   }, [OldMessages]);
 
-  // Scroll to bottom on new message
+  // Scroll to bottom when new message arrives
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -162,11 +162,15 @@ export default function MessagingApp() {
   };
 
   // --- FILTER USERS ---
+  const allUser = useMemo(
+    () => allUsers?.data?.map((u: any) => u) || [],
+    [allUsers]
+  );
+  console.log("all users------>", allUser);
   const experts = useMemo(
     () =>
       allUsers?.data?.filter(
-        (u: any) =>
-          u.role === "vipContractor" 
+        (u: any) => u?.subscription?.status === "active"
       ) || [],
     [allUsers]
   );
@@ -174,8 +178,7 @@ export default function MessagingApp() {
   const regularUsers = useMemo(
     () =>
       allUsers?.data?.filter(
-        (u: any) =>
-          !(u.role === "vipContractor")
+        (u: any) => u?.subscription?.status !== "active"
       ) || [],
     [allUsers]
   );
@@ -188,7 +191,7 @@ export default function MessagingApp() {
         .includes(searchTerm.toLowerCase())
     );
   }, [activeTab, experts, regularUsers, searchTerm]);
-console.log("experts------->",experts);
+
   const selectedContactData = allUsers?.data?.find(
     (c: any) => c._id === selectedUserId
   );
@@ -208,39 +211,44 @@ console.log("experts------->",experts);
           >
             Messages
           </button>
+    <button
+  onClick={() => {
+    // If user is NOT active, redirect appropriately
+    if (specUser?.data?.subscription?.status !== "active") {
+      if (role === "contractor" || role === "vipContractor") {
+        router.push("/vipContractor");
+      } else {
+        router.push("/pricing");
+      }
+      return;
+    }
 
-          <button
-            onClick={() => {
-              if (specUser?.data?.subscription?.status !== "active") {
-                if (role === "contractor" || role === "vipContractor") {
-                  router.push("/vipContractor");
-                } else {
-                  router.push("/pricing");
-                }
-                return;
-              }
-              setActiveTab("askAPro");
-            }}
-            className={`px-3 py-1 rounded-md flex items-center gap-1 relative transition-colors ${
-              activeTab === "askAPro"
-                ? "bg-blue-100 text-blue-700"
-                : specUser?.data?.subscription?.status !== "active"
-                ? "opacity-60 cursor-pointer"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            Ask a Pro
-            {experts.length > 0 && (
-              <span className="bg-blue-600 text-white text-xs rounded-full px-2 py-0.5 ml-1">
-                {experts.length}
-              </span>
-            )}
-            {specUser?.data?.subscription?.status !== "active" && (
-              <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
-                🔒
-              </span>
-            )}
-          </button>
+    // If active, just switch tab normally
+    setActiveTab("askAPro");
+  }}
+  className={`px-3 py-1 rounded-md flex items-center gap-1 relative transition-colors ${
+    activeTab === "askAPro"
+      ? "bg-blue-100 text-blue-700"
+      : specUser?.data?.subscription?.status !== "active"
+      ? "opacity-60 cursor-pointer"
+      : "hover:bg-gray-100"
+  }`}
+>
+  Ask a Pro
+
+  {experts.length > 0 && (
+    <span className="bg-blue-600 text-white text-xs rounded-full px-2 py-0.5 ml-1">
+      {experts.length}
+    </span>
+  )}
+
+  {/* show lock icon only if not active */}
+  {specUser?.data?.subscription?.status !== "active" && (
+    <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
+      🔒
+    </span>
+  )}
+</button>
         </div>
 
         {/* Search */}
@@ -274,7 +282,10 @@ console.log("experts------->",experts);
                 >
                   <div className="relative">
                     <Image
-                      src={contact.image || avatar}
+                      src={
+                        contact.image ||
+                        "https://tse3.mm.bing.net/th/id/OIP.kUFzwD5-mfBV0PfqgI5GrAHaHa"
+                      }
                       alt="avatar"
                       width={48}
                       height={48}
@@ -288,12 +299,11 @@ console.log("experts------->",experts);
                     <span className="font-medium text-gray-900 text-sm">
                       {contact.firstName} {contact.lastName}
                     </span>
-                    {contact?.subscription?.status === "active" &&
-                      contact.role === "vipContractor" && (
-                        <span className="text-xs text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-md w-fit">
-                          Expert
-                        </span>
-                      )}
+                    {contact?.subscription?.status === "active" && (
+                      <span className="text-xs text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-md w-fit">
+                        Expert
+                      </span>
+                    )}
                   </div>
                 </div>
               );
