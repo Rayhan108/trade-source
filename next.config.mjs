@@ -19,6 +19,12 @@ const nextConfig = {
         port: API_PORT, // e.g. "5000"
         pathname: '/uploads/**',
       },
+      // Add the backend.yourtradesource.com hostname
+      {
+        protocol: 'http',
+        hostname: 'backend.yourtradesource.com',
+        pathname: '/uploads/**',
+      },
       // Local dev fallbacks
       {
         protocol: 'http',
