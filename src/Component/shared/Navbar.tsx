@@ -70,7 +70,7 @@ export default function Navbar() {
     }
   }, [unSeenNotificationCount]);
 
-  // Connect to socket
+  // Connect to sockett
   useEffect(() => {
     if (!myUserId) return;
 
