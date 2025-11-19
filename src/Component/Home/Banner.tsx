@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import hamer from '@/assests/hammer.png';

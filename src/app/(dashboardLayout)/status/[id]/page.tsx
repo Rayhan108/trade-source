@@ -43,7 +43,7 @@ export default function ProjectDetails() {
         <div className="flex flex-col md:flex-row justify-between items-start w-full gap-4">
           <div className="w-full md:w-[70%]">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-              You've Booked Ellie Smith
+              You&apos;ve Booked Ellie Smith
             </h1>
             <p className="text-gray-600 mt-2 text-sm md:text-base">
               Giovanni C. is currently offline and will reach out once available

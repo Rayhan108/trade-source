@@ -84,7 +84,7 @@ export default function PricingSection() {
           {/* Header Section */}
           <div className="bg-white px-3 py-8 mb-12">
             <h1 className="text-xl md:text-2xl text-gray-900 mb-6 leading-tight max-w-6xl mx-auto">
-              Whether you're hiring a trusted tradesperson or getting hands-on
+              Whether you&apos;re hiring a trusted tradesperson or getting hands-on
               with your own DIY repairs, YTS gives you the tools, knowledge, and
               professionals you need – all in one place.
             </h1>

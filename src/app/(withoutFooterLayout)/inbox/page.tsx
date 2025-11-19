@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, {
@@ -162,14 +163,15 @@ export default function MessagingApp() {
   };
 
   // --- FILTER USERS ---
-  const experts = useMemo(
-    () =>
-      allUsers?.data?.filter(
-        (u: any) =>
-          u.role === "vipContractor" 
-      ) || [],
-    [allUsers]
-  );
+
+const experts = useMemo(
+  () =>
+    allUsers?.data?.filter((u: any) => {
+      console.log("User being checked:", u); // Log each user to the console
+      return u.role === "vipContractor"; // Filter condition
+    }) || [],
+  [allUsers]
+);
 
   const regularUsers = useMemo(
     () =>

@@ -50,7 +50,7 @@ const Stats = () => {
               </h2>
 
               <p className="text-gray-600 text-lg leading-relaxed">
-                Whether you're looking to expand your business, gain more
+                Whether you&apos;re looking to expand your business, gain more
                 exposure, or connect with clients in need of your expertise, our
                 platform offers the tools you need to succeed.
               </p>
