@@ -16,7 +16,7 @@ const WelBan = ({setSearch}) => {
       Welcome back to Your Trade Source (YTS)
             </h1>
             <h1 className="text-xl  text-white leading-tight">
-    — The ultimate hub for tradespeople and clients alike! Whether you're a plumber, electrician, engineer, or a homeowner looking for professional services or DIY solutions, YTS brings you the best of both worlds.
+    — The ultimate hub for tradespeople and clients alike! Whether you&apos;re a plumber, electrician, engineer, or a homeowner looking for professional services or DIY solutions, YTS brings you the best of both worlds.
             </h1>
 
             {/* Search Bar */}

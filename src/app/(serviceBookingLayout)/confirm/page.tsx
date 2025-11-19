@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 "use client";
 
@@ -133,7 +134,7 @@ export default function PaymentBookingInterface() {
 
               <div className="mt-4 text-sm text-gray-600 leading-relaxed">
                 You may see a temporary hold on your payment method in the
-                amount of your Tasker's hourly rate of $65.00. You can cancel at
+                amount of your Tasker&apos;s hourly rate of $65.00. You can cancel at
                 any time. Tasks cancelled less than 24 hours before the
                 scheduled start time may be subject to a cancellation fee equal
                 to one hour of work. Tasks require a minimum booking of two

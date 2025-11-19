@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 'use client';
 
@@ -73,7 +74,7 @@ try {
           {/* Text */}
           <div className="w-full md:w-[70%]">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-              You've Booked {storedService?.contractorName}
+              You&apos;ve Booked {storedService?.contractorName}
             </h1>
             {/* <p className="text-gray-600 mt-2 text-sm md:text-base">
               Giovanni C. is currently offline and will reach out once available

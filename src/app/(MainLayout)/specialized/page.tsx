@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import InteriorBanner from '@/Component/Interior/IntBaner';
 // import SpecializedNear from '@/Component/Specialized/SpecializedNear';

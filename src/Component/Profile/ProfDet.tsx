@@ -159,7 +159,7 @@ const ProfDet = ({ contractorId, profileData }) => {
             Why are you reporting the Contractor?
           </div>
           <div className="text-gray-500 text-sm mb-5 flex items-center gap-2">
-            <LockOutlined /> This won't be shared with Contractor.
+            <LockOutlined /> This won&apos;t be shared with Contractor.
           </div>
 
           {/* Radio Group for reasons */}

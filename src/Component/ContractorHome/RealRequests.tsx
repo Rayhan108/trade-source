@@ -48,7 +48,7 @@ export default function RealRequests() {
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               When people know what they want, and you know how to help them -
-              well, that's when real work begins. These are real voices, with
+              well, that&apos;s when real work begins. These are real voices, with
               real needs. All you have to do is listen.
             </p>
           </div>

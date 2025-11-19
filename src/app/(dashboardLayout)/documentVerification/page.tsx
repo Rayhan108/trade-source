@@ -209,7 +209,7 @@ return
 
             {/* Terms and Conditions */}
             <div className="text-sm text-gray-600 leading-relaxed">
-              By clicking "Submit for Review," you agree to the{" "}
+              By clicking Submit for Review,you agree to the{" "}
               <a
                 href="#"
                 className="text-blue-600 hover:text-blue-700 underline"
