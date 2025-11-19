@@ -24,7 +24,7 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
-    // OPTIONAL: jodi chai, specific rule-tao off kora jay
+    // OPTIONAL: jodi chai, specific rule-tao off kora jayy
     // rules: {
     //   "@typescript-eslint/no-explicit-any": "off",
     // },
